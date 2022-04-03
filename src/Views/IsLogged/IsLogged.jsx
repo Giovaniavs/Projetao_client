@@ -63,9 +63,6 @@ const IsLogged = () => {
         }
       });
   };
- // const handleLogout = () =>{
-   // fire.auth().signOut();
-  //};
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const authListener = () =>{
@@ -85,7 +82,7 @@ const IsLogged = () => {
 
   if (user) {
     return(
-      <Redirect to="/endPag" />
+      <Redirect to="/" />
     );
   }
 
