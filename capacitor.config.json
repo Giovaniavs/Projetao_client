@@ -1,0 +1,6 @@
+{
+  "appId": "projetao.seguranca.web.app",
+  "appName": "projetao-seguranca",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}

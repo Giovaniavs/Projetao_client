@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">projetao-seguranca</string>
+    <string name="title_activity_main">projetao-seguranca</string>
+    <string name="package_name">projetao.seguranca.web.app</string>
+    <string name="custom_url_scheme">projetao.seguranca.web.app</string>
+</resources>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Geolocation } from '@capacitor/geolocation';
 import fire from '../../firebase';  
 import Login from '../Login/Login';
 import './IsLogged.css';
@@ -76,7 +77,13 @@ const IsLogged = () => {
     });
   };
 
-  useEffect (() =>{
+  const geolocalizationFunction = async () => {
+    const coordinates = await Geolocation.getCurrentPosition();
+    console.log(coordinates);
+  }
+
+  useEffect (() => {
+    geolocalizationFunction();
     authListener();
   }, [authListener]);
 
@@ -85,6 +92,8 @@ const IsLogged = () => {
       <Redirect to="/" />
     );
   }
+
+  
 
   return (
     <div className = 'IsLogged'>
