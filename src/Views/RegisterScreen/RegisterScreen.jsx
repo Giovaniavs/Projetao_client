@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 
 
 const RegisterScreen = () => {
-  const [user,setUser] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [emailError,setEmailError] = useState('');
@@ -22,25 +21,31 @@ const RegisterScreen = () => {
 
 
   const handleSignup = () =>{
-    console.log(email);
-    console.log(password);
     clearErrors();
     fire
       .auth()
       .createUserWithEmailAndPassword(email,password)
+      .then(
+        () => {
+          setShouldRedirectToLogin(true);
+        }
+      )
       .catch(err =>{
         switch(err.code){
           case "auth/email-already-in-use":
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            break;
-          case "auth/weak-password":
-            setPasswordError(err.message);
-            break;
-          default:
-            break;
-        }
-      })
+            case "auth/invalid-email":
+              setEmailError(err.message);
+              break;
+              case "auth/weak-password":
+                setPasswordError(err.message);
+                break;
+                default:
+                  break;
+                }
+          },
+        )
+        
+              
   };
 
   if (shouldRedirectToLogin) {
@@ -61,6 +66,7 @@ const RegisterScreen = () => {
           defaultValue="Nome"
           onChange={(value) => setEmail(value.target.value)} 
         />
+        <p>{emailError}</p>
         <TextField
           required
           fullWidth
@@ -70,6 +76,8 @@ const RegisterScreen = () => {
           defaultValue="Data de nascimento"
           onChange={(value) => setPassword(value.target.value)} 
         />
+        <p>{passwordError}</p>
+
         <TextField
           required
           fullWidth
