@@ -11,6 +11,7 @@ const LoginScreen = () => {
   const [password,setPassword] = useState('');
   const [emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
+  const [shouldRedirectToRegister,setShouldRedirectToRegister] = useState(false);
 
   const clearInputs = () =>{
     setEmail('');
@@ -80,9 +81,9 @@ const LoginScreen = () => {
     authListener();
   }, [authListener]);
 
-  if (user) {
+  if (shouldRedirectToRegister) {
     return(
-      <Redirect to="/" />
+      <Redirect to="/register" />
     );
   }
 
@@ -114,7 +115,7 @@ const LoginScreen = () => {
                 <div className="btnContainer">
                     <>
                         <button onClick={handleLogin} className="BotaoEntrar">Entrar</button>
-                        <p> Não tem uma conta? <span>Cadastre-se</span></p>
+                        <p> Não tem uma conta? <span onClick={() => setShouldRedirectToRegister(true)}>Cadastre-se</span></p>
                     </>
                 </div>
             </div>
