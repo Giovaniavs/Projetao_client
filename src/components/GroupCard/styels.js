@@ -29,6 +29,10 @@ export const GroupTitle = styled.h3`
   position: relative;
 
   max-width: 90%;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export const BoxShadowHelper = styled.img`
