@@ -2,13 +2,13 @@ import firebase from "firebase"
 import "firebase/firestore"
 
 
-var firebaseConfig = {
-  apiKey: "AIzaSyCxXpuRv3hOcEH6bVqwBS3d9LixnBSEvGE",
-  authDomain: "projetao-seguranca-client.firebaseapp.com",
-  projectId: "projetao-seguranca-client",
-  storageBucket: "projetao-seguranca-client.appspot.com",
-  messagingSenderId: "657063684926",
-  appId: "1:657063684926:web:4f4db33407527d54695a6f"
+const firebaseConfig = {
+  apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
+  authDomain: "projetao-seguranca.firebaseapp.com",
+  projectId: "projetao-seguranca",
+  storageBucket: "projetao-seguranca.appspot.com",
+  messagingSenderId: "1012192256692",
+  appId: "1:1012192256692:web:8efc1846d70b2f96ae6de1"
 };
 
   // Initialize Firebase
