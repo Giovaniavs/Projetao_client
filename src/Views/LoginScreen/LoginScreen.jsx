@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Geolocation } from '@capacitor/geolocation';
+import React, { useState, useEffect } from 'react';
 import fire from '../../firebase';  
-import Login from '../Login/Login';
-import './IsLogged.css';
+import logo from '../../assets/images/logo.svg';
+import './LoginScreen.css';
 import { Redirect } from 'react-router-dom';
 
 
-const IsLogged = () => {
+const LoginScreen = () => {
   const [user,setUser] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
-  const [hasAccount,setHasAccount] = useState(false);
 
   const clearInputs = () =>{
     setEmail('');
@@ -77,13 +75,8 @@ const IsLogged = () => {
     });
   };
 
-  const geolocalizationFunction = async () => {
-    const coordinates = await Geolocation.getCurrentPosition();
-    console.log(coordinates);
-  }
-
+  
   useEffect (() => {
-    geolocalizationFunction();
     authListener();
   }, [authListener]);
 
@@ -97,20 +90,37 @@ const IsLogged = () => {
 
   return (
     <div className = 'IsLogged'>
-        <Login
-          email = {email}
-          setEmail = {setEmail}
-          password = {password}
-          setPassword = {setPassword}
-          handleLogin = {handleLogin}
-          handleSignup = {handleSignup}
-          hasAccount = {hasAccount}
-          setHasAccount = {setHasAccount}
-          emailError = {emailError}
-          passwordError = {passwordError}
-        />
+        <section className = 'login'>
+            <div className= 'loginContainer'>
+                <img src ={logo} alt="Logo da plataforma"/>
+                <strong>Acesse sua conta</strong>
+                <label>E-mail</label>
+                <input 
+                    type = 'text'
+                    autoFocus
+                    required
+                    value = {email}
+                    onChange = {(e) => setEmail(e.target.value)}
+                />
+                <p className="errorMsg">{emailError}</p>
+                <label>Senha</label>
+                <input 
+                    type = "password" 
+                    required 
+                    value = {password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <p className="errorMsg">{passwordError}</p>
+                <div className="btnContainer">
+                    <>
+                        <button onClick={handleLogin} className="BotaoEntrar">Entrar</button>
+                        <p> Não tem uma conta? <span>Cadastre-se</span></p>
+                    </>
+                </div>
+            </div>
+        </section>
     </div>
   );
 };
   
-export default IsLogged;
+export default LoginScreen;

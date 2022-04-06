@@ -3,8 +3,8 @@ import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 import GlobalStyle from './global/globalStyle';
 
+import LoginScreen from './Views/LoginScreen/LoginScreen';
 
-import IsLogged from './Views/IsLogged/IsLogged';
 
 
 function PlataformRotas() {
@@ -22,7 +22,7 @@ function App() {
       <>
         <Router>
           <Switch>
-            <Route component={IsLogged} exact path="/" />
+            <Route component={LoginScreen} exact path="/" />
           </Switch>
         </Router>
         <GlobalStyle />
