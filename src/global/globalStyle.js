@@ -10,7 +10,7 @@ export default createGlobalStyle`
   body: {
     position: relative;
     width: 100%;
-    background: '#FFF';
+    background: '#E5E5E5';
     color: '#000000';
   }
 

@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import fire from '../../firebase';  
 import logo from '../../assets/images/logo.svg';
 import './LoginScreen.css';
 import { Redirect } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 
 
 const LoginScreen = () => {
-  const [user,setUser] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [shouldRedirectToRegister,setShouldRedirectToRegister] = useState(false);
-
-  const clearInputs = () =>{
-    setEmail('');
-    setPassword('');
-  }
+  const [shouldRedirectToApp,setShouldRedirectToApp] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
 
   const clearErrors = () =>{
     setEmailError('');
@@ -24,70 +21,48 @@ const LoginScreen = () => {
   }
  
   const handleLogin = () => {
+    setIsLoading(true);
     clearErrors();
     fire
       .auth()
       .signInWithEmailAndPassword(email,password)
+      .then(
+        () => {
+          setShouldRedirectToApp(true);
+        }
+      )
       .catch(err =>{
         switch(err.code){
           case "auth/invalid-email":
           case "auth/user-disabled":
           case "auth/user-not-found":
             setEmailError(err.message);
+            setIsLoading(false);
             break;
           case "auth/wrong-password":
             setPasswordError(err.message);
+            setIsLoading(false);
             break; 
           default:
             break;
         }
-      });
-  };
-
-  const handleSignup = () =>{
-    clearErrors();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(email,password)
-      .catch(err =>{
-        switch(err.code){
-          case "auth/email-already-in-use":
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            break;
-          case "auth/weak-password":
-            setPasswordError(err.message);
-            break;
-          default:
-            break;
-        }
-      });
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const authListener = () =>{
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        clearInputs();
-        setUser(user);
-      } else {
-        setUser("");
       }
-    });
+    );
   };
 
-  
-  useEffect (() => {
-    authListener();
-  }, [authListener]);
 
   if (shouldRedirectToRegister) {
     return(
-      <Redirect to="/register" />
+      <Redirect push to="/register" />
     );
   }
 
-  
+  if (shouldRedirectToApp) {
+    return(
+      <Redirect push to="/plataform" />
+    );
+  }
+
 
   return (
     <div className = 'IsLogged'>
@@ -114,8 +89,12 @@ const LoginScreen = () => {
                 <p className="errorMsg">{passwordError}</p>
                 <div className="btnContainer">
                     <>
-                        <button onClick={handleLogin} className="BotaoEntrar">Entrar</button>
-                        <p> Não tem uma conta? <span onClick={() => setShouldRedirectToRegister(true)}>Cadastre-se</span></p>
+                        {isLoading ? (
+                          <ReactLoading className='loading-login-screen-style' type='bars' color='#09629E' height={'20%'} width={'20%'} />
+                          ) : (
+                            <button onClick={handleLogin} className="BotaoEntrar">Entrar</button>
+                          )}
+                          <p> Não tem uma conta? <span onClick={() => setShouldRedirectToRegister(true)}>Cadastre-se</span></p>
                     </>
                 </div>
             </div>

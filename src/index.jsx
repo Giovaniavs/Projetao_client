@@ -25,6 +25,7 @@ function App() {
           <Switch>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
+            <Route component={RegisterScreen} exact path="/plataform" />
           </Switch>
         </Router>
         <GlobalStyle />

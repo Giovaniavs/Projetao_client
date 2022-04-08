@@ -30,3 +30,11 @@
 
   transition: filter 0.2s;
 }
+
+.register-box-style {
+  width: 100%;
+}
+
+.label-register-box-style {
+  margin-bottom: -15px;
+}

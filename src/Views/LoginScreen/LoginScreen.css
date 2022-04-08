@@ -1,7 +1,7 @@
 .login {
 
   width: 100%;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -10,7 +10,7 @@
 
 .loginContainer {
   width: 466px;
-  height: 400px;
+  height: 450px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@
 }
 
 .loginContainer .btnContainer p {
-  margin-top: 10px;
+  margin-top: 35px;
   align-items: center;
   
 }
@@ -93,4 +93,9 @@
 
 .loginContainer .btnContainer span:hover {
   color: #fd7c90;
+}
+
+.loading-login-screen-style {
+  margin: 0 auto;
+  padding-top: 10px;
 }
