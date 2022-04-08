@@ -38,3 +38,8 @@
 .label-register-box-style {
   margin-bottom: -15px;
 }
+
+.register-box-select-option-style {
+  width: 100%;
+  margin-top: 15px;
+}

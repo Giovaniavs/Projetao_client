@@ -4,22 +4,32 @@ import './RegisterScreen.css';
 import { Redirect } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import ReactLoading from 'react-loading';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 
 const RegisterScreen = () => {
   const [email,setEmail] = useState('');
+  const [name,setName] = useState('');
   const [password,setPassword] = useState('');
+  const [contact,setContact] = useState('');
   const [emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [shouldRedirectToLogin,setShouldRedirectToLogin] = useState(false);
   const [isLoading,setIsLoading] = useState(false);
-
+  const [typeOfUser,setTypeOfUser] = useState('');
 
   const clearErrors = () =>{
     setEmailError('');
     setPasswordError('');
   }
+
+  const handleChange = (event) => {
+    setTypeOfUser(event.target.value);
+  };
 
 
   const handleSignup = () =>{
@@ -30,7 +40,7 @@ const RegisterScreen = () => {
       .createUserWithEmailAndPassword(email,password)
       .then(
         () => {
-          createUser(email,password);
+          createUser(name, email, contact, typeOfUser);
           setShouldRedirectToLogin(true);
         }
       )
@@ -54,8 +64,8 @@ const RegisterScreen = () => {
               
   };
 
-  const createUser = (email, password) => {
-    fire.firestore().collection("user").add({email, password});
+  const createUser = (name, email, contact, type) => {
+    fire.firestore().collection("user").add({name, email, contact, type});
   }
 
   if (shouldRedirectToLogin) {
@@ -74,12 +84,22 @@ const RegisterScreen = () => {
             fullWidth
             margin='normal'
             id="outlined-required"
+            onChange={(value) => setName(value.target.value)} 
+        />
+      </div>
+      <div className = 'register-box-style'>
+        <p className = 'label-register-box-style'>Email</p>
+        <TextField
+            required
+            fullWidth
+            margin='normal'
+            id="outlined-required"
             onChange={(value) => setEmail(value.target.value)} 
         />
         <p>{emailError}</p>
       </div>
       <div className = 'register-box-style'>
-        <p className = 'label-register-box-style'>Data de nascimento</p>
+        <p className = 'label-register-box-style'>Senha</p>
         <TextField
           required
           fullWidth
@@ -90,22 +110,27 @@ const RegisterScreen = () => {
         <p>{passwordError}</p>
       </div>
       <div className = 'register-box-style'>
-        <p className = 'label-register-box-style'>Identidade de gênero</p>
+        <p className = 'label-register-box-style'>Contato</p>
         <TextField
           required
           fullWidth
           margin='normal'
           id="outlined-required"
+          onChange={(value) => setContact(value.target.value)} 
         />
       </div>
-      <div className = 'register-box-style'>
-        <p className = 'label-register-box-style'>Endereço</p>
-        <TextField
-          required
-          fullWidth
-          margin='normal'
-          id="outlined-required"
-        />
+      <div className = 'register-box-select-option-style'>
+        <FormControl variant='standard' fullWidth>
+          <InputLabel id="demo-simple-select-label">Você é segurança ou lojista?</InputLabel>
+          <Select
+            id="demo-simple-select"
+            value={typeOfUser}
+            onChange={handleChange}
+          >
+            <MenuItem value={'guard'}>Segurança</MenuItem>
+            <MenuItem value={'shopman'}>Lojista</MenuItem>
+          </Select>
+      </FormControl>
       </div>
         
 
