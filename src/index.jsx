@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import ListSecurity from './components/ListSecurity/ListSecurity';
 import { ListSecurtyContextProvider } from './contexts/ListSecurity';
 
 import GlobalStyle from './global/globalStyle';
@@ -25,7 +24,6 @@ function App() {
       <ListSecurtyContextProvider>
         <Router>
           <Switch>
-            <Route component={ListSecurity} exact path="/list"/>
             <Route component={IsLogged} exact path="/" />
           </Switch>
         </Router>
