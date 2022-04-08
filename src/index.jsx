@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 import GlobalStyle from './global/globalStyle';
 
@@ -12,7 +12,7 @@ function PlataformRoutes() {
   return (
     <Router>
         <Switch>
-
+          <Route component={RegisterScreen} exact path="/plataform" />
       </Switch>
     </Router>
   );
@@ -25,7 +25,7 @@ function App() {
           <Switch>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={RegisterScreen} exact path="/plataform" />
+            <Route component={PlataformRoutes} exact path="/(plataform)" />
           </Switch>
         </Router>
         <GlobalStyle />
