@@ -21,9 +21,11 @@
 }
 
 .loginContainer img {
-  width: 64px;
-  height: 64px;
-  margin-top: 20px;
+  width: 84px;
+  height: 84px;
+  margin: 20px 0;
+
+  border-radius: 10px;
 
 }
 
