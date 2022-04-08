@@ -1,5 +1,7 @@
 import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import ListSecurity from './components/ListSecurity/ListSecurity';
+import { ListSecurtyContextProvider } from './contexts/ListSecurity';
 
 import GlobalStyle from './global/globalStyle';
 
@@ -9,24 +11,26 @@ import IsLogged from './Views/IsLogged/IsLogged';
 
 function PlataformRotas() {
   return (
-    <Router>
-        <Switch>
-          
-      </Switch>
-    </Router>
+    <ListSecurtyContextProvider>
+      <Router>
+          <Switch>
+        </Switch>
+      </Router>
+    </ListSecurtyContextProvider>
   );
 }
 
 function App() {
   return (
-      <>
+      <ListSecurtyContextProvider>
         <Router>
           <Switch>
+            <Route component={ListSecurity} exact path="/list"/>
             <Route component={IsLogged} exact path="/" />
           </Switch>
         </Router>
         <GlobalStyle />
-      </>
+      </ListSecurtyContextProvider>
   );
 }
 
