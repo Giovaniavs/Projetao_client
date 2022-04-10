@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../Assets/Images/logo.svg';
 import '../IsLogged/IsLogged.css'
 
 const Login = (props) => {
@@ -22,7 +22,7 @@ const Login = (props) => {
             <div className= 'loginContainer'>
                 <img src ={logo} alt="Logo da plataforma"/>
                 <strong>Acesse sua conta</strong>
-                <label>E-mail</label>
+                <label>E-maiiil</label>
                 <input 
                     type = 'text'
                     autoFocus
