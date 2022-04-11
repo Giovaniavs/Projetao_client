@@ -20,7 +20,7 @@ const Ocurrence = ({ alert, time, distance }) => {
 
 
 export const LastOcurrences = () => {
-    const [ocurrences, setOcurrences] = useState()
+    const [ocurrences, setOcurrences] = useState([])
 
 
     useEffect(async () => {
@@ -33,13 +33,10 @@ export const LastOcurrences = () => {
 
         setOcurrences(options)
     })
-
-
-
     return (
         <div style={{ width: '100%', border: '1px solid red' }} >
             <div style={{ paddingLeft: 18, paddingBottom: 15, paddingTop: 18 }} >
-                <h2 >Últimas ocorrências</h2>
+                <h2>Últimas ocorrências</h2>
             </div>
             <div style={{ paddingLeft: 19, paddingRight: 19, paddingBottom: 19 }} >
                 {ocurrences.map((ocurrence,index) => {
