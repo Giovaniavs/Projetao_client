@@ -16,24 +16,6 @@ import {Link } from 'react-router-dom';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginRight: -drawerWidth,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginRight: 0,
-    }),
-  }),
-);
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -62,9 +44,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const loadPages =[{
+    url:"initial",
+    sideBarName:"Pagina Inicial"
+  },
+  {
+    url:"profile",
+    sideBarName:"Perfil"
+  }
+]
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-    const routesNavBar = ['Pagina Inicial', 'Perfil', 'Sair']
     
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -113,16 +103,17 @@ export default function NavBar() {
         </DrawerHeader>
         <Divider />
         <ul>
-          {routesNavBar.map((text, index) => (
-           <li>
-           <ListItem button key={text}>
-              <Link to={text} >{text}</Link>
+          {loadPages.map((data) => (
+           <ListItem button  key={data.sideBarName} >
+              <Link to={data.url} >{data.sideBarName}</Link>
             </ListItem>
-            </li>
+          
           ))}
           </ul>
         <Divider />
-     
+        <ListItem button key="0" onClick={()=>console.log("aqui")}>
+              <Link to="/" >Sair</Link>
+            </ListItem>
       </Drawer>
     </Box>
   );

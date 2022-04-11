@@ -8,10 +8,11 @@ import IsLogged from './Views/IsLogged/IsLogged';
 import  NavBar  from './Components/NavBar';
 
 function PlataformRotas() {
+ 
   return (
     <Switch>
-      <Route path="/inicio" component={Perfil}  />
-      <Route path="/perfil" component={Perfil} />
+      <Route path="/initial" component={Perfil}  />
+      <Route path="/profile" component={Perfil} />
 
     </Switch>
     
