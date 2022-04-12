@@ -46,3 +46,5 @@ export const LastOcurrences = () => {
         </div>
     )
 }
+
+export default LastOcurrences;
