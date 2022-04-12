@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Link)`
   width: 350px;
   height: 200px;
-
+  flex-shrink: 0;
   border-radius: 8px;
   overflow: hidden;
 
