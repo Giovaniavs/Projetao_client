@@ -6,7 +6,6 @@ import { Perfil } from './Views/Perfil';
 
 import IsLogged from './Views/IsLogged/IsLogged';
 import  NavBar  from './Components/NavBar';
-import Home from './Views/Home';
 import { ListSecurtyContextProvider } from './contexts/ListSecurity';
 
 function PlataformRotas() {
@@ -15,7 +14,6 @@ function PlataformRotas() {
     <Switch>
       <Route path="/initial" component={Perfil}  />
       <Route path="/profile" component={Perfil} />
-      <Route path="/home" component={Home} />
 
     </Switch>
   );
