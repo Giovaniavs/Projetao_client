@@ -7,11 +7,16 @@ import GlobalStyle from './global/globalStyle';
 import LoginScreen from './Views/LoginScreen/LoginScreen';
 import RegisterScreen from './Views/RegisterScreen/RegisterScreen';
 
+import NavBar from './components/NavBar/index';
+
+import ListSecurtyContextProvider from './contexts/ListSecurity';
+
 
 
 function PlataformRoutes() {
   return (
     <Router>
+      <NavBar />
         <Switch>
           <Route component={RegisterScreen} exact path="/plataform" />
       </Switch>
@@ -21,7 +26,7 @@ function PlataformRoutes() {
 
 function App() {
   return (
-      <>
+      <ListSecurtyContextProvider>
         <Router>
           <Switch>
             <UserContextProvider>
@@ -32,7 +37,7 @@ function App() {
           </Switch>
         </Router>
         <GlobalStyle />
-      </>
+      </ListSecurtyContextProvider>
   );
 }
 
