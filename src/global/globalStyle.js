@@ -1,6 +1,12 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
+html, body {height: 100%}
+  #root{
+    background:red;
+    height:100%;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -51,7 +57,7 @@ export default createGlobalStyle`
 
   #root {
     position: relative;
-    min-height: calc(100vh - 75px);
+    min-height:100%;
     margin: 75px 0 0 0;
     background-color: #CDDCDC;
     background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
