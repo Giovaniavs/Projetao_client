@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import fire from '../../firebase';  
 import logo from '../../assets/images/logo.svg';
 import './LoginScreen.css';
 import { Redirect } from 'react-router-dom';
 import ReactLoading from 'react-loading';
-
+import { UserContext } from '../../contexts/userContext';
 
 const LoginScreen = () => {
   const [email,setEmail] = useState('');
+  const {setUserInfo} = useContext(UserContext);
   const [password,setPassword] = useState('');
   const [emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
@@ -49,6 +50,16 @@ const LoginScreen = () => {
       }
     );
   };
+
+  useEffect(() => {
+    fire.firestore().collection("user").onSnapshot((querySnapshot) => {
+      const user = [];
+      querySnapshot.forEach((doc) => {
+          user.push(doc.data())
+      });
+      setUserInfo(user);
+  });
+  }, [shouldRedirectToApp]);
 
 
   if (shouldRedirectToRegister) {

@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import { UserContext, UserContextProvider } from './contexts/userContext';
 
 import GlobalStyle from './global/globalStyle';
 
@@ -23,9 +24,11 @@ function App() {
       <>
         <Router>
           <Switch>
-            <Route component={LoginScreen} exact path="/" />
-            <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(plataform)" />
+            <UserContextProvider>
+              <Route component={LoginScreen} exact path="/" />
+              <Route component={RegisterScreen} exact path="/register" />
+              <Route component={PlataformRoutes} exact path="/(plataform)" />
+            </UserContextProvider>
           </Switch>
         </Router>
         <GlobalStyle />
