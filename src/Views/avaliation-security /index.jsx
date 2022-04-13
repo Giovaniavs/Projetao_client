@@ -1,4 +1,4 @@
-export const Test=()=>{
+export const Avaliacao=()=>{
     return(
         <>
             <h1>Hello</h1>

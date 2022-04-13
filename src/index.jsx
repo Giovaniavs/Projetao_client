@@ -3,10 +3,11 @@ import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-d
 import { useState } from 'react' 
 import GlobalStyle from './global/globalStyle';
 import { Perfil } from './Views/Perfil';
+import {Avaliacao, Test} from './Views/avaliation-security ';
 
 import IsLogged from './Views/IsLogged/IsLogged';
 import  NavBar  from './Components/NavBar';
-import Home from './Views/Home';
+// import Home from './Views/Home';
 import { ListSecurtyContextProvider } from './contexts/ListSecurity';
 
 function PlataformRotas() {
@@ -15,7 +16,8 @@ function PlataformRotas() {
     <Switch>
       <Route path="/initial" component={Perfil}  />
       <Route path="/profile" component={Perfil} />
-      <Route path="/home" component={Home} />
+      <Route component={Avaliacao} exact path="/avalicao" />
+      {/* <Route path="/home" component={Home} /> */}
 
     </Switch>
   );
@@ -45,7 +47,6 @@ function App() {
               <>
               <Redirect to='/' />
               <Route component={IsLogged} exact path="/" />
-              <Route component={Test} exact path="/test" />
               </>
             )}
           </Switch>
