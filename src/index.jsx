@@ -13,6 +13,7 @@ import NavBar from "./components/NavBar/index";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
+import Home from "./Views/Home";
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
 StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => {});
@@ -24,6 +25,7 @@ function PlataformRoutes() {
       <Switch>
         <UserContextProvider>
           <Route component={RegisterScreen} exact path="/plataform" />
+          <Route component={Home} exact path="/home" />
         </UserContextProvider>
       </Switch>
     </Router>
