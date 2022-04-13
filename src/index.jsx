@@ -7,6 +7,7 @@ import { Perfil } from './Views/Perfil';
 import IsLogged from './Views/IsLogged/IsLogged';
 import  NavBar  from './Components/NavBar';
 import Home from './Views/Home';
+import { ListSecurtyContextProvider } from './contexts/ListSecurity';
 
 function PlataformRotas() {
  
