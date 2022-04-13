@@ -43,7 +43,7 @@ function App() {
               <>
               <Redirect to='/' />
               <Route component={IsLogged} exact path="/" />
-              
+              <Route component={Test} exact path="/test" />
               </>
             )}
           </Switch>
