@@ -6,6 +6,9 @@ export const Wrapper = styled.div`
   border-radius: 8px;
   margin: 0;
   padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `;
 
 export const GroupList = styled.div`
@@ -14,4 +17,14 @@ export const GroupList = styled.div`
   position: relative;
   gap: 20px;
   overflow: auto;
+`;
+
+export const GroupCarouselTitle = styled.h2`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+
+  color: #000000;
 `;
