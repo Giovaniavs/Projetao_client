@@ -53,11 +53,17 @@ const LoginScreen = () => {
 
   useEffect(() => {
     fire.firestore().collection("user").onSnapshot((querySnapshot) => {
-      const user = [];
+      const users = [];
       querySnapshot.forEach((doc) => {
-          user.push(doc.data())
+          users.push(doc.data())
       });
-      setUserInfo(user);
+      users.map((user) => {
+        if (user.email === email) {
+          console.log(user);
+          setUserInfo(user);
+          localStorage.setItem('userInfo', JSON.stringify(user));
+        };
+      })
   });
   }, [setUserInfo, shouldRedirectToApp]);
 
