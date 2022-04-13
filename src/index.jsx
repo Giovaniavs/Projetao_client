@@ -15,7 +15,6 @@ function PlataformRotas() {
       <Route path="/profile" component={Perfil} />
 
     </Switch>
-    
   );
 }
 
@@ -31,7 +30,7 @@ function App() {
   // };
 
   return (
-      <>
+      <ListSecurtyContextProvider>
         <Router>
           <Switch>
             { isAuth ? (
@@ -49,7 +48,7 @@ function App() {
           </Switch>
         </Router>
         <GlobalStyle />
-      </>
+      </ListSecurtyContextProvider>
   );
 }
 
