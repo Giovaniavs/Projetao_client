@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import { UserContext, UserContextProvider } from './contexts/userContext';
+import { UserContextProvider } from './contexts/userContext';
 
 import GlobalStyle from './global/globalStyle';
 

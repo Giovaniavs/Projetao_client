@@ -59,7 +59,7 @@ const LoginScreen = () => {
       });
       setUserInfo(user);
   });
-  }, [shouldRedirectToApp]);
+  }, [setUserInfo, shouldRedirectToApp]);
 
 
   if (shouldRedirectToRegister) {

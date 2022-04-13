@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import fire from '../../firebase';  
 import './RegisterScreen.css';
 import { Redirect } from 'react-router-dom';
@@ -8,12 +8,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { UserContext } from '../../contexts/userContext';
-
 
 const RegisterScreen = () => {
   const [email,setEmail] = useState('');
-  const {userInfo} = useContext(UserContext);
   const [name,setName] = useState('');
   const [password,setPassword] = useState('');
   const [contact,setContact] = useState('');
