@@ -10,15 +10,21 @@ import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 
 import NavBar from "./components/NavBar/index";
-import Home from "./Views/Home";
+
+// Capacitor
+import { StatusBar, Style } from "@capacitor/status-bar";
+StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
+StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
+StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => {});
 
 function PlataformRoutes() {
   return (
     <Router>
       <NavBar />
       <Switch>
-        <Route component={Home} exact path="/home" />
-        <Route component={RegisterScreen} exact path="/plataform" />
+        <UserContextProvider>
+          <Route component={RegisterScreen} exact path="/plataform" />
+        </UserContextProvider>
       </Switch>
     </Router>
   );
