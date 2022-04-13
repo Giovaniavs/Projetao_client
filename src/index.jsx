@@ -1,11 +1,12 @@
 import ReactDOM  from 'react-dom';
 import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useState } from 'react' 
-import GlobalStyle from './Global/globalStyle';
+import GlobalStyle from './global/globalStyle';
 import { Perfil } from './Views/Perfil';
 
 import IsLogged from './Views/IsLogged/IsLogged';
 import  NavBar  from './Components/NavBar';
+import Home from './Views/Home';
 
 function PlataformRotas() {
  
@@ -13,6 +14,7 @@ function PlataformRotas() {
     <Switch>
       <Route path="/initial" component={Perfil}  />
       <Route path="/profile" component={Perfil} />
+      <Route path="/home" component={Home} />
 
     </Switch>
     
