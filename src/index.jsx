@@ -1,61 +1,53 @@
 import ReactDOM from 'react-dom';
-import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { useEffect, useState } from 'react'
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { UserContextProvider } from './contexts/userContext';
+import { ListSecurtyContextProvider } from './contexts/ListSecurity';
+
 import GlobalStyle from './global/globalStyle';
-import { Perfil } from './Views/Perfil';
 
-import IsLogged from './Views/IsLogged/IsLogged';
-import NavBar from './Components/NavBar';
+import LoginScreen from './Views/LoginScreen/LoginScreen';
+import RegisterScreen from './Views/RegisterScreen/RegisterScreen';
 
-//Capacitor
+import NavBar from './components/NavBar/index';
+
+
+// Capacitor
+
 import { StatusBar, Style } from '@capacitor/status-bar';
 StatusBar.setOverlaysWebView({ overlay: false });
 StatusBar.setStyle({ style: Style.Dark });
 StatusBar.setBackgroundColor({color:'#1976d2'})
 
-function PlataformRotas() {
 
+
+function PlataformRoutes() {
   return (
-    <Switch>
-      <Route path="/initial" component={Perfil} />
-      <Route path="/profile" component={Perfil} />
-
-    </Switch>
-
+    <Router>
+      <NavBar />
+        <Switch>
+        <UserContextProvider>
+          <Route component={RegisterScreen} exact path="/plataform" />
+        </UserContextProvider>
+      </Switch>
+    </Router>
   );
 }
 
 function App() {
-  // const [uuid, setUuid] = useState(localStorage.getItem("uid"));
-  let isAuth = 'key';
-
-  // const handleLogin = (uuid) => {
-  //   setUuid(uuid);
-  // };
-  // const handleLogOut = () => {
-  //   setUuid(null);
-  // };
-
-return (
-    <>
-      <Router>
-        <Switch>
-          {isAuth ? (
-            <>
-              <NavBar />
-              <PlataformRotas />
-            </>
-          ) : (
-            <>
-              <Redirect to='/' />
-              <Route component={IsLogged} exact path="/" />
-
-            </>
-          )}
-        </Switch>
-      </Router>
-      <GlobalStyle />
-    </>
+  return (
+      <ListSecurtyContextProvider>
+        <Router>
+          <Switch>
+            <UserContextProvider>
+              <Route component={LoginScreen} exact path="/" />
+              <Route component={RegisterScreen} exact path="/register" />
+              <Route component={PlataformRoutes} exact path="/(plataform)" />
+            </UserContextProvider>
+          </Switch>
+        </Router>
+        <GlobalStyle />
+      </ListSecurtyContextProvider>
   );
 }
 

@@ -7,10 +7,28 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @media (max-width: 414px) {
+    html {
+      font-size: 93.75%;
+    }
+  }
+
+  @media (max-width: 320px) {
+    html {
+      font-size: 85.55%;
+    }
+  }
+
+  @media (max-width: 280px) {
+    html {
+      font-size: 77%;
+    }
+  }
+
   body: {
     position: relative;
     width: 100%;
-    background: '#FFF';
+    background: '#E5E5E5';
     color: '#000000';
   }
 
@@ -46,7 +64,7 @@ export default createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #df4960;
+    background: #09629E;
     border-radius: .3rem;
   }
 `;
