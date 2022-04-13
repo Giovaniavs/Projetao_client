@@ -17,7 +17,6 @@ function PlataformRotas() {
       <Route path="/home" component={Home} />
 
     </Switch>
-    
   );
 }
 
@@ -33,7 +32,7 @@ function App() {
   // };
 
   return (
-      <>
+      <ListSecurtyContextProvider>
         <Router>
           <Switch>
             { isAuth ? (
@@ -51,7 +50,7 @@ function App() {
           </Switch>
         </Router>
         <GlobalStyle />
-      </>
+      </ListSecurtyContextProvider>
   );
 }
 
