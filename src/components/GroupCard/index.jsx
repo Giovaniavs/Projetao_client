@@ -1,20 +1,20 @@
 import React from "react";
-import { BoxShadowHelper, GroupImage, Wrapper, GroupTitle } from "./styels";
+import { BoxShadowHelper, GroupImage, Wrapper, GroupTitle } from "./styles";
 
 export default function GroupCard({
   group = {
-    title: "Group title",
+    name: "Group title",
     id: 1,
     imgSrc: "https://source.unsplash.com/random",
   },
 }) {
-  const { id, title, imgSrc } = group;
+  const { id, name, imgSrc } = group;
 
   return (
     <Wrapper to={`/group/${id}`}>
-      <GroupImage src={imgSrc} alt={`group title ${group.title}`} />
+      <GroupImage src={imgSrc} alt={`group title ${name}`} />
       <BoxShadowHelper />
-      <GroupTitle>{title}</GroupTitle>
+      <GroupTitle>{name}</GroupTitle>
     </Wrapper>
   );
 }
