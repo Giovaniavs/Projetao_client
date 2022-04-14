@@ -10,6 +10,7 @@ import LoginScreen from './Views/LoginScreen/LoginScreen';
 import RegisterScreen from './Views/RegisterScreen/RegisterScreen';
 
 import NavBar from './components/NavBar/index';
+import PerfilSec from './Views/PerfilSec/PerfilSec';
 
 
 
@@ -31,6 +32,7 @@ function App() {
         <Router>
           <Switch>
             <UserContextProvider>
+              <Route component={PerfilSec} exact path="/sec" />
               <Route component={LoginScreen} exact path="/" />
               <Route component={RegisterScreen} exact path="/register" />
               <Route component={PlataformRoutes} exact path="/(plataform)" />

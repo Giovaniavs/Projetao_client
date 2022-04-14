@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-export const ListSecurityContainer = styled.div`
+export const ListSecurityFreeContainer = styled.div`
   
   width: 100%;
-  height: 50vh;
+  height: 80vh;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -77,26 +77,17 @@ export const ListNotEmpty = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  /* background-color: #DDDDDD; */
-  /* padding: 5%; */
   border-radius: 10px;
   overflow: auto;
-  
-
-
   `;
 
 export const ItemList = styled.div`
   width: 95%;
-  /* height: 00px; */
-  /* border: 1px solid red; */
   margin: 0px 0px 15px 0px; 
   display: flex;
   justify-content: flex-start;
   align-items: center;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-  /* background-color: #DDDDDD; */
-  /* overflow: hidden; */
   border-radius: 10px;
   
   img {
@@ -116,7 +107,6 @@ export const ItemList = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    /* border-radius: 10px; */
 
     h6 {
       font-size: 1.2rem;
@@ -127,7 +117,6 @@ export const ItemList = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 10px;
 
       p {
         font-size: 1.1rem;
@@ -145,6 +134,7 @@ export const ItemList = styled.div`
     height: 100px;
     width: 20%;
     border-radius: 0px 10px 10px 0px;
+
 
   }
 
