@@ -51,6 +51,10 @@ export default function NavBar() {
   {
     url:"profile",
     sideBarName:"Perfil"
+  },
+  {
+    url:"avaliacao",
+    sideBarName:"Avaliacao"
   }
 ]
   const theme = useTheme();
