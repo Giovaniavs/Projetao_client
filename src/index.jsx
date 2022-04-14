@@ -26,7 +26,7 @@ function PlataformRoutes() {
       <Switch>
         <UserContextProvider>
           <Route component={RegisterScreen} exact path="/plataform" />
-          <Route component={Avaliacao} exact path="/(plataform/avaliacao)" />
+          <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
       </Switch>
     </Router>
