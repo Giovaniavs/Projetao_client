@@ -65,7 +65,7 @@ const LoginScreen = () => {
         };
       })
   });
-  }, [setUserInfo, shouldRedirectToApp]);
+  }, [email, setUserInfo, shouldRedirectToApp]);
 
 
   if (shouldRedirectToRegister) {
@@ -76,7 +76,7 @@ const LoginScreen = () => {
 
   if (shouldRedirectToApp) {
     return(
-      <Redirect push to="/plataform" />
+      <Redirect push to="/home" />
     );
   }
 

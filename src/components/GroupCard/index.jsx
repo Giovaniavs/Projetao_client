@@ -1,5 +1,5 @@
 import React from "react";
-import { BoxShadowHelper, GroupImage, Wrapper, GroupTitle } from "./styels";
+import { BoxShadowHelper, GroupImage, Wrapper, GroupTitle } from "./styles";
 
 export default function GroupCard({
   group = {
