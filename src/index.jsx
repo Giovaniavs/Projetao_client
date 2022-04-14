@@ -41,7 +41,6 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(plataform)" />
             <Route component={PlataformRoutes} exact path="/(plataform/avaliacao)" />
           </UserContextProvider>
         </Switch>
