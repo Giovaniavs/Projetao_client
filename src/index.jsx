@@ -14,6 +14,7 @@ import NavBar from "./components/NavBar/index";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
+import Home from "./Views/Home";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
@@ -25,7 +26,7 @@ function PlataformRoutes() {
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={RegisterScreen} exact path="/plataform" />
+          <Route component={Home} exact path="/home" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
       </Switch>
@@ -41,7 +42,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(plataform/avaliacao)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao)" />
           </UserContextProvider>
         </Switch>
       </Router>

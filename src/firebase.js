@@ -1,8 +1,7 @@
-import firebase from "firebase"
-import "firebase/firestore"
+import firebase from "firebase";
+import "firebase/firestore";
 
-
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
   authDomain: "projetao-seguranca.firebaseapp.com",
   projectId: "projetao-seguranca",
@@ -11,7 +10,9 @@ const firebaseConfig = {
   appId: "1:1012192256692:web:8efc1846d70b2f96ae6de1"
 };
 
-  // Initialize Firebase
+// Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
 
-export default fire;     
+export const db = fire.firestore();
+
+export default fire;

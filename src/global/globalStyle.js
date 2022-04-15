@@ -1,10 +1,15 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
+html, body {height: 100%}
+  #root{
+    background:red;
+    height:100%;
+  }
+
   * {
-    margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box;    
   }
 
   @media (max-width: 414px) {
@@ -51,8 +56,8 @@ export default createGlobalStyle`
 
   #root {
     position: relative;
-    min-height: calc(100vh - 75px);
-    margin: 75px 0 0 0;
+    min-height:100%;
+    margin: 50px 0 0 0;
     background-color: #CDDCDC;
     background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
     overflow: auto; 
