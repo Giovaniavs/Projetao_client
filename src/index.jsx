@@ -9,12 +9,12 @@ import GlobalStyle from "./global/globalStyle";
 import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
+import Home from "./Views/Home";
 
 import NavBar from "./components/NavBar/index";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
-import Home from "./Views/Home";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
