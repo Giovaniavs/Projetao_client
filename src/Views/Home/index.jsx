@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GroupCarousel from "../../components/GroupCarousel";
+import { Wrapper } from "./styles";
 import { useQuery } from '../../firebase'
 
 export default function Home() {
