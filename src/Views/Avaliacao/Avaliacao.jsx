@@ -1,3 +1,4 @@
+import React from 'react';
 import "./Avaliacao.css"
 
 export const Avaliacao=()=>{
