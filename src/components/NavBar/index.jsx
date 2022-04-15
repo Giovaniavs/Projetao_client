@@ -90,7 +90,7 @@ export default function NavBar() {
     
       <Drawer
         sx={{
-          width: drawerWidth,
+          width: 'auto',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
