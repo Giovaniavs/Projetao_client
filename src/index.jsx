@@ -23,7 +23,7 @@ function PlataformRoutes() {
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={RegisterScreen} exact path="/plataform" />
+          {/* <Route component={RegisterScreen} exact path="/plataform" /> */}
         </UserContextProvider>
       </Switch>
     </Router>
