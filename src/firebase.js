@@ -53,10 +53,9 @@ export const useAuth = () => {
 }
 
 export const useQuery = () => {
-
   const getGroups = async () => {
     let groupList = [];
-    await db
+    await fire.firestore()
       .collection("groups")
       .get()
       .then((querySnapshot) => {
