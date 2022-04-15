@@ -1,11 +1,16 @@
-.login {
-
+.IsLogged {
   width: 100%;
   height: 100vh;
+}
+
+.login {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: #09629E;
 }
 
 .loginContainer {
@@ -29,6 +34,21 @@
 
 }
 
+.containerLogin {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 
 .loginContainer input {
@@ -83,7 +103,7 @@
 .loginContainer .btnContainer p {
   margin-top: 35px;
   align-items: center;
-  
+
 }
 
 .loginContainer .btnContainer span {

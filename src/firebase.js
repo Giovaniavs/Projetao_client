@@ -13,6 +13,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
 
+export const db = fire.firestore()
+
 export const useAuth = () => {
 
   const createUser = (name, email, contact, type) => {
@@ -53,10 +55,9 @@ export const useAuth = () => {
 }
 
 export const useQuery = () => {
-
   const getGroups = async () => {
     let groupList = [];
-    await db
+    await fire.firestore()
       .collection("groups")
       .get()
       .then((querySnapshot) => {
