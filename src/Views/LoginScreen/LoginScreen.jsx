@@ -59,8 +59,8 @@ const LoginScreen = () => {
   }
 
   if (shouldRedirectToApp) {
-    return (
-      <Redirect push to="/plataform" />
+    return(
+      <Redirect push to="/home" />
     );
   }
 
