@@ -16,7 +16,7 @@ const LoginScreen = () => {
   const [shouldRedirectToRegister, setShouldRedirectToRegister] = useState(false);
   const [shouldRedirectToApp, setShouldRedirectToApp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { signIn, findUser } = useAuth()
 
   const clearErrors = () => {
@@ -59,7 +59,7 @@ const LoginScreen = () => {
   }
 
   if (shouldRedirectToApp) {
-    return(
+    return (
       <Redirect push to="/home" />
     );
   }
@@ -71,23 +71,30 @@ const LoginScreen = () => {
         <div className='loginContainer'>
           <img src={logo} alt="Logo da plataforma" />
           <strong>Acesse sua conta</strong>
-          <label>E-mail</label>
-          <input
-            type='text'
-            autoFocus
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <p className="errorMsg">{emailError}</p>
-          <label>Senha</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <p className="errorMsg">{passwordError}</p>
+          <div className='containerLogin'>
+
+            <div className='inputBox'>
+              <label>E-mail</label>
+              <input
+                type='text'
+                autoFocus
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <p className="errorMsg">{emailError}</p>
+            </div>
+            <div className='inputBox'>
+              <label>Senha</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <p className="errorMsg">{passwordError}</p>
+            </div>
+          </div>
           <div className="btnContainer">
             <>
               {isLoading ? (
