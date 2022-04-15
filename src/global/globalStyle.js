@@ -8,9 +8,8 @@ html, body {height: 100%}
   }
 
   * {
-    margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box;    
   }
 
   @media (max-width: 414px) {
@@ -58,7 +57,7 @@ html, body {height: 100%}
   #root {
     position: relative;
     min-height:100%;
-    margin: 75px 0 0 0;
+    margin: 50px 0 0 0;
     background-color: #CDDCDC;
     background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
     overflow: auto; 
