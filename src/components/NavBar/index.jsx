@@ -45,8 +45,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function NavBar() {
   const loadPages =[{
-    url:"initial",
+    url:"home",
     sideBarName:"Pagina Inicial"
+  },{
+    url:"grupo",
+    sideBarName:"Grupo"
   },
   {
     url:"profile",
@@ -71,7 +74,7 @@ export default function NavBar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="static" open={open}>
         <Toolbar>
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
           <GppGoodIcon />

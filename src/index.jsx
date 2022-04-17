@@ -10,7 +10,7 @@ import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
 import Home from "./Views/Home";
-
+import { CreateNewGroup } from "./components/CreateGroup";
 import NavBar from "./components/NavBar/index";
 
 // Capacitor
@@ -28,7 +28,8 @@ function PlataformRoutes() {
         <UserContextProvider>
           <Route component={Home} exact path="/home" />
           <Route component={Avaliacao} exact path="/avaliacao" />
-        </UserContextProvider>
+          <Route component={CreateNewGroup} exact  path="/grupo" />
+        </UserContextProvider> 
       </Switch>
     </Router>
   );
@@ -42,7 +43,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|grupo)" />
           </UserContextProvider>
         </Switch>
       </Router>
