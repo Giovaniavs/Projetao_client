@@ -52,7 +52,7 @@ export function CreateNewGroup(){
           onChange={handleChange}
           name="email"
            />
-           <Button  onClick={handleGroup} >Enviar</Button>
+           <Button  onClick={handleGroup} >Criar grupo</Button>
         
        </CenterDiv>
         </>
