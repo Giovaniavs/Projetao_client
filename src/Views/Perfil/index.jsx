@@ -1,12 +1,15 @@
-import React from 'react';
-import './index.css' 
+import React, { useEffect, useState } from "react";
+// import { useQuery } from "../../firebase";
+import { Wrapper } from "./styles";
+import useQuery from "./useQuery";
 
-export function Perfil( ){
-    return (
-        <>
-        <h1 className='name color'> testando </h1>
-        <h1 className='name color'> testando </h1>
-        <h1 className='name color'> testando </h1>
-        </>
-    )
+export default function Perfil() {
+  // let query = useQuery();
+
+  // useEffect(() => {
+  //   console.log("query")
+  //   console.log("query", query.get("email"));
+  // }, []);
+
+  return <Wrapper>olar</Wrapper>;
 }
