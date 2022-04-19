@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ListSecurityContainer = styled.div`
   
   width: 100%;
-  height: 40vh;
+  height: 100%;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -74,16 +74,10 @@ export const ListNotEmpty = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  /* background-color: #DDDDDD; */
-  /* padding: 5%; */
   border-radius: 10px;
   overflow: auto;
-  
-
-
   `;
 
 export const ItemList = styled.div`

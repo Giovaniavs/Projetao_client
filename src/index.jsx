@@ -9,12 +9,14 @@ import GlobalStyle from "./global/globalStyle";
 import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
+import Home from "./Views/Home";
 
 import NavBar from "./components/NavBar/index";
 
+import ListSecurity from './components/ListSecurity/ListSecurity';
+
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
-import Home from "./Views/Home";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
@@ -26,7 +28,7 @@ function PlataformRoutes() {
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={Home} exact path="/home" />
+          <Route component={ListSecurity} exact path="/home" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
       </Switch>
