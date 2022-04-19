@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ProfilePicResume from "../../components/ProfilePicResume";
-import { useAuth, useQuery } from "../../firebase";
-import { Wrapper } from "./styles";
+import { useAuth } from "../../firebase";
+import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
 import userQueryParams from "./userQueryParams";
 import ReactLoading from "react-loading";
+import Topic from "../../components/Topic";
+import PrimaryButton from "../../components/PrimaryButton";
 
 export default function Perfil() {
   let query = userQueryParams();
@@ -41,6 +43,28 @@ export default function Perfil() {
   return (
     <Wrapper>
       <ProfilePicResume user={currentUser} />
+      <Topic name="Descrição">
+        <Description>{currentUser.description}</Description>
+      </Topic>
+
+      <Topic name="Documentos e certificações">
+        <Docs>
+          {currentUser.docs.map((url) => (
+            <DocLink href={url} target="_blank">
+              <DocImg src={url} />
+            </DocLink>
+          ))}
+
+          {currentUser.docs &&
+            currentUser.docs.map((url) => (
+              <DocLink href={url} target="_blank">
+                <DocImg src={url} />
+              </DocLink>
+            ))}
+        </Docs>
+      </Topic>
+
+      <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
     </Wrapper>
   );
 }

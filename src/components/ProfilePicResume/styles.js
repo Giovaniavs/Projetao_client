@@ -20,7 +20,6 @@ export const ProfilePic = styled.img`
 export const PicWrapper = styled.div`
   height: 225px;
   width: 200px;
-  background: blue;
   border-radius: 8px;
   overflow: hidden;
 `;
