@@ -13,6 +13,8 @@ import Home from "./Views/Home";
 
 import NavBar from "./components/NavBar/index";
 
+import ListSecurity from './components/ListSecurity/ListSecurity';
+
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
 
@@ -26,7 +28,7 @@ function PlataformRoutes() {
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={Home} exact path="/home" />
+          <Route component={ListSecurity} exact path="/home" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
       </Switch>

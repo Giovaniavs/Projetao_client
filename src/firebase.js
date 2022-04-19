@@ -68,5 +68,20 @@ export const useQuery = () => {
     return groupList;
   };
 
-  return { getGroups }
+  const getGuards = async () => {
+    let guardList = [];
+    await fire.firestore()
+      .collection("guards")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().validado) {
+            guardList = [...guardList, doc.data()];
+          }
+        });
+      });
+    return guardList;
+  };
+
+  return { getGroups, getGuards }
 }

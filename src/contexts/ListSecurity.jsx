@@ -1,31 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 import perfil from '../assets/images/SecPerfil.png'
+
+import { useQuery } from "../firebase";
 
 
 export const ListSecurtyContext = createContext()
 
 export const ListSecurtyContextProvider = ({children}) => {
-
-  const [listSec, setListSec] = useState([
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Julião', 4.8, perfil], 
-    ['Sidney', 4.8, perfil], 
-    ['Marcson', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-    ['Maria Fernanda', 4.8, perfil], 
-
-  ]);
+  const { getGuards } = useQuery();
+  const [listSec, setListSec] = useState([]);
+  
+  useEffect(() => {
+    setListSec(getGuards);
+  }, []);
 
   return (
     <ListSecurtyContext.Provider value={{listSec, setListSec}}>
