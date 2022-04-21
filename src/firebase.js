@@ -7,57 +7,78 @@ const firebaseConfig = {
   projectId: "projetao-seguranca",
   storageBucket: "projetao-seguranca.appspot.com",
   messagingSenderId: "1012192256692",
-  appId: "1:1012192256692:web:8efc1846d70b2f96ae6de1"
+  appId: "1:1012192256692:web:8efc1846d70b2f96ae6de1",
 };
 
 // Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
 
-export const db = fire.firestore()
+export const db = fire.firestore();
 
 export const useAuth = () => {
-
   const createUser = (name, email, contact, type) => {
-    return fire.firestore().collection("user").add({ name, email, contact, type });
-  }
+    return fire
+      .firestore()
+      .collection("user")
+      .add({ name, email, contact, type })
+      .then((response) => {
+        const { id: uid } = response;
+        localStorage.setItem("uid", email);
+      });
+  };
 
   const signIn = (email, password) => {
-    return fire.auth().signInWithEmailAndPassword(email, password).then(
-    ).catch(err => {
-      return err.code
-    })
-  }
+    return fire
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => {
+        const { email } = response.user;
+        localStorage.setItem("uid", email);
+      })
+      .catch((err) => {
+        return err.code;
+      });
+  };
 
   const signUp = (name, contact, typeOfUser, email, password) => {
-    return fire.auth().createUserWithEmailAndPassword(email, password).then(
-      () => {
+    return fire
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
         createUser(name, email, contact, typeOfUser);
-      }
-    )
-  }
+      });
+  };
 
   const findUser = (email) => {
-    return fire.firestore().collection("user").onSnapshot((querySnapshot) => {
-      const users = [];
-      querySnapshot.forEach((doc) => {
-        users.push(doc.data())
-      });
-      const userFetched = users.find((user) => {
-        if (user.email === email) {
-          return user
-        };
-      })
-      localStorage.setItem('userInfo', JSON.stringify(userFetched));
-    })
-  }
+    return fire
+      .firestore()
+      .collection("user")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        const userFetched = users.find((user) => {
+          if (user.email === email) {
+            return user;
+          }
+        });
 
-  return { signIn, signUp, findUser }
-}
+        localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
+      });
+  };
+
+  return { signIn, signUp, findUser };
+};
 
 export const useQuery = () => {
+  const uid = localStorage.getItem("uid");
+
   const getGroups = async () => {
     let groupList = [];
-    await fire.firestore()
+    await fire
+      .firestore()
       .collection("groups")
       .get()
       .then((querySnapshot) => {
@@ -65,7 +86,21 @@ export const useQuery = () => {
           groupList = [...groupList, { id: doc.id, ...doc.data() }];
         });
       });
-    return groupList;
+    return groupList.filter((group) => group.users.includes(uid));
+  };
+
+  const getOccurrences = async () => {
+    let occurrences = [];
+    await fire
+      .firestore()
+      .collection("occurrences")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          occurrences = [...occurrences, { id: doc.id, ...doc.data() }];
+        });
+      });
+    return occurrences.filter((occurrence) => occurrence.users.includes(uid));
   };
 
   const getGuards = async () => {
@@ -83,5 +118,5 @@ export const useQuery = () => {
     return guardList;
   };
 
-  return { getGroups, getGuards }
+  return { getGroups, getGuards, getOccurrences }
 }
