@@ -61,7 +61,7 @@ const RegisterScreen = () => {
     if (files) {
       reader.onload = () => {
         if (reader.readyState === 2) {
-          uploadFile({ files, setImages, name });
+          uploadFile({ files, setImages, name, setIsLoading });
         }
       };
       reader.readAsDataURL(e.target.files[0]);
@@ -80,8 +80,7 @@ const RegisterScreen = () => {
     event.preventDefault();
     setIsLoading(true);
     clearErrors();
-
-    signUp({ user, images })
+    signUp({ user, images, setShouldRedirectToLogin, setIsLoading })
       .then((data) => {
         switch (data) {
           case "auth/email-already-in-use":
@@ -226,7 +225,6 @@ const RegisterScreen = () => {
 
       <Topic name="Documentos">
         <WrapperFields>
-          {JSON.stringify(images)}
           <InputWrapper>
             <Label id="idCard">Selecionar Carteira de Identidade</Label>
             <Input

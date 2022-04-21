@@ -18,10 +18,9 @@ export const db = fire.firestore();
 export const storage = firebase.storage();
 
 export const useAuth = () => {
-  const createUser = ({ user, images }) => {
-    const { imgSrc } = images;
+  const createUser = async ({ user, images }) => {
     const { name, email, contact, type, description } = user;
-    return fire
+    return await fire
       .firestore()
       .collection("user")
       .doc(email)
@@ -31,15 +30,11 @@ export const useAuth = () => {
         contact,
         type,
         starsCount: 0,
-        imgSrc,
+        imgSrc: images.imgSrc,
         description,
         verified: false,
       })
-      .then((response) => {
-        const { id: uid } = response;
-        debugger;
-        localStorage.setItem("uid", email);
-      });
+      .then((response) => true);
   };
 
   const signIn = (email, password) => {
@@ -55,13 +50,76 @@ export const useAuth = () => {
       });
   };
 
-  const signUp = ({ user, images }) => {
+  const signUp = ({ user, images, setIsLoading, setShouldRedirectToLogin }) => {
     const { email, password } = user;
+    setIsLoading(true);
     return fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        createUser({ user, images });
+      .then(async () => {
+        const userCreated = await createUser({ user, images });
+        if (userCreated) {
+          setIsLoading(true);
+          await setDocuments({
+            user,
+            imageUrl: images.idCard,
+            docName: "identidade/registro geral/rg",
+          });
+
+          await setDocuments({
+            user,
+            imageUrl: images.residenceDoc,
+            docName: "comprovante residencia",
+          });
+
+          await setDocuments({
+            user,
+            certifications: images.certifications,
+          });
+
+          setIsLoading(false);
+        }
+      });
+  };
+
+  const setDocuments = ({ user, imageUrl, docName, certifications }) => {
+    if (certifications) {
+      var batch = db.batch();
+      certifications.forEach((cert, index) => {
+        const certRef = db
+          .collection("user")
+          .doc(user.email)
+          .collection("certifications")
+          .doc();
+        batch.set(certRef, {
+          url: cert,
+          name: `Certification ${index}`,
+        });
+      });
+
+      batch
+        .commit()
+        .then((docRef) => {
+          console.log("Certification written with ID: ", docRef);
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+
+      return;
+    }
+    db.collection("user")
+      .doc(user.email)
+      .collection("docs")
+      .add({
+        url: imageUrl,
+        name: docName,
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
       });
   };
 
@@ -89,7 +147,7 @@ export const useAuth = () => {
   };
 
   const getUserDocs = async (email) => {
-    return db.collection("user").doc(email).collection("docs");
+    return db.collection("user").doc(email).collection("certifications");
   };
 
   const getUserEvaluations = async (email) => {
@@ -157,34 +215,43 @@ export const useQuery = () => {
 };
 
 export const useStorage = () => {
-  const uploadFile = async ({ files, setImages, name }) => {
+  const uploadFile = async ({ files, setImages, name, setIsLoading }) => {
     const storageRef = storage.ref();
     const isCertification = name === "certifications";
     let downloadURL = "";
 
     if (isCertification) {
-      await files.forEach(async (file) => {
-        debugger;
+      files.forEach(async (file, index) => {
         const currentFileRef = storageRef.child(file.name);
+        setIsLoading(true);
+
         downloadURL = await currentFileRef
           .put(file)
-          .then((image) => image.ref.getDownloadURL().then((url) => url));
-
+          .then((image) => image.ref.getDownloadURL().then((url) => url))
+          .catch((err) => console.log({ err }));
+        console.log({ downloadURL });
+        const isLastItem = index === files.length - 1;
+        console.log(isLastItem, index);
+        if (index === files.length - 1) {
+          setIsLoading(false);
+        }
         setImages((prev) => ({
           ...prev,
 
           certifications: [...prev.certifications, downloadURL],
         }));
       });
-
       return;
     }
 
     const fileRef = storageRef.child(files.name);
-
-    downloadURL = await fileRef
-      .put(files)
-      .then((image) => image.ref.getDownloadURL().then((url) => url));
+    setIsLoading(true);
+    downloadURL = await fileRef.put(files).then((image) =>
+      image.ref.getDownloadURL().then((url) => {
+        setIsLoading(false);
+        return url;
+      })
+    );
 
     setImages((prev) => ({ ...prev, [name]: downloadURL }));
   };
