@@ -20,14 +20,21 @@ export const useAuth = () => {
     return fire
       .firestore()
       .collection("user")
-      .add({ name, email, contact, type });
+      .add({ name, email, contact, type })
+      .then((response) => {
+        const { id: uid } = response;
+        localStorage.setItem("uid", email);
+      });
   };
 
   const signIn = (email, password) => {
     return fire
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then()
+      .then((response) => {
+        const { email } = response.user;
+        localStorage.setItem("uid", email);
+      })
       .catch((err) => {
         return err.code;
       });
@@ -49,7 +56,7 @@ export const useAuth = () => {
       .onSnapshot((querySnapshot) => {
         const users = [];
         querySnapshot.forEach((doc) => {
-          users.push(doc.data());
+          users.push({ id: doc.id, ...doc.data() });
         });
         const userFetched = users.find((user) => {
           if (user.email === email) {
@@ -57,6 +64,7 @@ export const useAuth = () => {
           }
         });
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
       });
   };
 
@@ -83,6 +91,8 @@ export const useAuth = () => {
 };
 
 export const useQuery = () => {
+  const uid = localStorage.getItem("uid");
+
   const getGroups = async () => {
     let groupList = [];
     await fire
@@ -94,7 +104,21 @@ export const useQuery = () => {
           groupList = [...groupList, { id: doc.id, ...doc.data() }];
         });
       });
-    return groupList;
+    return groupList.filter((group) => group.users.includes(uid));
+  };
+
+  const getOccurrences = async () => {
+    let occurrences = [];
+    await fire
+      .firestore()
+      .collection("occurrences")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          occurrences = [...occurrences, { id: doc.id, ...doc.data() }];
+        });
+      });
+    return occurrences.filter((occurrence) => occurrence.users.includes(uid));
   };
 
   const getGuards = async () => {
@@ -113,5 +137,5 @@ export const useQuery = () => {
     return guardList;
   };
 
-  return { getGroups, getGuards };
-};
+  return { getGroups, getGuards, getOccurrences }
+}

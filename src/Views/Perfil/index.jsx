@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Redirect } from 'react-router-dom';
 import ProfilePicResume from "../../components/ProfilePicResume";
 import { useAuth } from "../../firebase";
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
@@ -13,6 +14,7 @@ export default function Perfil() {
   const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
     getUserInfo();
@@ -63,6 +65,12 @@ export default function Perfil() {
     });
   };
 
+  if (shouldRedirect) {
+    return (
+      <Redirect push to="/avaliacao" />
+    );
+  };
+
   if (loading)
     return (
       <Wrapper>
@@ -95,7 +103,9 @@ export default function Perfil() {
         </Docs>
       </Topic>
 
-      <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
+      <div onClick={() => setShouldRedirect(true)}>
+        <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
+      </div>
     </Wrapper>
   );
 }

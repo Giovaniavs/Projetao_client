@@ -7,9 +7,11 @@ export default function GroupCarousel({ groups }) {
     <Wrapper>
       <GroupCarouselTitle>Seus grupos</GroupCarouselTitle>
       <GroupList>
-        {groups.map((group) => (
-          <GroupCard group={group} />
-        ))}
+        {Boolean(groups.length) &&
+          groups.map((group) => {
+            console.log({ groups });
+            return <GroupCard group={group} key={group.id} />;
+          })}
       </GroupList>
     </Wrapper>
   );
