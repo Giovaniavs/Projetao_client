@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import "firebase/firestore";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -14,17 +15,29 @@ const firebaseConfig = {
 const fire = firebase.initializeApp(firebaseConfig);
 
 export const db = fire.firestore();
+export const storage = firebase.storage();
 
 export const useAuth = () => {
-  const createUser = (user) => {
-    const { name, email, contact, type, imgSrc } = user;
+  const createUser = ({ user, images }) => {
+    const { imgSrc } = images;
+    const { name, email, contact, type, description } = user;
     return fire
       .firestore()
       .collection("user")
       .doc(email)
-      .set({ name, email, contact, type, starsCount: 0, imgSrc })
+      .set({
+        name,
+        email,
+        contact,
+        type,
+        starsCount: 0,
+        imgSrc,
+        description,
+        verified: false,
+      })
       .then((response) => {
         const { id: uid } = response;
+        debugger;
         localStorage.setItem("uid", email);
       });
   };
@@ -42,13 +55,13 @@ export const useAuth = () => {
       });
   };
 
-  const signUp = (user) => {
+  const signUp = ({ user, images }) => {
     const { email, password } = user;
     return fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        createUser(user);
+        createUser({ user, images });
       });
   };
 
@@ -141,4 +154,19 @@ export const useQuery = () => {
   };
 
   return { getGroups, getGuards, getOccurrences };
+};
+
+export const useStorage = () => {
+  const uploadFile = async ({ fileName, file, setImages, name }) => {
+    const storageRef = storage.ref();
+    const fileRef = storageRef.child(fileName);
+
+    const downloadURL = await fileRef
+      .put(file)
+      .then((image) => image.ref.getDownloadURL().then((url) => url));
+
+    setImages((prev) => ({ ...prev, [name]: downloadURL }));
+  };
+
+  return { uploadFile };
 };

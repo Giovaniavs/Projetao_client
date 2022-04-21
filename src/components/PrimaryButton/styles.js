@@ -20,7 +20,9 @@ export const Wrapper = styled.button`
 
   border: none;
   transition: 0.5s;
-  &:hover {
+  ${(props) =>
+    !props.disabled
+      ? ` &:hover {
     color: #0a639e;
 
     background: transparent;
@@ -32,5 +34,8 @@ export const Wrapper = styled.button`
   &:active {
     background: #02436f;
     color: white;
-  }
+  }`
+      : `background: grey;
+      opacity: 0.5;`}
 `;
+

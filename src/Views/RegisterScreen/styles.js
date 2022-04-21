@@ -33,3 +33,23 @@ export const H1 = styled.h1`
   margin-top: -60px;
   font-size: 2.5rem;
 `;
+
+export const InputWrapper = styled.div`
+  width: 100%;
+`;
+
+export const Input = styled.input`
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid grey;
+  border-radius: 4px;
+`;
+
+export const Label = styled.label`
+  width: 100%;
+  font-size: 1rem;
+`;
