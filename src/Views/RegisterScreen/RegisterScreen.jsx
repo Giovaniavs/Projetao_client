@@ -41,7 +41,7 @@ const RegisterScreen = () => {
     idCard: null,
     imgSrc: null,
     residenceDoc: null,
-    certifications: null,
+    certifications: [],
   });
 
   const handleChange = (event) => {
@@ -51,15 +51,17 @@ const RegisterScreen = () => {
 
   const onImageChange = (e) => {
     const { name } = e.target;
-    setImages((prev) => ({ ...prev, [name]: null }));
+    const isCertification = name === "certifications";
+    setImages((prev) => ({ ...prev, [name]: isCertification ? [] : null }));
     const reader = new FileReader();
-    let file = e.target.files[0]; // get the supplied file
-    const { name: fileName } = file;
+    let files = isCertification
+      ? Object.values(e.target.files)
+      : e.target.files[0]; // get the supplied file
     // if there is a file, set image to that file
-    if (file) {
+    if (files) {
       reader.onload = () => {
         if (reader.readyState === 2) {
-          uploadFile({ fileName, file, setImages, name });
+          uploadFile({ files, setImages, name });
         }
       };
       reader.readAsDataURL(e.target.files[0]);
@@ -107,7 +109,7 @@ const RegisterScreen = () => {
   }
 
   const isDisabled = !(
-    images.certifications &&
+    images.certifications.length &&
     images.idCard &&
     images.imgSrc &&
     images.residenceDoc

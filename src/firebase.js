@@ -157,12 +157,33 @@ export const useQuery = () => {
 };
 
 export const useStorage = () => {
-  const uploadFile = async ({ fileName, file, setImages, name }) => {
+  const uploadFile = async ({ files, setImages, name }) => {
     const storageRef = storage.ref();
-    const fileRef = storageRef.child(fileName);
+    const isCertification = name === "certifications";
+    let downloadURL = "";
 
-    const downloadURL = await fileRef
-      .put(file)
+    if (isCertification) {
+      await files.forEach(async (file) => {
+        debugger;
+        const currentFileRef = storageRef.child(file.name);
+        downloadURL = await currentFileRef
+          .put(file)
+          .then((image) => image.ref.getDownloadURL().then((url) => url));
+
+        setImages((prev) => ({
+          ...prev,
+
+          certifications: [...prev.certifications, downloadURL],
+        }));
+      });
+
+      return;
+    }
+
+    const fileRef = storageRef.child(files.name);
+
+    downloadURL = await fileRef
+      .put(files)
       .then((image) => image.ref.getDownloadURL().then((url) => url));
 
     setImages((prev) => ({ ...prev, [name]: downloadURL }));
