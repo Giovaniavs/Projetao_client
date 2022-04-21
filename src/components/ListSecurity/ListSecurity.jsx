@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Redirect } from 'react-router-dom';
 import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./ListSecurity.style";
 
 import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
@@ -6,11 +7,18 @@ import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 import { ListSecurtyContext } from "../../contexts/ListSecurity";
 
 const ListSecurity = () => {
+  const [email, setEmail] = useState('');
   const {listSec, setListSec} = useContext(ListSecurtyContext);
 
   useEffect(() => {
     Promise.resolve(listSec).then(guardsList => setListSec(guardsList));
-  }, [listSec]) 
+  }, [listSec]);
+
+  if (email != '') {
+    return (
+      <Redirect push to={`/perfil?email=${email}`} />
+    );
+  };
 
 
   return (
@@ -21,7 +29,7 @@ const ListSecurity = () => {
         <ListNotEmpty>
           {listSec.map((element) => {
             return (
-              <ItemList>
+              <ItemList onClick={() => setEmail(element.email)}>
               <img src={element.fotoPerfil} alt="" />
               <div className="begin">
                 <h6>{element.nome}</h6>
