@@ -9,7 +9,6 @@ import GlobalStyle from "./global/globalStyle";
 import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
-import Home from "./Views/Home";
 
 import NavBar from "./components/NavBar/index";
 
@@ -24,13 +23,15 @@ StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
 StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => {});
 
+// Aqui você define todas as rotas que serão utilizadas dentro da plataforma quando o usuário estiver logado
+// Depois que você criar uma rota aqui, você obrigatoriamente precisa adicionar ela dentro do parentesis da terceira Route da função App() deste mesmo arquivo.
 function PlataformRoutes() {
   return (
     <Router>
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={Home} exact path="/home" />
+          <Route component={ListSecurity} exact path="/home" />
           <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
@@ -39,6 +40,9 @@ function PlataformRoutes() {
   );
 }
 
+// Aqui você define todas as rotas que serão utilizadas quando o usuário não estiver logado
+// OBS: Depois que você criar uma rota na PlatformRoutes, você obrigatoriamente precisa adionar ela na
+// terceira Route dentro dos parêntesis, seguindo sempre o padrão /(rotaUm|rotaDois|rotaTrês) divididos pela barra reta |
 function App() {
   return (
     <ListSecurtyContextProvider>
