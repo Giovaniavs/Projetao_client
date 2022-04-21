@@ -13,10 +13,12 @@ import Home from "./Views/Home";
 
 import NavBar from "./components/NavBar/index";
 
-import ListSecurity from './components/ListSecurity/ListSecurity';
+import ListSecurity from "./components/ListSecurity/ListSecurity";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
+import Perfil from "./Views/Perfil";
+import { Link } from "@mui/material";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
@@ -28,7 +30,8 @@ function PlataformRoutes() {
       <NavBar />
       <Switch>
         <UserContextProvider>
-          <Route component={ListSecurity} exact path="/home" />
+          <Route component={Home} exact path="/home" />
+          <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
       </Switch>
@@ -44,7 +47,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil)" />
           </UserContextProvider>
         </Switch>
       </Router>
