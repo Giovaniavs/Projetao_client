@@ -16,11 +16,13 @@ const fire = firebase.initializeApp(firebaseConfig);
 export const db = fire.firestore();
 
 export const useAuth = () => {
-  const createUser = (name, email, contact, type) => {
+  const createUser = (user) => {
+    const { name, email, contact, type, imgSrc } = user;
     return fire
       .firestore()
       .collection("user")
-      .add({ name, email, contact, type })
+      .doc(email)
+      .set({ name, email, contact, type, starsCount: 0, imgSrc })
       .then((response) => {
         const { id: uid } = response;
         localStorage.setItem("uid", email);
@@ -40,12 +42,13 @@ export const useAuth = () => {
       });
   };
 
-  const signUp = (name, contact, typeOfUser, email, password) => {
+  const signUp = (user) => {
+    const { email, password } = user;
     return fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        createUser(name, email, contact, typeOfUser);
+        createUser(user);
       });
   };
 
@@ -137,5 +140,5 @@ export const useQuery = () => {
     return guardList;
   };
 
-  return { getGroups, getGuards, getOccurrences }
-}
+  return { getGroups, getGuards, getOccurrences };
+};
