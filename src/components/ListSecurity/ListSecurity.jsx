@@ -30,11 +30,11 @@ const ListSecurity = () => {
           {listSec.map((element) => {
             return (
               <ItemList onClick={() => setEmail(element.email)}>
-              <img src={element.fotoPerfil} alt="" />
+              <img src={element.imgSrc} alt="" />
               <div className="begin">
-                <h6>{element.nome}</h6>
+                <h6>{element.name}</h6>
                 <div className="score">
-                  <p>{element.avaliacao}</p>
+                  <p>{element.starsCount}</p>
                   <AiOutlineStar size={18}/>
                 </div>
               </div>

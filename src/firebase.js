@@ -199,11 +199,11 @@ export const useQuery = () => {
     let guardList = [];
     await fire
       .firestore()
-      .collection("guards")
+      .collection("user")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          if (doc.data().validado) {
+          if (doc.data().verified && doc.data().type === "guard") {
             guardList = [...guardList, doc.data()];
           }
         });
