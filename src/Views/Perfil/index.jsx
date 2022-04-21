@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import ProfilePicResume from "../../components/ProfilePicResume";
 import { useAuth } from "../../firebase";
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
@@ -44,6 +44,7 @@ export default function Perfil() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
+        console.log(docs);
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
@@ -66,10 +67,8 @@ export default function Perfil() {
   };
 
   if (shouldRedirect) {
-    return (
-      <Redirect push to="/avaliacao" />
-    );
-  };
+    return <Redirect push to="/avaliacao" />;
+  }
 
   if (loading)
     return (
@@ -90,7 +89,7 @@ export default function Perfil() {
         <Description>{currentUser.description}</Description>
       </Topic>
 
-      <Topic name="Documentos e certificações">
+      <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
             currentUser.docs.map(({ url, name }, index) => {
