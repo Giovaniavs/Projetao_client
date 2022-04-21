@@ -35,6 +35,7 @@ export const DocLink = styled.a`
   width: 88px;
   height: 99px;
   display: block;
+  overflow: hidden;
 `;
 
 export const DocImg = styled.img`

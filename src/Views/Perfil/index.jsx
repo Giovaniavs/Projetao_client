@@ -49,18 +49,15 @@ export default function Perfil() {
 
       <Topic name="Documentos e certificações">
         <Docs>
-          {currentUser.docs.map((url) => (
-            <DocLink href={url} target="_blank">
-              <DocImg src={url} />
-            </DocLink>
-          ))}
-
           {currentUser.docs &&
-            currentUser.docs.map((url) => (
-              <DocLink href={url} target="_blank">
-                <DocImg src={url} />
-              </DocLink>
-            ))}
+            currentUser.docs.map(({ url, name }, index) => {
+              console.log({ url, name });
+              return (
+                <DocLink href={url} target="_blank" key={index} title={name}>
+                  <DocImg src={url} alt={name} />
+                </DocLink>
+              );
+            })}
         </Docs>
       </Topic>
 
