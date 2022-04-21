@@ -30,16 +30,14 @@ ant-rate-star-full svg:hover {
 }
 
 .feedback{
-    
-    font-family: 'Inter';
+
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
     color: #000000;
-    display: flex;
-    justify-content: flex-start;
-    width: 35%;
 
 }
 
