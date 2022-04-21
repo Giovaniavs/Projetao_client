@@ -10,23 +10,58 @@ import PrimaryButton from "../../components/PrimaryButton";
 export default function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile } = useAuth();
+  const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getUserInfo();
+    getDocs();
+    getEvaluations();
+  }, [query]);
+
+  const getUserInfo = () => {
     getUserProfile(email)
-      .then((snapShot) => {
-        snapShot.forEach((doc) => {
-          setCurrentUser(doc.data());
-          setLoading(false);
-        });
+      .then((user) => {
+        setLoading(true);
+        setCurrentUser(user.data());
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
         setLoading(false);
       });
-  }, [query]);
+  };
+
+  const getDocs = () => {
+    getUserDocs(email).then((response) => {
+      setLoading(true);
+      response.get().then((querySnapshot) => {
+        let docs = [];
+        querySnapshot.forEach((doc) => {
+          docs = [...docs, { id: doc.id, ...doc.data() }];
+        });
+
+        setCurrentUser((prev) => ({ ...prev, docs }));
+        setLoading(false);
+      });
+    });
+  };
+
+  const getEvaluations = () => {
+    getUserEvaluations(email).then((response) => {
+      setLoading(true);
+      response.get().then((querySnapshot) => {
+        let evaluations = [];
+        querySnapshot.forEach((doc) => {
+          evaluations = [...evaluations, { id: doc.id, ...doc.data() }];
+        });
+
+        setCurrentUser((prev) => ({ ...prev, evaluations }));
+        setLoading(false);
+      });
+    });
+  };
 
   if (loading)
     return (
@@ -51,7 +86,6 @@ export default function Perfil() {
         <Docs>
           {currentUser.docs &&
             currentUser.docs.map(({ url, name }, index) => {
-              console.log({ url, name });
               return (
                 <DocLink href={url} target="_blank" key={index} title={name}>
                   <DocImg src={url} alt={name} />

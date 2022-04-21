@@ -61,10 +61,25 @@ export const useAuth = () => {
   };
 
   const getUserProfile = async (email) => {
-    return db.collection("user").where("email", "==", email).get();
+    return db.collection("user").doc(email).get();
   };
 
-  return { signIn, signUp, findUser, getUserProfile };
+  const getUserDocs = async (email) => {
+    return db.collection("user").doc(email).collection("docs");
+  };
+
+  const getUserEvaluations = async (email) => {
+    return db.collection("user").doc(email).collection("evaluations");
+  };
+
+  return {
+    signIn,
+    signUp,
+    findUser,
+    getUserProfile,
+    getUserDocs,
+    getUserEvaluations,
+  };
 };
 
 export const useQuery = () => {
