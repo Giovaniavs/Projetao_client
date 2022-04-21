@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./ListSecurity.style";
 
 import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
@@ -6,8 +6,12 @@ import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 import { ListSecurtyContext } from "../../contexts/ListSecurity";
 
 const ListSecurity = () => {
+  const {listSec, setListSec} = useContext(ListSecurtyContext);
 
-  const {listSec} = useContext(ListSecurtyContext)
+  useEffect(() => {
+    Promise.resolve(listSec).then(guardsList => setListSec(guardsList));
+  }, [listSec]) 
+
 
   return (
     <ListSecurityContainer>
@@ -17,13 +21,12 @@ const ListSecurity = () => {
         <ListNotEmpty>
           {listSec.map((element) => {
             return (
-
               <ItemList>
-              <img src={element[2]} alt="" />
+              <img src={element.fotoPerfil} alt="" />
               <div className="begin">
-                <h6>{element[0]}</h6>
+                <h6>{element.nome}</h6>
                 <div className="score">
-                  <p>{element[1]}</p>
+                  <p>{element.avaliacao}</p>
                   <AiOutlineStar size={18}/>
                 </div>
               </div>

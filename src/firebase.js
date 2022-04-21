@@ -103,5 +103,20 @@ export const useQuery = () => {
     return occurrences.filter((occurrence) => occurrence.users.includes(uid));
   };
 
-  return { getGroups, getOccurrences };
-};
+  const getGuards = async () => {
+    let guardList = [];
+    await fire.firestore()
+      .collection("guards")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().validado) {
+            guardList = [...guardList, doc.data()];
+          }
+        });
+      });
+    return guardList;
+  };
+
+  return { getGroups, getGuards, getOccurrences }
+}
