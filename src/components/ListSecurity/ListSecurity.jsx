@@ -35,7 +35,7 @@ const ListSecurity = () => {
           })}
         </ListNotEmpty> 
         
-        <button className="btn-plus">CONTRATAR MAIS></button>
+        <button className="btn-plus">CONTRATAR MAIS</button>
       </>
       : 
       
@@ -44,7 +44,7 @@ const ListSecurity = () => {
           <h1>Não há seguranças</h1>
           <p>Ainda não há seguranças responsáveis para esse grupo!</p>
         </div>
-        <button>CONTRATAR AGORA ></button>
+        <button>CONTRATAR AGORA</button>
       </ListEmpty>
         
       }
