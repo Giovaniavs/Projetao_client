@@ -63,13 +63,16 @@ export const useAuth = () => {
             return user;
           }
         });
-
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
   };
 
-  return { signIn, signUp, findUser };
+  const getUserProfile = async (email) => {
+    return db.collection("user").where("email", "==", email).get();
+  };
+
+  return { signIn, signUp, findUser, getUserProfile };
 };
 
 export const useQuery = () => {
@@ -105,7 +108,8 @@ export const useQuery = () => {
 
   const getGuards = async () => {
     let guardList = [];
-    await fire.firestore()
+    await fire
+      .firestore()
       .collection("guards")
       .get()
       .then((querySnapshot) => {
