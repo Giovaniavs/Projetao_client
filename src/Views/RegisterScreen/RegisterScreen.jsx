@@ -196,6 +196,7 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
+      {user.type == 'guard' &&
       <Topic name="Perfil">
         <WrapperFields>
           <InputWrapper>
@@ -222,6 +223,8 @@ const RegisterScreen = () => {
           />
         </WrapperFields>
       </Topic>
+      }
+      
 
       <Topic name="Documentos">
         <WrapperFields>
@@ -254,6 +257,7 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
+      {user.type == 'guard' &&
       <Topic name="Certificações">
         <WrapperFields>
           <InputWrapper>
@@ -271,6 +275,8 @@ const RegisterScreen = () => {
           </InputWrapper>
         </WrapperFields>
       </Topic>
+      }
+      
       {isLoading ? (
         <ReactLoading
           className="loading-login-screen-style"
