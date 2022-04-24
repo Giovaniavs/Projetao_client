@@ -23,7 +23,9 @@ const ListSecurity = () => {
 
   return (
     <ListSecurityContainer>
-      <h1>Seguranças contradadas</h1>
+      <br></br>
+      <br></br>
+      <br></br>
       {listSec.length > 0 ? 
       <>
         <ListNotEmpty>
