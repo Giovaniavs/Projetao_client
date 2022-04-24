@@ -20,6 +20,7 @@ import Topic from "../../components/Topic";
 import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PrimaryButton from "../../components/PrimaryButton";
+import backIcon from "./back-icon.png";
 
 const RegisterScreen = () => {
   const { uploadFile } = useStorage();
@@ -116,7 +117,10 @@ const RegisterScreen = () => {
 
   return (
     <Wrapper>
-      <H1>Cadastrar perfil</H1>
+      <div className="register-back-icon-style">
+        <img src={backIcon} alt="" onClick={() => setShouldRedirectToLogin(true)}/>
+        <H1>Cadastrar perfil</H1>
+      </div>
       <Topic name="Informações básicas">
         <WrapperFields>
           <TextField

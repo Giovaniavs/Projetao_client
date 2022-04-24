@@ -15,6 +15,7 @@ export default function Perfil() {
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [currentUserLogged, setCurrentUserLogged] = useState({});
 
   const linkStyle = {
     textDecoration: "underline",
@@ -38,6 +39,8 @@ export default function Perfil() {
         console.log("Error getting documents: ", error);
         setLoading(false);
       });
+
+      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getDocs = () => {
@@ -112,7 +115,7 @@ export default function Perfil() {
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
       </Topic>
 
-      {currentUser.type === 'guard' ? (
+      {currentUserLogged.type === 'guard' ? (
         <div>
         <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
       </div>

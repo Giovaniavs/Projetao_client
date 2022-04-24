@@ -25,12 +25,10 @@ export const H1 = styled.h1`
 
   background: white;
   z-index: 10000;
-  width: 100%;
-  padding: 0 20px;
+  margin-top: 15px;
+  margin-right: 10%;
 
-  padding: 60px 20px 0 20px;
 
-  margin-top: -60px;
   font-size: 2.5rem;
 `;
 
