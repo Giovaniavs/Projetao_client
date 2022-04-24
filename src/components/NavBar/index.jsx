@@ -45,16 +45,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function NavBar() {
   const loadPages = [
     {
-      url: "initial",
+      url: "home",
       sideBarName: "Pagina Inicial",
-    },
-    {
-      url: "profile",
-      sideBarName: "Perfil",
-    },
-    {
-      url: "avaliacao",
-      sideBarName: "Avaliacao",
     },
   ];
   const theme = useTheme();

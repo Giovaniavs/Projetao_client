@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import ProfilePicResume from "../../components/ProfilePicResume";
 import { useAuth } from "../../firebase";
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
@@ -15,6 +15,12 @@ export default function Perfil() {
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [currentUserLogged, setCurrentUserLogged] = useState({});
+
+  const linkStyle = {
+    textDecoration: "underline",
+    color: 'blue'
+  };
 
   useEffect(() => {
     getUserInfo();
@@ -33,6 +39,8 @@ export default function Perfil() {
         console.log("Error getting documents: ", error);
         setLoading(false);
       });
+
+      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getDocs = () => {
@@ -102,9 +110,22 @@ export default function Perfil() {
         </Docs>
       </Topic>
 
-      <div onClick={() => setShouldRedirect(true)}>
-        <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
+      <Topic name="Contato">
+        <Description>Entre em contato via whatsapp:</Description>
+          <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
+      </Topic>
+
+      {currentUserLogged.type === 'guard' ? (
+        <div>
+        <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
       </div>
+      ) : (
+        <div onClick={() => setShouldRedirect(true)}>
+          <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
+        </div>
+      ) 
+      }
+
     </Wrapper>
   );
 }

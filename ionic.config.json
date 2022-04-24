@@ -1,0 +1,7 @@
+{
+  "name": "projetao-seguranca",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

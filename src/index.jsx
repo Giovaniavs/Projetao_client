@@ -17,7 +17,6 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
 import Perfil from "./Views/Perfil";
-import { Link } from "@mui/material";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});

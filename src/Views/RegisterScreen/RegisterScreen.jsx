@@ -20,6 +20,7 @@ import Topic from "../../components/Topic";
 import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PrimaryButton from "../../components/PrimaryButton";
+import backIcon from "./back-icon.png";
 
 const RegisterScreen = () => {
   const { uploadFile } = useStorage();
@@ -116,7 +117,10 @@ const RegisterScreen = () => {
 
   return (
     <Wrapper>
-      <H1>Cadastrar perfil</H1>
+      <div className="register-back-icon-style">
+        <img src={backIcon} alt="" onClick={() => setShouldRedirectToLogin(true)}/>
+        <H1>Cadastrar perfil</H1>
+      </div>
       <Topic name="Informações básicas">
         <WrapperFields>
           <TextField
@@ -196,6 +200,7 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
+      {user.type == 'guard' &&
       <Topic name="Perfil">
         <WrapperFields>
           <InputWrapper>
@@ -222,6 +227,8 @@ const RegisterScreen = () => {
           />
         </WrapperFields>
       </Topic>
+      }
+      
 
       <Topic name="Documentos">
         <WrapperFields>
@@ -254,6 +261,7 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
+      {user.type == 'guard' &&
       <Topic name="Certificações">
         <WrapperFields>
           <InputWrapper>
@@ -271,6 +279,8 @@ const RegisterScreen = () => {
           </InputWrapper>
         </WrapperFields>
       </Topic>
+      }
+      
       {isLoading ? (
         <ReactLoading
           className="loading-login-screen-style"
