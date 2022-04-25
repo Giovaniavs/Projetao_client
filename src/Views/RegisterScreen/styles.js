@@ -26,7 +26,7 @@ export const H1 = styled.h1`
   background: white;
   z-index: 10000;
   margin-top: 15px;
-  margin-right: 10%;
+  margin-right: 15%;
 
 
   font-size: 2.5rem;
