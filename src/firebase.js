@@ -163,6 +163,7 @@ export const useAuth = () => {
     signUp,
     findUser,
     getUserProfile,
+    getUserFeedback,
     getUserDocs,
     getUserEvaluations,
   };

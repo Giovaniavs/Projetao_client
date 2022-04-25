@@ -8,7 +8,6 @@ import { WrapperText } from './styles'
 
 export default function FeedbackCard(props) {
     const {author,feedback,points} = props;
-    console.log(props )
     return (
         <>
        
