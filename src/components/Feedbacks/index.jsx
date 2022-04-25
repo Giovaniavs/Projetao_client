@@ -30,12 +30,17 @@ export function FeedBacks() {
 
       getFeedback()
   },[])
-
+  console.log(avaliacoes)
  
     return (
 <>
 
 {
+  avaliacoes.length==0?(
+    <>
+    <h2>Ainda nao foram feitas avaliacoes para esse seguranca</h2>
+    </>
+  ):
     
 avaliacoes.map(dado =>{
     return (

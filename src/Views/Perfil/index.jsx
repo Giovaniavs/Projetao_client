@@ -8,6 +8,7 @@ import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
 import { useAuth } from "../../firebase";
+import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
 export default function Perfil() {
@@ -23,6 +24,7 @@ export default function Perfil() {
     textDecoration: "underline",
     color: 'blue'
   };
+  let history = useHistory();
 
   useEffect(() => {
     getUserInfo();
@@ -123,11 +125,15 @@ export default function Perfil() {
 
       {currentUserLogged.type === 'guard' ? (
         <div>
-        <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
+        <PrimaryButton 
+       
+       >Apenas lojistas podem dar feedback</PrimaryButton>
       </div>
       ) : (
         <div onClick={() => setShouldRedirect(true)}>
-          <PrimaryButton>ESCREVA UM FEEDBACK</PrimaryButton>
+          <PrimaryButton onClick={()=>{
+                history.push("/avaliacao");
+          }}>ESCREVA UM FEEDBACK</PrimaryButton>
         </div>
       ) 
       }

@@ -5,7 +5,8 @@ import { Rate } from 'antd';
 import React from 'react';
 import seguranca from "./img/seguranca.png"
 
-const Avaliacao=()=>{
+const Avaliacao=(props)=>{
+    const { email } = props;
 
     
     
