@@ -1,13 +1,16 @@
-import React from "react";
 import {
   PicWrapper,
-  ProfilelStars,
   ProfileName,
   ProfilePic,
+  ProfilelStars,
   Wrapper,
 } from "./styles";
 
+import React from "react";
+
 export default function ProfilePicResume({ user = {}, showStars = true }) {
+  localStorage.setItem('urlAvaliado',user.imgSrc)
+
   return (
     <Wrapper>
       <PicWrapper>
