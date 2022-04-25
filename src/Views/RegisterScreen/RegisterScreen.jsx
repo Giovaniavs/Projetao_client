@@ -117,10 +117,11 @@ const RegisterScreen = () => {
 
   return (
     <Wrapper>
-      <div className="register-back-icon-style">
-        <img src={backIcon} alt="" onClick={() => setShouldRedirectToLogin(true)}/>
+        <div className="register-back-icon-style">
+          <img src={backIcon} alt="" onClick={() => setShouldRedirectToLogin(true)}/>
+        </div>
         <H1>Cadastrar perfil</H1>
-      </div>
+      
       <Topic name="Informações básicas">
         <WrapperFields>
           <TextField

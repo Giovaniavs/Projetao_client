@@ -23,10 +23,10 @@ export const H1 = styled.h1`
   position: sticky;
   top: 0;
 
+  width: 100%;
+
   background: white;
   z-index: 10000;
-  margin-top: 15px;
-  margin-right: 15%;
 
 
   font-size: 2.5rem;
