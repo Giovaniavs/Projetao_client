@@ -1,6 +1,6 @@
 {
 	"appId": "projetao.seguranca.web.app",
-	"appName": "projetao-seguranca",
+	"appName": "MeSafe",
 	"webDir": "build",
 	"bundledWebRuntime": false
 }
