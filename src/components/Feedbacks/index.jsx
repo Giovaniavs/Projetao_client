@@ -15,6 +15,9 @@ export function FeedBacks() {
     ]
     return (
 <>
+<MarginSpace>
+    <h1>Ultimas avaliacoes</h1>
+</MarginSpace>
 {
 avaliacoes.map(dado =>{
     return (
