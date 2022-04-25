@@ -1,43 +1,43 @@
 import 'antd/dist/antd.css';
 import "./starRating.css"
 
+import { BtnAvaliation, ProfilePic, Wrapper } from './styles';
 import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import { ProfilePic } from '../../components/ProfilePicResume/styles';
 import { Rate } from 'antd';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import seguranca from "./img/seguranca.png"
+import { useAuth } from '../../firebase';
+import { useHistory } from "react-router-dom";
 
 const Avaliacao=()=>{
-    const email_avaliado = localStorage.getItem("email_avaliado")
+  const {setFeedbacks} = useAuth();
+    const email = localStorage.getItem("emailAvaliado")
     const strObj = JSON.parse(localStorage.getItem("userInfo"))
     const imgAvalido = localStorage.getItem("urlAvaliado")
-      
+   const [feedback,setFeedback] = useState('');
+   const [points,setPoints] = useState('')
+   const author = strObj.name   
+   let history = useHistory();
 
-    console.log(email_avaliado, strObj.name, imgAvalido)
-    // [avaliar,setAvaliar] = useState({
-    //     points,
-    //     feedback,
-    //     author
-    // })
-    // console.log(avaliar)
+
     return(
         
-        <div className='divPai'>
-            
-            {/* a imagem do seurança tem que ser puxadado back 
-            tanto para o feedback como para avaliação e contratação do segurança 
-            a imagem que está agora é só para ilustrar*/}
+        <Wrapper>
+          
             {
                 imgAvalido?(<>
+
+                        
                             <ProfilePic src={imgAvalido}/> 
 
                 </>):(<>
-                <img src={seguranca}/>
+                <ProfilePic src={seguranca}/>
                 </>)
             }
-            <h2 className='feedback'>Feedback</h2>
+            <Typography sx={{fontWeight: 'bold', fontSize: 25 }} >Feedback</Typography>
 
             <Box
       sx={{
@@ -45,12 +45,20 @@ const Avaliacao=()=>{
         maxWidth: '100%',
       }}
     >
-      <TextField fullWidth label="feedback" id="feedback" />
+      <TextField fullWidth label="feedback" id="feedback" onChange={(event)=>{
+        setFeedback(event.target.value)
+        }}/>
     </Box>
-            <Rate className='starRating' onChange={(numero)=> console.log(numero)}/>
-            <h1 className='notaFinal'>Nota Final</h1>
-            <button type='submit' className='avaliar'>Avaliar</button>
-        </div>
+            <Rate className='starRating' onChange={(numero)=> setPoints(numero)}/>
+            <Typography sx={{fontWeight: 'bold', fontSize: 25 }} >Nota Final</Typography>
+            <BtnAvaliation type='submit' onClick={()=>{
+              if(email != ''){
+                setFeedbacks(author,feedback,points, email)
+                history.push(`/perfil?email=${email}`)
+
+              }
+            }}   >Avaliar</BtnAvaliation>
+        </Wrapper>
         
     )
 }

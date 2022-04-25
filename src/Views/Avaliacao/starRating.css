@@ -5,15 +5,6 @@
     
 }
 
-.divPai{
-    width: 100%;
-    height: 100%;
-    padding: 120px 0px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-}
 
 
 .ant-rate-star-full svg {
@@ -63,26 +54,6 @@ ant-rate-star-full svg:hover {
     color: #000000;
 }
 
-.avaliar{
-
-    background: #0A639E;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    width: 200px;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    margin-top: 10px;
-}
-
-.avaliar:hover{
-    background: #0A639E;
-    
-}
 
 .avaliar:active {
     background: rgb(156, 160, 180);

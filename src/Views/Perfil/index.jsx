@@ -126,14 +126,13 @@ export default function Perfil() {
       {currentUserLogged.type === 'guard' ? (
         <div>
         <PrimaryButton 
-      
-       >Apenas lojistas podem dar feedback</PrimaryButton>
+             >Apenas lojistas podem dar feedback</PrimaryButton>
       </div>
       ) : (
         <div onClick={() => setShouldRedirect(true)}>
           <PrimaryButton onClick={()=>{
                 history.push("/avaliacao");
-                localStorage.setItem("email_avaliado",email)
+                localStorage.setItem("emailAvaliado",email)
           }}>ESCREVA UM FEEDBACK</PrimaryButton>
         </div>
       ) 

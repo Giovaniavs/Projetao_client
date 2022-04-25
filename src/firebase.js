@@ -82,7 +82,23 @@ export const useAuth = () => {
         }
       });
   };
+  const setFeedbacks = (author,feedback,points,email) =>{
 
+    db.collection("user")
+      .doc(email)
+      .collection("feedbacks")
+      .add({
+        author,
+        feedback,
+        points
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
   const setDocuments = ({ user, imageUrl, docName, certifications }) => {
     if (certifications) {
       var batch = db.batch();
@@ -162,6 +178,7 @@ export const useAuth = () => {
     signIn,
     signUp,
     findUser,
+    setFeedbacks,
     getUserProfile,
     getUserFeedback,
     getUserDocs,
