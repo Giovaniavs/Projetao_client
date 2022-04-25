@@ -12,7 +12,7 @@ export default function FeedbackCard(props) {
         <>
        
 <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined" sx={{ minWidth: 500 }}>
+        <Card variant="outlined" >
         <CardContent> 
             <div>
 
