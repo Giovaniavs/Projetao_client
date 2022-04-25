@@ -1,6 +1,7 @@
-import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/storage";
+
+import firebase from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -150,6 +151,9 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("certifications");
   };
 
+  const getUserFeedback = async (email) => {
+    return db.collection("user").doc(email).collection("feedbacks");
+  };
   const getUserEvaluations = async (email) => {
     return db.collection("user").doc(email).collection("evaluations");
   };

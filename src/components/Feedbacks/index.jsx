@@ -13,11 +13,11 @@ export function FeedBacks() {
         feedback:" opposed to using Content here, content here, making it look like readable English.",
         points:"4"},
     ]
+
+    // const email = 
     return (
 <>
-<MarginSpace>
-    <h1>Ultimas avaliacoes</h1>
-</MarginSpace>
+
 {
 avaliacoes.map(dado =>{
     return (
