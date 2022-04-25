@@ -1,7 +1,9 @@
-import React from 'react';
 import 'antd/dist/antd.css';
-import { Rate } from 'antd';
 import "./starRating.css"
+
+import { FeedBacks } from '../../components/Feedbacks';
+import { Rate } from 'antd';
+import React from 'react';
 import seguranca from "./img/seguranca.png"
 
 const Avaliacao=()=>{
@@ -21,6 +23,7 @@ const Avaliacao=()=>{
             <Rate className='starRating' onChange={(numero)=> console.log(numero)}/>
             <h1 className='notaFinal'>Nota Final</h1>
             <button type='submit' className='avaliar'>Avaliar</button>
+          <FeedBacks></FeedBacks>
         </div>
         
     )
