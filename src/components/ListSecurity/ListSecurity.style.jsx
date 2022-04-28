@@ -98,7 +98,112 @@ export const ItemList = styled.div`
     background-color: #FFF;
   }
   
-  div.begin {
+  div.begin-diamond {
+    background-color: #a8fcff;
+    width: 50%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    h6 {
+      font-size: 1.2rem;
+    }
+
+    div.score {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 1.1rem;
+        margin: 0 5px;
+      }
+    }
+  }
+  
+  div.end-diamond {
+    background-color: #a8fcff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+    height: 100px;
+    width: 20%;
+  }
+
+  div.begin-gold {
+    background-color: #f4ff92;
+    width: 50%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    h6 {
+      font-size: 1.2rem;
+    }
+
+    div.score {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 1.1rem;
+        margin: 0 5px;
+      }
+    }
+  }
+  
+  div.end-gold {
+    background-color: #f4ff92;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+    height: 100px;
+    width: 20%;
+  }
+
+  div.begin-bronze {
+    background-color: #fff0e7;
+    width: 50%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    h6 {
+      font-size: 1.2rem;
+    }
+
+    div.score {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 1.1rem;
+        margin: 0 5px;
+      }
+    }
+  }
+  
+  div.end-bronze {
+    background-color: #fff0e7;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+    height: 100px;
+    width: 20%;
+  }
+
+  div.begin-none {
     background-color: #FFF;
     width: 50%;
     height: 100px;
@@ -123,7 +228,7 @@ export const ItemList = styled.div`
     }
   }
   
-  div.end {
+  div.end-none {
     background-color: #FFF;
     display: flex;
     justify-content: flex-end;
@@ -131,7 +236,6 @@ export const ItemList = styled.div`
     padding-right: 15px;
     height: 100px;
     width: 20%;
-
   }
 
 `;

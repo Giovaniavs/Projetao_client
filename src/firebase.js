@@ -231,7 +231,6 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().verified && doc.data().type === "guard") {
-            console.log(doc.data().profileBoostPlan);
             if (doc.data().profileBoostPlan === 'diamond') {
               listDiamond = [...listDiamond, doc.data()];
             } else if (doc.data().profileBoostPlan === 'gold') {

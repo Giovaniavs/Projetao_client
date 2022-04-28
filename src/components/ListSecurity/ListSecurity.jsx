@@ -33,16 +33,65 @@ const ListSecurity = () => {
             return (
               <ItemList onClick={() => setEmail(element.email)}>
               <img src={element.imgSrc} alt="" />
-              <div className="begin">
-                <h6>{element.name}</h6>
-                <div className="score">
-                  <p>{element.starsCount}</p>
-                  <AiOutlineStar size={18}/>
+              {element.profileBoostPlan === 'diamond' &&
+              <>
+                <div className="begin-diamond">
+                  <h6>{element.name}</h6>
+                  <div className="score">
+                    <p>{element.starsCount}</p>
+                    <AiOutlineStar size={18}/>
+                  </div>
                 </div>
-              </div>
-              <div className="end">
-                <AiOutlineRight />
-              </div>
+                <div className="end-diamond">
+                  <AiOutlineRight />
+                </div>
+              </>
+              }
+
+              {element.profileBoostPlan === 'gold' &&
+              <>
+                <div className="begin-gold">
+                  <h6>{element.name}</h6>
+                  <div className="score">
+                    <p>{element.starsCount}</p>
+                    <AiOutlineStar size={18}/>
+                  </div>
+                </div>
+                <div className="end-gold">
+                  <AiOutlineRight />
+                </div>
+              </>
+              }
+
+              {element.profileBoostPlan === 'bronze' &&
+              <>
+                <div className="begin-bronze">
+                  <h6>{element.name}</h6>
+                  <div className="score">
+                    <p>{element.starsCount}</p>
+                    <AiOutlineStar size={18}/>
+                  </div>
+                </div>
+                <div className="end-bronze">
+                  <AiOutlineRight />
+                </div>
+              </>
+              }
+
+              {element.profileBoostPlan === 'none' &&
+              <>
+                <div className="begin-none">
+                  <h6>{element.name}</h6>
+                  <div className="score">
+                    <p>{element.starsCount}</p>
+                    <AiOutlineStar size={18}/>
+                  </div>
+                </div>
+                <div className="end-none">
+                  <AiOutlineRight />
+                </div>
+              </>
+              }
             </ItemList>
               )
           })}
