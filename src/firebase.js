@@ -218,7 +218,12 @@ export const useQuery = () => {
   };
 
   const getGuards = async () => {
+    let listDiamond = [];
+    let listGold = [];
+    let listBronze = [];
+    let listNone = [];
     let guardList = [];
+
     await fire
       .firestore()
       .collection("user")
@@ -226,9 +231,24 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().verified && doc.data().type === "guard") {
-            guardList = [...guardList, doc.data()];
+            console.log(doc.data().profileBoostPlan);
+            if (doc.data().profileBoostPlan === 'diamond') {
+              listDiamond = [...listDiamond, doc.data()];
+            } else if (doc.data().profileBoostPlan === 'gold') {
+              listGold = [...listGold, doc.data()];
+
+            } else if (doc.data().profileBoostPlan === 'bronze') {
+              listBronze = [...listBronze, doc.data()];
+
+            } else if (doc.data().profileBoostPlan === 'none') {
+              listNone = [...listNone, doc.data()];
+
+            }
           }
         });
+
+      guardList = [...listDiamond, ...listGold, ...listBronze, ...listNone];
+
       });
     return guardList;
   };
