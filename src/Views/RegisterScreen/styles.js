@@ -20,14 +20,12 @@ export const WrapperFields = styled.div`
 `;
 
 export const H1 = styled.h1`
-  position: sticky;
   top: 0;
 
   width: 100%;
 
   background: white;
   z-index: 10000;
-
 
   font-size: 2.5rem;
 `;
@@ -50,4 +48,31 @@ export const Input = styled.input`
 export const Label = styled.label`
   width: 100%;
   font-size: 1rem;
+`;
+
+export const Disclaimer = styled.div``;
+export const ModalBody = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  padding: 60px;
+  background: white;
+  overflow: auto;
+`;
+
+export const DisclaimerLink = styled.a`
+  font-weight: bold;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top:60px;
 `;

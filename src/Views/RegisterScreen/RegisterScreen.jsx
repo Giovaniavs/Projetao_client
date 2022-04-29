@@ -9,15 +9,27 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useAuth, useStorage } from "../../firebase";
 import {
+  ButtonWrapper,
+  Disclaimer,
+  DisclaimerLink,
   H1,
   Input,
   InputWrapper,
   Label,
+  ModalBody,
   Wrapper,
   WrapperFields,
 } from "./styles";
 import Topic from "../../components/Topic";
-import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Modal,
+  OutlinedInput,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PrimaryButton from "../../components/PrimaryButton";
 import backIcon from "./back-icon.png";
@@ -38,6 +50,20 @@ const RegisterScreen = () => {
   const [shouldRedirectToLogin, setShouldRedirectToLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleRefuseTerm = () => {
+    window.location.replace("/");
+  };
+
   const [images, setImages] = useState({
     idCard: null,
     imgSrc: null,
@@ -117,11 +143,15 @@ const RegisterScreen = () => {
 
   return (
     <Wrapper>
-        <div className="register-back-icon-style">
-          <img src={backIcon} alt="" onClick={() => setShouldRedirectToLogin(true)}/>
-        </div>
-        <H1>Cadastrar perfil</H1>
-      
+      <div className="register-back-icon-style">
+        <img
+          src={backIcon}
+          alt=""
+          onClick={() => setShouldRedirectToLogin(true)}
+        />
+      </div>
+      <H1>Cadastrar perfil</H1>
+
       <Topic name="Informações básicas">
         <WrapperFields>
           <TextField
@@ -201,7 +231,7 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
-      {user.type == 'guard' &&
+      {/* {user.type == 'guard' && */}
       <Topic name="Perfil">
         <WrapperFields>
           <InputWrapper>
@@ -228,11 +258,18 @@ const RegisterScreen = () => {
           />
         </WrapperFields>
       </Topic>
-      }
-      
+      {/* } */}
 
       <Topic name="Documentos">
         <WrapperFields>
+          <Disclaimer>
+            <Alert severity="warning">
+              Ao enviar os documentos, você concorda com os{" "}
+              <DisclaimerLink href="#" onClick={handleClickOpen}>
+                termos de uso
+              </DisclaimerLink>
+            </Alert>
+          </Disclaimer>
           <InputWrapper>
             <Label id="idCard">Selecionar Carteira de Identidade</Label>
             <Input
@@ -262,26 +299,26 @@ const RegisterScreen = () => {
         </WrapperFields>
       </Topic>
 
-      {user.type == 'guard' &&
-      <Topic name="Certificações">
-        <WrapperFields>
-          <InputWrapper>
-            <Label id="certificados">Selecionar certificados</Label>
-            <Input
-              id="certificados"
-              label="Selecionar certificacoes"
-              name="certifications"
-              type="file"
-              accept="image/x-png,image/jpeg"
-              value={user.certifications}
-              onChange={onImageChange}
-              multiple
-            />
-          </InputWrapper>
-        </WrapperFields>
-      </Topic>
-      }
-      
+      {user.type == "guard" && (
+        <Topic name="Certificações">
+          <WrapperFields>
+            <InputWrapper>
+              <Label id="certificados">Selecionar certificados</Label>
+              <Input
+                id="certificados"
+                label="Selecionar certificacoes"
+                name="certifications"
+                type="file"
+                accept="image/x-png,image/jpeg"
+                value={user.certifications}
+                onChange={onImageChange}
+                multiple
+              />
+            </InputWrapper>
+          </WrapperFields>
+        </Topic>
+      )}
+
       {isLoading ? (
         <ReactLoading
           className="loading-login-screen-style"
@@ -300,6 +337,68 @@ const RegisterScreen = () => {
           {isDisabled ? "Por favor faça upload das documentos" : "Cadastrar"}
         </PrimaryButton>
       )}
+
+      <div style={{ position: "absolute", zIndex: 999999 }}>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+          disableScrollLock={false}
+        >
+          <ModalBody sx={{ width: 400 }}>
+            <h2 id="parent-modal-title">Termos de uso do MeSafe</h2>
+
+            <h3>O que é Lorem Ipsum?</h3>
+            <p id="parent-modal-description">
+              Lorem Ipsum é simplesmente uma simulação de texto da indústria
+              tipográfica e de impressos, e vem sendo utilizado desde o século
+              XVI, quando um impressor desconhecido pegou uma bandeja de tipos e
+              os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum
+              sobreviveu não só a cinco séculos, como também ao salto para a
+              editoração eletrônica, permanecendo essencialmente inalterado. Se
+              popularizou na década de 60, quando a Letraset lançou decalques
+              contendo passagens de Lorem Ipsum, e mais recentemente quando
+              passou a ser integrado a softwares de editoração eletrônica como
+              Aldus PageMaker.
+            </p>
+            <h3>O que é Lorem Ipsum?</h3>
+            <p id="parent-modal-description">
+              Lorem Ipsum é simplesmente uma simulação de texto da indústria
+              tipográfica e de impressos, e vem sendo utilizado desde o século
+              XVI, quando um impressor desconhecido pegou uma bandeja de tipos e
+              os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum
+              sobreviveu não só a cinco séculos, como também ao salto para a
+              editoração eletrônica, permanecendo essencialmente inalterado. Se
+              popularizou na década de 60, quando a Letraset lançou decalques
+              contendo passagens de Lorem Ipsum, e mais recentemente quando
+              passou a ser integrado a softwares de editoração eletrônica como
+              Aldus PageMaker.
+            </p>
+            <h3>O que é Lorem Ipsum?</h3>
+            <p id="parent-modal-description">
+              Lorem Ipsum é simplesmente uma simulação de texto da indústria
+              tipográfica e de impressos, e vem sendo utilizado desde o século
+              XVI, quando um impressor desconhecido pegou uma bandeja de tipos e
+              os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum
+              sobreviveu não só a cinco séculos, como também ao salto para a
+              editoração eletrônica, permanecendo essencialmente inalterado. Se
+              popularizou na década de 60, quando a Letraset lançou decalques
+              contendo passagens de Lorem Ipsum, e mais recentemente quando
+              passou a ser integrado a softwares de editoração eletrônica como
+              Aldus PageMaker.
+            </p>
+            <ButtonWrapper>
+              <Button variant="outlined" onClick={handleRefuseTerm}>
+                Recusar
+              </Button>
+              <Button variant="contained" onClick={handleClose}>
+                Aceitar
+              </Button>
+            </ButtonWrapper>
+          </ModalBody>
+        </Modal>
+      </div>
     </Wrapper>
   );
 };
