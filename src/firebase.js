@@ -1,7 +1,10 @@
 import "firebase/firestore";
 import "firebase/storage";
 
+
 import firebase from "firebase";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -140,8 +143,8 @@ export const useAuth = () => {
       });
   };
 
-  const findUser = (email) => {
-    return fire
+  const findUser = async (email) => {
+    return await fire
       .firestore()
       .collection("user")
       .onSnapshot((querySnapshot) => {
@@ -154,6 +157,14 @@ export const useAuth = () => {
             return user;
           }
         });
+        console.log(userFetched.type)
+        const userType = userFetched.type;
+        if (userType === "admin") {
+          window.location.replace("/admin")
+        } else {
+          window.location.replace("/home")
+
+        };
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -233,7 +244,23 @@ export const useQuery = () => {
     return guardList;
   };
 
-  return { getGroups, getGuards, getOccurrences };
+  const getRequestRegisterGuards = async () => {
+    let getRequestRegisterGuards = [];
+    await fire
+      .firestore()
+      .collection("user")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (!doc.data().verified && doc.data().type === "guard") {
+            getRequestRegisterGuards = [...getRequestRegisterGuards, doc.data()];
+          }
+        });
+      });
+    return getRequestRegisterGuards;
+  };
+
+  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards };
 };
 
 export const useStorage = () => {

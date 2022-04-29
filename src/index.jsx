@@ -3,12 +3,14 @@ import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 
 import { UserContextProvider } from "./contexts/userContext";
 import { ListSecurtyContextProvider } from "./contexts/ListSecurity";
+import { ListRequestRegisterSecurtyContextProvider } from "./contexts/ListRequestRegisterGuards";
 
 import GlobalStyle from "./global/globalStyle";
 
 import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
+import ListRequestRegisterSecurity from "./Views/Admin/Admin";
 
 import NavBar from "./components/NavBar/index";
 
@@ -29,11 +31,16 @@ function PlataformRoutes() {
     <Router>
       <NavBar />
       <Switch>
+        <ListRequestRegisterSecurtyContextProvider>
+        <ListSecurtyContextProvider>
         <UserContextProvider>
           <Route component={ListSecurity} exact path="/home" />
+          <Route component={ListRequestRegisterSecurity} exact path="/admin" />
           <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
         </UserContextProvider>
+        </ListSecurtyContextProvider>
+        </ListRequestRegisterSecurtyContextProvider>
       </Switch>
     </Router>
   );
@@ -44,18 +51,18 @@ function PlataformRoutes() {
 // terceira Route dentro dos parêntesis, seguindo sempre o padrão /(rotaUm|rotaDois|rotaTrês) divididos pela barra reta |
 function App() {
   return (
-    <ListSecurtyContextProvider>
+    <>
       <Router>
         <Switch>
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin)" />
           </UserContextProvider>
         </Switch>
       </Router>
       <GlobalStyle />
-    </ListSecurtyContextProvider>
+    </>
   );
 }
 
