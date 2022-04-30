@@ -1,9 +1,9 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
 import { Link, Redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 
-import { FeedBacks } from "../../components/Feedbacks";
-import PrimaryButton from "../../components/PrimaryButton";
+
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
@@ -11,14 +11,12 @@ import { useAuth } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
-export default function Perfil() {
+export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [currentUserLogged, setCurrentUserLogged] = useState({});
 
   const linkStyle = {
     textDecoration: "underline",
@@ -44,7 +42,6 @@ export default function Perfil() {
         setLoading(false);
       });
 
-      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getDocs = () => {
@@ -77,10 +74,6 @@ export default function Perfil() {
       });
     });
   };
-
-  if (shouldRedirect) {
-    return <Redirect push to="/avaliacao" />;
-  }
 
   if (loading)
     return (
@@ -118,35 +111,12 @@ export default function Perfil() {
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
       </Topic>
-      <Topic name="Feedbacks">
-      <FeedBacks></FeedBacks>
-            </Topic>
       
 
-      {currentUserLogged.type === 'guard' ? (
-        <div>
-        <PrimaryButton 
-             >Apenas lojistas podem dar feedback</PrimaryButton>
+      <div style={{ margin: '50px 0 0 0' }}>
+        <Button variant="contained" style={{ margin: '0 20px 0 0' }}>Aprovar conta</Button>
+        <Button variant="outlined">Cancelar</Button>
       </div>
-      ) : (
-        <div onClick={() => setShouldRedirect(true)}>
-          <PrimaryButton onClick={()=>{
-                history.push("/avaliacao");
-                localStorage.setItem("emailAvaliado",email)
-          }}>ESCREVA UM FEEDBACK</PrimaryButton>
-        </div>
-      ) 
-      }
-
-      {currentUserLogged.type === 'admin' &&
-        <div>
-          <PrimaryButton onClick={()=>{
-                history.push("/admin");
-          }} style={{ margin: '0 0 15px 0' }} >Desativar conta</PrimaryButton>
-
-          <PrimaryButton >Deletar conta</PrimaryButton>
-        </div>
-      }
     </Wrapper>
   );
 }

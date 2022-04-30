@@ -11,6 +11,8 @@ import LoginScreen from "./Views/LoginScreen/LoginScreen";
 import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import Avaliacao from "./Views/Avaliacao/Avaliacao";
 import ListRequestRegisterSecurity from "./Views/Admin/Admin";
+import Perfil from "./Views/Perfil";
+import PerfilRequestRegister from "./Views/PerfilRequestRegister/PerfilRequestRegister";
 
 import NavBar from "./components/NavBar/index";
 
@@ -18,7 +20,6 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
-import Perfil from "./Views/Perfil";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
@@ -29,19 +30,20 @@ StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => {});
 function PlataformRoutes() {
   return (
     <Router>
-      <NavBar />
-      <Switch>
-        <ListRequestRegisterSecurtyContextProvider>
-        <ListSecurtyContextProvider>
-        <UserContextProvider>
+      <ListRequestRegisterSecurtyContextProvider>
+      <ListSecurtyContextProvider>
+      <UserContextProvider>
+        <NavBar />
+        <Switch>
           <Route component={ListSecurity} exact path="/home" />
           <Route component={ListRequestRegisterSecurity} exact path="/admin" />
           <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
-        </UserContextProvider>
-        </ListSecurtyContextProvider>
-        </ListRequestRegisterSecurtyContextProvider>
-      </Switch>
+          <Route component={PerfilRequestRegister} exact path="/perfilVerificacao" />
+        </Switch>
+      </UserContextProvider>
+      </ListSecurtyContextProvider>
+      </ListRequestRegisterSecurtyContextProvider>
     </Router>
   );
 }
@@ -57,7 +59,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao)" />
           </UserContextProvider>
         </Switch>
       </Router>

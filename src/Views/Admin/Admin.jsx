@@ -9,7 +9,6 @@ import { ListRequestRegisterSecurtyContext } from "../../contexts/ListRequestReg
 const ListRequestRegisterSecurity = () => {
   const [email, setEmail] = useState('');
   const {listSecRequestRegister, setListSecRequestRegister} = useContext(ListRequestRegisterSecurtyContext);
-  console.log(localStorage.getItem('userInfo'));
 
   useEffect(() => {
     Promise.resolve(listSecRequestRegister).then(guardsList => setListSecRequestRegister(guardsList));
@@ -17,7 +16,7 @@ const ListRequestRegisterSecurity = () => {
 
   if (email != '') {
     return (
-      <Redirect push to={`/perfil?email=${email}`} />
+      <Redirect push to={`/perfilVerificacao?email=${email}`} />
     );
   };
 

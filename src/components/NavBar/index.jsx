@@ -45,12 +45,29 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function NavBar() {
-  const loadPages = [
-    {
-      url: "home",
-      sideBarName: "Pagina Inicial",
-    },
-  ];
+  let loadPages = [];
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+  if (userInfo.type === 'admin') {
+    loadPages = [
+      {
+        url: "admin",
+        sideBarName: "Pedidos em aguardo",
+      },
+      {
+        url: "home",
+        sideBarName: "Usuários verificados",
+      },
+    ];
+  } else {
+    loadPages = [
+      {
+        url: "home",
+        sideBarName: "Pagina Inicial",
+      },
+    ];
+  }
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
