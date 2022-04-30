@@ -1,6 +1,7 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
 import { Link, Redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 
 import { FeedBacks } from "../../components/Feedbacks";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -19,6 +20,10 @@ export default function Perfil() {
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
+
+  let isRequest = false
+  let isFeedback = false
+  let isPending = false
 
   const linkStyle = {
     textDecoration: "underline",
@@ -94,6 +99,11 @@ export default function Perfil() {
         />
       </Wrapper>
     );
+
+  console.log('user atual')
+  console.log(currentUserLogged)
+  console.log('perfil clicado');
+  console.log(currentUser);
   return (
     <Wrapper>
       <ProfilePicResume user={currentUser} />
@@ -114,29 +124,94 @@ export default function Perfil() {
         </Docs>
       </Topic>
 
-      <Topic name="Contato">
+      {
+        currentUserLogged.currentConections.map((element) => {
+          if (element.email === currentUser.email) {
+            isRequest = true
+          }
+        })
+      }
+
+      {
+        currentUserLogged.pendingConections.map((element) => {
+          if (element.email === currentUser.email) {            
+            isPending = true   
+          }
+        })
+      }
+
+      {
+        !isRequest && isPending ? 
+        <Button variant="contained" disabled onClick={() => {
+          console.log(currentUserLogged)
+        }}>solicitação enviada</Button>
+        :
+        <Button variant="contained" onClick={() => {
+          console.log(currentUserLogged)
+        }}>conectar-se</Button>
+
+      }
+
+      {
+        isRequest ? 
+        <>
+        <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
-      </Topic>
-      <Topic name="Feedbacks">
-      <FeedBacks></FeedBacks>
-            </Topic>
-      
+        </Topic>
+        <Topic name="Feedbacks">
+          <FeedBacks />
+        </Topic>
+        </>
+        : 
+        <>
+        <Topic name="Feedbacks">
+          <FeedBacks />
+        </Topic>
+        </>
+      }
+
 
       {currentUserLogged.type === 'guard' ? (
-        <div>
-        <PrimaryButton 
-             >Apenas lojistas podem dar feedback</PrimaryButton>
+      <div>
+        <PrimaryButton>
+          Apenas lojistas podem dar feedback
+        </PrimaryButton>
       </div>
-      ) : (
-        <div onClick={() => setShouldRedirect(true)}>
-          <PrimaryButton onClick={()=>{
-                history.push("/avaliacao");
-                localStorage.setItem("emailAvaliado",email)
-          }}>ESCREVA UM FEEDBACK</PrimaryButton>
-        </div>
-      ) 
+      ) : <></>
+      }
+
+
+      {
+        currentUserLogged.finishedConections.map((element) => {
+          if (element.email === currentUser.email) {            
+            isFeedback = true   
+          }
+        })
+      }
+
+      {
+        isFeedback ? 
+        (
+            <div onClick={() => setShouldRedirect(true)}>
+              <PrimaryButton onClick={()=>{
+                    history.push("/avaliacao");
+                    localStorage.setItem("emailAvaliado",email)
+              }}>ESCREVA UM FEEDBACK</PrimaryButton>
+            </div>
+          ) 
+        : <></>
       }
     </Wrapper>
   );
 }
+
+
+// (
+  //   <div onClick={() => setShouldRedirect(true)}>
+  //     <PrimaryButton onClick={()=>{
+    //           history.push("/avaliacao");
+    //           localStorage.setItem("emailAvaliado",email)
+    //     }}>ESCREVA UM FEEDBACK</PrimaryButton>
+    //   </div>
+    // ) 
