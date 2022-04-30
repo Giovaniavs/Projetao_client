@@ -124,6 +124,7 @@ export default function Perfil() {
         </Docs>
       </Topic>
 
+
       {
         currentUserLogged.currentConections.map((element) => {
           if (element.email === currentUser.email) {
