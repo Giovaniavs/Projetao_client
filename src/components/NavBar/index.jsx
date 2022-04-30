@@ -111,9 +111,11 @@ export default function NavBar() {
         <Divider />
         <ul>
           {loadPages.map((data) => (
-            <ListItem button key={data.sideBarName}>
-              <Link to={data.url}>{data.sideBarName}</Link>
-            </ListItem>
+            <Link to={data.url}>
+                <ListItem button key={data.sideBarName}>
+                    {data.sideBarName}
+                </ListItem>
+            </Link>
           ))}
         </ul>
         <Divider />
