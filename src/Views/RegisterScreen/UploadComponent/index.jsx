@@ -59,7 +59,6 @@ export default function UploadComponent({
       await Promise.all(
         fileList.map(async (file) => {
           setSubmitting(true);
-          console.log(file);
           if (file.status === "done") return;
 
           setFileList((prev) => {
