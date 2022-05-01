@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
-import { useAuth } from "../../firebase";
+import { useAuth, useQuery } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
@@ -15,8 +15,10 @@ export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { setVerification } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingActivation, setLoadingActivation] = useState(false);
 
   const linkStyle = {
     textDecoration: "underline",
@@ -75,6 +77,13 @@ export default function PerfilRequestRegister() {
     });
   };
 
+  const activateAccount = async () => {
+    setLoadingActivation(true);
+    await setVerification(currentUser.email, true);
+
+    window.location.replace("/home")
+  };
+
   if (loading)
     return (
       <Wrapper>
@@ -112,11 +121,21 @@ export default function PerfilRequestRegister() {
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
       </Topic>
       
-
-      <div style={{ margin: '50px 0 0 0' }}>
-        <Button variant="contained" style={{ margin: '0 20px 0 0' }}>Aprovar conta</Button>
-        <Button variant="outlined">Cancelar</Button>
+      {loadingActivation ? (
+        <ReactLoading
+        className="loading-login-screen-style"
+        type="bars"
+        color="#09629E"
+        height={"20%"}
+        width={"20%"}
+      />
+      ) : (
+        <div style={{ margin: '50px 0 0 0' }}>
+        <Button variant="contained" style={{ margin: '0 20px 0 0' }} onClick={activateAccount}>Aprovar</Button>
+        <Button variant="outlined">Não aprovar</Button>
       </div>
+      )}
+      
     </Wrapper>
   );
 }

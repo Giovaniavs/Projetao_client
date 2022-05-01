@@ -26,19 +26,14 @@ const Avaliacao=()=>{
     return(
         
         <Wrapper>
-          
-            {
-                imgAvalido?(<>
-
-                        
-                            <ProfilePic src={imgAvalido}/> 
-
-                </>):(<>
-                <ProfilePic src={seguranca}/>
+            {imgAvalido?(<>
+                <ProfilePic src={imgAvalido}/> 
+                </>):(
+                <>
+                  <ProfilePic src={seguranca}/>
                 </>)
             }
             <Typography sx={{fontWeight: 'bold', fontSize: 25 }} >Feedback</Typography>
-
             <Box
       sx={{
         width: 500,

@@ -260,7 +260,27 @@ export const useQuery = () => {
     return getRequestRegisterGuards;
   };
 
-  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards };
+  const setVerification = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .update({
+        verified: isVerified,
+      })
+      .then((response) => true);
+  };
+
+  const banAccount = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .delete()
+      .then((response) => true);
+  };
+
+  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards, setVerification, banAccount };
 };
 
 export const useStorage = () => {

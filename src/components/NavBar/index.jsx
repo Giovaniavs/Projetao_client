@@ -59,7 +59,22 @@ export default function NavBar() {
         sideBarName: "Usuários verificados",
       },
     ];
-  } else {
+  } else if (userInfo.type === 'guard') {
+    loadPages = [
+      {
+        url: "home",
+        sideBarName: "Pagina Inicial",
+      },
+      {
+        url: "conectionsPedings",
+        sideBarName: "Conexões pendentes",
+      },
+      {
+        url: "conections",
+        sideBarName: "Conexões atuais",
+      },
+    ];
+  } else if (userInfo.type === 'shopman') {
     loadPages = [
       {
         url: "home",
