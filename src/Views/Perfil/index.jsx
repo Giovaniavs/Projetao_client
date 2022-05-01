@@ -15,7 +15,7 @@ import userQueryParams from "./userQueryParams";
 export default function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -139,7 +139,7 @@ export default function Perfil() {
 
       {
         listPendingConections.map((element) => {
-          if (element.email === currentUser.email) {            
+          if (element.email === currentUser.email) {
             isPending = true   
           }
         })
@@ -154,7 +154,7 @@ export default function Perfil() {
         <Button 
         variant="contained" 
         onClick={() => {
-          currentUserLogged.pendingConections.push({email: currentUser.email, nome: currentUser.name})
+          setConnections( currentUser.email, currentUserLogged.email, '0')
           console.log(currentUserLogged.pendingConections)
           // console.log(currentUser)
         }}>conectar-se</Button>

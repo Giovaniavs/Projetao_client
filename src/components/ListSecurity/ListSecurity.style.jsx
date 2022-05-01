@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ListSecurityContainer = styled.div`
   
   width: 100%;
-  height: 100%;
+  height: 90%;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -77,6 +77,10 @@ export const ListNotEmpty = styled.div`
   border-radius: 10px;
   overflow: auto;
   
+  ::-webkit-scrollbar {
+  display: none;
+  }
+
   `;
 
 export const ItemList = styled.div`
