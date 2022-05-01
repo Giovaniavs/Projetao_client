@@ -43,7 +43,7 @@ const RegisterScreen = () => {
     email: "",
     name: "",
     contact: "",
-    type: "",
+    type: "shopman",
     password: "",
     description: "",
     imgSrc: "",
@@ -123,6 +123,8 @@ const RegisterScreen = () => {
   if (shouldRedirectToLogin) {
     return <Redirect push to="/" />;
   }
+
+  const isGuard = user.type == "guard";
 
   return (
     <>
@@ -220,33 +222,6 @@ const RegisterScreen = () => {
           </WrapperFields>
         </Topic>
 
-        <Topic name="Perfil">
-          <WrapperFields>
-            <Label id="imgSrc">Selecionar Foto de Perfil (png/jpge)</Label>
-
-            <UploadComponent
-              setImagesList={setPerfilPic}
-              imageList={perfilPic}
-              imageName="perfil"
-              limiteUpload={1}
-              buttonTitle="Enviar foto de perfil"
-            />
-
-            <TextField
-              required
-              id="descricao"
-              autoComplete="description"
-              label="Descricao"
-              variant="outlined"
-              fullWidth
-              name="description"
-              type="text"
-              value={user.description}
-              onChange={handleInputChange}
-            />
-          </WrapperFields>
-        </Topic>
-
         <Topic name="Documentos">
           <WrapperFields>
             <Disclaimer>
@@ -286,20 +261,52 @@ const RegisterScreen = () => {
           </WrapperFields>
         </Topic>
 
-        <Topic name="Certificações">
-          <WrapperFields>
-            <InputWrapper>
-              <Label id="certificados">Selecionar certificados (png/jpge)</Label>
-              <UploadComponent
-                setImagesList={setCertifications}
-                imageList={certifications}
-                imageName="certificacao"
-                limiteUpload={10}
-                buttonTitle="Enviar foto das certificações"
-              />
-            </InputWrapper>
-          </WrapperFields>
-        </Topic>
+        {isGuard && (
+          <>
+            <Topic name="Perfil">
+              <WrapperFields>
+                <Label id="imgSrc">Selecionar Foto de Perfil (png/jpge)</Label>
+
+                <UploadComponent
+                  setImagesList={setPerfilPic}
+                  imageList={perfilPic}
+                  imageName="perfil"
+                  limiteUpload={1}
+                  buttonTitle="Enviar foto de perfil"
+                />
+
+                <TextField
+                  required
+                  id="descricao"
+                  autoComplete="description"
+                  label="Descricao"
+                  variant="outlined"
+                  fullWidth
+                  name="description"
+                  type="text"
+                  value={user.description}
+                  onChange={handleInputChange}
+                />
+              </WrapperFields>
+            </Topic>
+            <Topic name="Certificações">
+              <WrapperFields>
+                <InputWrapper>
+                  <Label id="certificados">
+                    Selecionar certificados (png/jpge)
+                  </Label>
+                  <UploadComponent
+                    setImagesList={setCertifications}
+                    imageList={certifications}
+                    imageName="certificacao"
+                    limiteUpload={10}
+                    buttonTitle="Enviar foto das certificações"
+                  />
+                </InputWrapper>
+              </WrapperFields>
+            </Topic>
+          </>
+        )}
 
         {isLoading ? (
           <ReactLoading

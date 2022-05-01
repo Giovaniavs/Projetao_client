@@ -21,7 +21,6 @@ export const storage = firebase.storage();
 export const useAuth = () => {
   const createUser = async ({ user, images }, callback) => {
     const { name, email, contact, type, description } = user;
-    debugger;
     await Promise.all([
       // create user collection
       fire
