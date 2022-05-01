@@ -225,6 +225,8 @@ export const useAuth = () => {
   }
 
   return {
+    updateConnections,
+    setConnections,
     signIn,
     signUp,
     findUser,
