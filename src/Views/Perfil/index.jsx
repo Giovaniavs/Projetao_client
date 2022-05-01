@@ -21,7 +21,11 @@ export default function Perfil() {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
 
-  let isRequest = false
+  let listCurrentConections = currentUserLogged.currentConections
+  let listPendingConections = currentUserLogged.pendingConections
+  let listFinishedConections = currentUserLogged.finishedConections
+
+  let isCurrent = false
   let isFeedback = false
   let isPending = false
 
@@ -126,15 +130,15 @@ export default function Perfil() {
 
 
       {
-        currentUserLogged.currentConections.map((element) => {
+        listCurrentConections.map((element) => {
           if (element.email === currentUser.email) {
-            isRequest = true
+            isCurrent = true
           }
         })
       }
 
       {
-        currentUserLogged.pendingConections.map((element) => {
+        listPendingConections.map((element) => {
           if (element.email === currentUser.email) {            
             isPending = true   
           }
@@ -142,19 +146,23 @@ export default function Perfil() {
       }
 
       {
-        !isRequest && isPending ? 
+        (!isCurrent && isPending) || (!isCurrent && !isPending) ? 
         <Button variant="contained" disabled onClick={() => {
-          console.log(currentUserLogged)
+          // console.log(currentUserLogged)
         }}>solicitação enviada</Button>
         :
-        <Button variant="contained" onClick={() => {
-          console.log(currentUserLogged)
+        <Button 
+        variant="contained" 
+        onClick={() => {
+          currentUserLogged.pendingConections.push({email: currentUser.email, nome: currentUser.name})
+          console.log(currentUserLogged.pendingConections)
+          // console.log(currentUser)
         }}>conectar-se</Button>
 
       }
 
       {
-        isRequest ? 
+        (!isCurrent && isPending) || (!isCurrent && !isPending) ? 
         <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
@@ -184,7 +192,7 @@ export default function Perfil() {
 
 
       {
-        currentUserLogged.finishedConections.map((element) => {
+        listFinishedConections.map((element) => {
           if (element.email === currentUser.email) {            
             isFeedback = true   
           }
@@ -208,11 +216,3 @@ export default function Perfil() {
 }
 
 
-// (
-  //   <div onClick={() => setShouldRedirect(true)}>
-  //     <PrimaryButton onClick={()=>{
-    //           history.push("/avaliacao");
-    //           localStorage.setItem("emailAvaliado",email)
-    //     }}>ESCREVA UM FEEDBACK</PrimaryButton>
-    //   </div>
-    // ) 
