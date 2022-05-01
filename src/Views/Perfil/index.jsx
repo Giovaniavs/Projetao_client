@@ -7,7 +7,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
-import { useAuth } from "../../firebase";
+import { useAuth, useQuery } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
@@ -15,11 +15,13 @@ export default function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { setVerification, banAccount } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
   const [hasNoLoggedUser, setHasNoLoggedUser] = useState(true);
+  const [loadingActivation, setLoadingActivation] = useState(false);
 
   const linkStyle = {
     textDecoration: "underline",
@@ -89,6 +91,22 @@ export default function Perfil() {
         setLoading(false);
       });
     });
+  };
+
+  const desactivateAccount = async () => {
+    setLoadingActivation(true);
+
+    await setVerification(currentUser.email, false);
+
+    window.location.replace("/home");
+  };
+
+  const banCurrentAccount = async () => {
+    setLoadingActivation(true);
+
+    await banAccount(currentUser.email);
+
+    window.location.replace("/home");
   };
 
   if (shouldRedirect) {
@@ -163,6 +181,32 @@ export default function Perfil() {
             </PrimaryButton>
           </div>
         )
+      )}
+
+      {currentUserLogged.type === "admin" && (
+        <>
+          {loadingActivation ? (
+            <ReactLoading
+              className="loading-login-screen-style"
+              type="bars"
+              color="#09629E"
+              height={"20%"}
+              width={"20%"}
+            />
+          ) : (
+            <div>
+              <PrimaryButton
+                onClick={desactivateAccount}
+                style={{ margin: "0 0 15px 0" }}
+              >
+                Remover verificação
+              </PrimaryButton>
+              <PrimaryButton onClick={banCurrentAccount}>
+                Banir conta
+              </PrimaryButton>
+            </div>
+          )}
+        </>
       )}
     </Wrapper>
   );
