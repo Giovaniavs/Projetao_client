@@ -146,7 +146,7 @@ export default function Perfil() {
       }
 
       {
-        (!isCurrent && isPending) || (!isCurrent && !isPending) ? 
+        (!isCurrent && isPending) ?   
         <Button variant="contained" disabled onClick={() => {
           // console.log(currentUserLogged)
         }}>solicitação enviada</Button>
@@ -159,10 +159,10 @@ export default function Perfil() {
           // console.log(currentUser)
         }}>conectar-se</Button>
 
-      }
+      } 
 
       {
-        (!isCurrent && isPending) || (!isCurrent && !isPending) ? 
+        (!isCurrent && isPending) ? 
         <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
