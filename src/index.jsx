@@ -17,6 +17,7 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
 import Perfil from "./Views/Perfil";
+import ConectionsPending from "./Views/Conections/Conections";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
@@ -33,6 +34,7 @@ function PlataformRoutes() {
           <Route component={ListSecurity} exact path="/home" />
           <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
+          <Route component={ConectionsPending} exact path="/conectionsPending"/>
         </UserContextProvider>
       </Switch>
     </Router>
@@ -50,7 +52,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|conectionsPending)" />
           </UserContextProvider>
         </Switch>
       </Router>
