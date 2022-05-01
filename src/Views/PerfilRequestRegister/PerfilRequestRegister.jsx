@@ -1,9 +1,8 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
-import { Link, Redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 
-import { FeedBacks } from "../../components/Feedbacks";
-import PrimaryButton from "../../components/PrimaryButton";
+import emailjs from '@emailjs/browser';
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
@@ -11,17 +10,14 @@ import { useAuth, useQuery } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
-export default function Perfil() {
+export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
-  const { setVerification, banAccount } = useQuery();
+  const { setVerification } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [currentUserLogged, setCurrentUserLogged] = useState({});
   const [loadingActivation, setLoadingActivation] = useState(false);
-
 
   const linkStyle = {
     textDecoration: "underline",
@@ -47,7 +43,6 @@ export default function Perfil() {
         setLoading(false);
       });
 
-      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getDocs = () => {
@@ -81,25 +76,22 @@ export default function Perfil() {
     });
   };
 
-  const desactivateAccount = async () => {
-    setLoadingActivation(true);
-
-    await setVerification(currentUser.email, false);
-
-    window.location.replace("/home")
+  let templateParams = {
+    to_name: currentUser.name,
+    reply_to: currentUser.email,
   };
 
-  const banCurrentAccount = async () => {
+  const activateAccount = async () => {
     setLoadingActivation(true);
-
-    await banAccount(currentUser.email);
-
-    window.location.replace("/home")
+    
+    await emailjs.send('service_z54odph', 'template_e6718ro', templateParams, '4CqV65zx_cKzGrtHB')
+    .then(async () => {
+      await setVerification(currentUser.email, true);
+      window.location.replace("/home")
+    }, (error) => {
+        console.log(error.text);
+    });
   };
-
-  if (shouldRedirect) {
-    return <Redirect push to="/avaliacao" />;
-  }
 
   if (loading)
     return (
@@ -137,44 +129,22 @@ export default function Perfil() {
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
       </Topic>
-      <Topic name="Feedbacks">
-      <FeedBacks></FeedBacks>
-            </Topic>
       
-
-      {currentUserLogged.type === 'guard' ? (
-        <div>
-        <PrimaryButton 
-             >Apenas lojistas podem dar feedback</PrimaryButton>
-      </div>
+      {loadingActivation ? (
+        <ReactLoading
+        className="loading-login-screen-style"
+        type="bars"
+        color="#09629E"
+        height={"20%"}
+        width={"20%"}
+      />
       ) : (
-        <div onClick={() => setShouldRedirect(true)}>
-          <PrimaryButton onClick={()=>{
-                history.push("/avaliacao");
-                localStorage.setItem("emailAvaliado",email)
-          }}>ESCREVA UM FEEDBACK</PrimaryButton>
-        </div>
-      ) 
-      }
-
-      {currentUserLogged.type === 'admin' &&
-        <>
-          {loadingActivation ? (
-            <ReactLoading
-            className="loading-login-screen-style"
-            type="bars"
-            color="#09629E"
-            height={"20%"}
-            width={"20%"}
-          />
-          ) : (
-            <div>
-              <PrimaryButton onClick={desactivateAccount} style={{margin: '0 0 15px 0'}}>Remover verificação</PrimaryButton>
-              <PrimaryButton onClick={banCurrentAccount}>Banir conta</PrimaryButton>
-            </div>
-          )}
-        </>
-      }
+        <div style={{ margin: '50px 0 0 0' }}>
+        <Button variant="contained" style={{ margin: '0 20px 0 0' }} onClick={activateAccount}>Aprovar</Button>
+        <Button variant="outlined" onClick={() => history.push(`/recusar?email=${currentUser.email}`)}>Não aprovar</Button>
+      </div>
+      )}
+      
     </Wrapper>
   );
 }
