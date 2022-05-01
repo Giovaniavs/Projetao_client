@@ -1,0 +1,61 @@
+.starRating{
+    color: #09629E;
+    font-size: 30px;
+    margin-top: 20px;
+    
+}
+
+
+
+.ant-rate-star-full svg {
+    color: hsla(204, 89%, 33%, 0.70);
+
+}
+
+svg {
+    color: hsl(0, 0%, 80%);
+}
+
+ant-rate-star-full svg:hover {
+    color: hsla(204, 89%, 33%, 0.70);
+}
+
+.feedback{
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+
+}
+
+
+.inputFeedback{
+    margin-top: 5px;
+    width:320px;
+    height:70px;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    box-sizing: border-box;
+    border-radius: 8px;
+    resize: none;
+    
+}
+
+.notaFinal{
+    margin-top: 40px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #000000;
+}
+
+
+.avaliar:active {
+    background: rgb(156, 160, 180);
+    transition: 0.5ms;
+}

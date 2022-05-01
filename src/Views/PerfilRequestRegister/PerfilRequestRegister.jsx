@@ -132,7 +132,7 @@ export default function PerfilRequestRegister() {
       ) : (
         <div style={{ margin: '50px 0 0 0' }}>
         <Button variant="contained" style={{ margin: '0 20px 0 0' }} onClick={activateAccount}>Aprovar</Button>
-        <Button variant="outlined">Não aprovar</Button>
+        <Button variant="outlined" onClick={history.push('/recusar')}>Não aprovar</Button>
       </div>
       )}
       

@@ -13,6 +13,7 @@ import Avaliacao from "./Views/Avaliacao/Avaliacao";
 import ListRequestRegisterSecurity from "./Views/Admin/Admin";
 import Perfil from "./Views/Perfil";
 import PerfilRequestRegister from "./Views/PerfilRequestRegister/PerfilRequestRegister";
+import RefuseRequest from "./Views/RefuseRequest/RefuseRequest";
 
 import NavBar from "./components/NavBar/index";
 
@@ -40,6 +41,8 @@ function PlataformRoutes() {
           <Route component={Perfil} exact path="/perfil" />
           <Route component={Avaliacao} exact path="/avaliacao" />
           <Route component={PerfilRequestRegister} exact path="/perfilVerificacao" />
+          <Route component={RefuseRequest} exact path="/recusar" />
+
         </Switch>
       </UserContextProvider>
       </ListSecurtyContextProvider>
@@ -59,7 +62,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar)" />
           </UserContextProvider>
         </Switch>
       </Router>
