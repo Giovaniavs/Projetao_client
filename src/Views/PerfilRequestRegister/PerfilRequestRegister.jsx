@@ -1,9 +1,8 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
-import { Link, Redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 
-
+import emailjs from '@emailjs/browser';
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
@@ -77,11 +76,21 @@ export default function PerfilRequestRegister() {
     });
   };
 
+  let templateParams = {
+    to_name: currentUser.name,
+    reply_to: currentUser.email,
+  };
+
   const activateAccount = async () => {
     setLoadingActivation(true);
-    await setVerification(currentUser.email, true);
-
-    window.location.replace("/home")
+    
+    await emailjs.send('service_z54odph', 'template_e6718ro', templateParams, '4CqV65zx_cKzGrtHB')
+    .then(async () => {
+      await setVerification(currentUser.email, true);
+      window.location.replace("/home")
+    }, (error) => {
+        console.log(error.text);
+    });
   };
 
   if (loading)
