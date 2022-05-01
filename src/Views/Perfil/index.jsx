@@ -1,8 +1,8 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
 import { Link, Redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import Button from '@mui/material/Button';
 
+import Button from '@mui/material/Button';
 import { FeedBacks } from "../../components/Feedbacks";
 import PrimaryButton from "../../components/PrimaryButton";
 import ProfilePicResume from "../../components/ProfilePicResume";
@@ -15,7 +15,7 @@ import userQueryParams from "./userQueryParams";
 export default function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections } = useAuth();
+  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,updateConnections, getConnections} = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -24,10 +24,27 @@ export default function Perfil() {
   let listCurrentConections = currentUserLogged.currentConections
   let listPendingConections = currentUserLogged.pendingConections
   let listFinishedConections = currentUserLogged.finishedConections
+  // tu pode criar um ' atual estado '(q pode ser uma string), se no get retornar um erro -> ele ainda n tem conexao 
+  // se o get retornar 0 -> ele tem uma pendente, e assim sucessivamente
 
   let isCurrent = false
   let isFeedback = false
   let isPending = false
+  const getStatus = () => {
+    getConnections(currentUser.email, currentUserLogged.email).then(res => {
+      res.get().then(doc => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data(), 'documentooo AQUIII');
+          // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
+      } else {
+        // AQUI MOSTRARIA O BTN CONNECTAR
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+      })
+    })
+  }
+
 
   const linkStyle = {
     textDecoration: "underline",
@@ -147,6 +164,7 @@ export default function Perfil() {
 
       {
         (!isCurrent && isPending) ?   
+        // ver se já existe conneccao e qual o status dela 
         <Button variant="contained" disabled onClick={() => {
           // console.log(currentUserLogged)
         }}>solicitação enviada</Button>
@@ -154,8 +172,9 @@ export default function Perfil() {
         <Button 
         variant="contained" 
         onClick={() => {
+          console.log('TO NO BTN CONNECTION')
           setConnections( currentUser.email, currentUserLogged.email, '0')
-          console.log(currentUserLogged.pendingConections)
+          console.log(currentUserLogged.pendingConections, 'to aquii')
           // console.log(currentUser)
         }}>conectar-se</Button>
 

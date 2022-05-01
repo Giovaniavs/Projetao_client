@@ -127,17 +127,7 @@ export const useAuth = () => {
 
       return;
     }
-    if(user.type=='guard'){
-      db.collection("user")
-      .doc(user.email)
-      .collection("connections")
-      .then((docRef) => {
-        console.log("Connection written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-    }
+ 
     db.collection("user")
       .doc(user.email)
       .collection("docs")
@@ -188,10 +178,11 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("evaluations");
   };
 
-  const updateConnections = (email, email_shopman,nome,status_connection) => {
+  const updateConnections = (email_guard, email_shopman,nome,status_connection) => {
     db.collection("user")
-      .doc(email)
+      .doc(email_guard)
       .collection("connections")
+      .doc(email_shopman)
       .update({
         email_shopman,
         nome,
@@ -204,14 +195,31 @@ export const useAuth = () => {
         console.error("Error adding document: ", error);
       });
 
+      db.collection("user")
+      .doc(email_shopman)
+      .collection("connections")
+      .doc(email_guard)
+      .update({
+        email_guard,
+        nome,
+        status_connection , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
       
   }
 
-  const setConnections = ( email_guard, email_shopman, nome, status_connection =0  ) => {
-    db.collection("user")
+  const setConnections = async ( email_guard, email_shopman, nome, status_connection =0  ) => {
+    console.log('to aqui em set')
+    await db.collection("user")
       .doc(email_guard)
       .collection("connections")
-      .add({
+      .doc(email_shopman)
+      .set({
         email_shopman,
         nome,
         status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
@@ -222,11 +230,34 @@ export const useAuth = () => {
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
+
+      await db.collection("user")
+      .doc(email_shopman)
+      .collection("connections")
+      .doc(email_guard)
+      .set({
+        email_guard,
+        nome,
+        status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log('entrei no then')
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    }
+
+  const getConnections = async (current_email_login,search_user ) => {
+    return db.collection("user").doc(current_email_login).collection("connections").doc(search_user);
+
   }
 
   return {
     updateConnections,
     setConnections,
+    getConnections,
     signIn,
     signUp,
     findUser,
