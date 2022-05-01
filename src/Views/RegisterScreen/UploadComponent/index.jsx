@@ -77,7 +77,9 @@ export default function UploadComponent({
             const item = {
               url: downloadUrl,
               path: fileName,
+              name: fileName,
               uid: file.uid,
+              id: file.uid,
             };
 
             setFileList((prev) => {

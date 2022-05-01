@@ -71,36 +71,9 @@ const RegisterScreen = () => {
     window.location.replace("/");
   };
 
-  const [images, setImages] = useState({
-    idCard: null,
-    imgSrc: null,
-    residenceDoc: null,
-    certifications: [],
-  });
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const onImageChange = (e) => {
-    const { name } = e.target;
-    const isCertification = name === "certifications";
-    setImages((prev) => ({ ...prev, [name]: isCertification ? [] : null }));
-    const reader = new FileReader();
-    let files = isCertification
-      ? Object.values(e.target.files)
-      : e.target.files[0]; // get the supplied file
-    // if there is a file, set image to that file
-    if (files) {
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          uploadFile({ files, setImages, name, setIsLoading });
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
-      // if there is no file, set image back to null
-    }
   };
 
   const clearErrors = () => {
@@ -108,13 +81,23 @@ const RegisterScreen = () => {
     setPasswordError("");
   };
 
-  const { signUp } = useAuth();
+  const { signUp, createUser } = useAuth();
 
   const handleSignup = (event) => {
+    const images = {
+      certifications,
+      perfilPic,
+      carteiradeIdentidade,
+      comprovanteResidencia,
+    };
     event.preventDefault();
     setIsLoading(true);
     clearErrors();
-    signUp({ user, images, setShouldRedirectToLogin, setIsLoading })
+    signUp({ user, images, setShouldRedirectToLogin, setIsLoading }, (user) => {
+      createUser({ user, images }, (createdUser) =>
+        console.log("User created :))")
+      );
+    })
       .then((data) => {
         switch (data) {
           case "auth/email-already-in-use":
@@ -144,9 +127,6 @@ const RegisterScreen = () => {
   return (
     <>
       <Wrapper onSubmit={handleSignup} id="sign_up_form">
-        {certifications.map((item) => (
-          <div>{JSON.stringify(item)}</div>
-        ))}
         <div className="register-back-icon-style">
           <img
             src={backIcon}
@@ -175,7 +155,7 @@ const RegisterScreen = () => {
               required
               fullWidth
               label="Email"
-              id="email-required"
+              id="email-"
               name="email"
               autoComplete="email"
               type="email"
@@ -192,7 +172,6 @@ const RegisterScreen = () => {
                 autoComplete="password"
                 value={user.password}
                 onChange={handleInputChange}
-                required
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -215,7 +194,7 @@ const RegisterScreen = () => {
               fullWidth
               label="Contato"
               autoComplete="contact"
-              id="outlined-required"
+              id="outlined-"
               name="contact"
               type="text"
               value={user.contact}
