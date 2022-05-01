@@ -33,12 +33,14 @@ export const useAuth = () => {
         starsCount: 0,
         imgSrc: images.imgSrc,
         description,
-        verified: false,
+        verified: false
+      
       })
       .then((response) => true);
   };
 
   const signIn = (email, password) => {
+    // validar se é um usuario da base (do cloud storage)
     return fire
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -83,7 +85,7 @@ export const useAuth = () => {
       });
   };
   const setFeedbacks = (author,feedback,points,email) =>{
-
+    
     db.collection("user")
       .doc(email)
       .collection("feedbacks")
@@ -125,6 +127,17 @@ export const useAuth = () => {
 
       return;
     }
+    if(user.type=='guard'){
+      db.collection("user")
+      .doc(user.email)
+      .collection("connections")
+      .then((docRef) => {
+        console.log("Connection written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    }
     db.collection("user")
       .doc(user.email)
       .collection("docs")
@@ -138,6 +151,7 @@ export const useAuth = () => {
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
+      
   };
 
   const findUser = (email) => {
@@ -173,6 +187,42 @@ export const useAuth = () => {
   const getUserEvaluations = async (email) => {
     return db.collection("user").doc(email).collection("evaluations");
   };
+
+  const updateConnections = (email, email_shopman,nome,status_connection) => {
+    db.collection("user")
+      .doc(email)
+      .collection("connections")
+      .update({
+        email_shopman,
+        nome,
+        status_connection , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+
+      
+  }
+
+  const setConnections = ( email_guard, email_shopman, nome, status_connection =0  ) => {
+    db.collection("user")
+      .doc(email_guard)
+      .collection("connections")
+      .add({
+        email_shopman,
+        nome,
+        status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  }
 
   return {
     signIn,
