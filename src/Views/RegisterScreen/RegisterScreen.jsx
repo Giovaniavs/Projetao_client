@@ -222,7 +222,7 @@ const RegisterScreen = () => {
 
         <Topic name="Perfil">
           <WrapperFields>
-            <Label id="imgSrc">Selecionar Foto de Perfil</Label>
+            <Label id="imgSrc">Selecionar Foto de Perfil (png/jpge)</Label>
 
             <UploadComponent
               setImagesList={setPerfilPic}
@@ -258,19 +258,22 @@ const RegisterScreen = () => {
               </Alert>
             </Disclaimer>
             <InputWrapper>
-              <Label id="idCard">Selecionar Carteira de Identidade</Label>
+              <Label id="idCard">
+                Selecionar Carteira de Identidade frente e verso (png/jpge)
+              </Label>
               <UploadComponent
                 setImagesList={setCarteiradeIdentidade}
                 imageList={carteiradeIdentidade}
                 imageName="cateira de identidade"
-                limiteUpload={1}
+                limiteUpload={2}
                 buttonTitle="Enviar foto RG"
+                required
               />
             </InputWrapper>
 
             <InputWrapper>
               <Label id="residenceDoc">
-                Selecionar Comprovante de Residência
+                Selecionar Comprovante de Residência (png/jpge)
               </Label>
               <UploadComponent
                 setImagesList={setComprovanteResidencia}
@@ -286,7 +289,7 @@ const RegisterScreen = () => {
         <Topic name="Certificações">
           <WrapperFields>
             <InputWrapper>
-              <Label id="certificados">Selecionar certificados</Label>
+              <Label id="certificados">Selecionar certificados (png/jpge)</Label>
               <UploadComponent
                 setImagesList={setCertifications}
                 imageList={certifications}
