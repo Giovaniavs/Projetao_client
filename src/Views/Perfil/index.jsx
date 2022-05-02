@@ -20,6 +20,7 @@ export default function Perfil() {
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
+  const [statusConnectionsState, setStatusConnectionsState] = useState(0);
 
   let listCurrentConections = currentUserLogged.currentConections
   let listPendingConections = currentUserLogged.pendingConections
@@ -30,21 +31,39 @@ export default function Perfil() {
   let isCurrent = false
   let isFeedback = false
   let isPending = false
+
+  // let aux = 0
+  
   const getStatus = () => {
+    let aux = 0
     getConnections(currentUser.email, currentUserLogged.email).then(res => {
       res.get().then(doc => {
         if (doc.exists) {
           console.log("Document data:", doc.data(), 'documentooo AQUIII');
+          console.log(getStatus() === 1);
+
+          // console.log(parseInt(doc.data().status_connection));
+          aux = parseInt(doc.data().status_connection)
+          // return doc.data().status_connection
           // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
       } else {
         // AQUI MOSTRARIA O BTN CONNECTAR
           // doc.data() will be undefined in this case
           console.log("No such document!");
+          // return 0
       }
       })
     })
+
+    return aux
   }
 
+
+
+
+
+  
+  // console.log('auxaux',aux);
 
   const linkStyle = {
     textDecoration: "underline",
@@ -121,10 +140,23 @@ export default function Perfil() {
       </Wrapper>
     );
 
+
+
+
   console.log('user atual')
   console.log(currentUserLogged)
   console.log('perfil clicado');
   console.log(currentUser);
+  // console.log('getStatus => ', getStatus())
+
+
+
+  // console.log('getstatus');
+  // console.log(getStatus() === 1);
+  // console.log(getStatus());
+
+  const aux = getStatus()
+
   return (
     <Wrapper>
       <ProfilePicResume user={currentUser} />
@@ -145,43 +177,38 @@ export default function Perfil() {
         </Docs>
       </Topic>
 
-
       {
-        listCurrentConections.map((element) => {
-          if (element.email === currentUser.email) {
-            isCurrent = true
-          }
-        })
-      }
-
-      {
-        listPendingConections.map((element) => {
-          if (element.email === currentUser.email) {
-            isPending = true   
-          }
-        })
-      }
-
-      {
-        (!isCurrent && isPending) ?   
-        // ver se já existe conneccao e qual o status dela 
-        <Button variant="contained" disabled onClick={() => {
-          // console.log(currentUserLogged)
-        }}>solicitação enviada</Button>
-        :
+        aux === 0 ? 
         <Button 
-        variant="contained" 
-        onClick={() => {
-          console.log('TO NO BTN CONNECTION')
-          setConnections( currentUser.email, currentUserLogged.email, '0')
-          console.log(currentUserLogged.pendingConections, 'to aquii')
-          // console.log(currentUser)
-        }}>conectar-se</Button>
-
+          variant="contained" 
+          onClick={() => {
+            console.log('TO NO BTN CONNECTION')
+            setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '1')
+            setStatusConnectionsState(1)
+            // console.log(currentUser)
+          }}>conectar-se
+        </Button>
+        :
+        <></>
+      
       } 
-
       {
-        (!isCurrent && isPending) ? 
+        aux === 1 ? 
+        // ver se já existe conneccao e qual o status dela 
+        <Button 
+          variant="contained" 
+          disabled 
+          onClick={() => {
+            // console.log(currentUserLogged)
+          }}>solicitação enviada
+        </Button>
+        :
+        <></>
+      
+      } 
+      {
+        aux === 2 ? 
+        // já existe conneccao e qual o status dela 
         <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
@@ -191,14 +218,16 @@ export default function Perfil() {
           <FeedBacks />
         </Topic>
         </>
-        : 
-        <>
+        :
+        <></>
+      
+      } 
+
+      <>
         <Topic name="Feedbacks">
           <FeedBacks />
         </Topic>
-        </>
-      }
-
+      </>
 
       {currentUserLogged.type === 'guard' ? (
       <div>
@@ -209,17 +238,8 @@ export default function Perfil() {
       ) : <></>
       }
 
-
       {
-        listFinishedConections.map((element) => {
-          if (element.email === currentUser.email) {            
-            isFeedback = true   
-          }
-        })
-      }
-
-      {
-        isFeedback ? 
+       aux === 3 ? 
         (
             <div onClick={() => setShouldRedirect(true)}>
               <PrimaryButton onClick={()=>{
