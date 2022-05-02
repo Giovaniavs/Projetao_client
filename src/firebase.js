@@ -184,7 +184,7 @@ export const useAuth = () => {
       .collection("connections")
       .doc(email_shopman)
       .update({
-        email_shopman,
+        email: email_shopman,
         nome,
         status_connection , // 0 pendente - 1-> Ok 2-> terminado 
       })
@@ -200,7 +200,7 @@ export const useAuth = () => {
       .collection("connections")
       .doc(email_guard)
       .update({
-        email_guard,
+        email: email_guard,
         nome,
         status_connection , // 0 pendente - 1-> Ok 2-> terminado 
       })
