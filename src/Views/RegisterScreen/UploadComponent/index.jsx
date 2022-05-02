@@ -25,7 +25,7 @@ export default function UploadComponent({
   const storageRef = storage.ref();
 
   const beforeUpload = (file) => {
-    if (!["image/jpeg", "image/png"].includes(file.type)) {
+    if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
       console.error(`${file.name} is not a valid image type`, 2);
       setMessage({ error: `${file.name} is not a valid image type` });
       return null;
