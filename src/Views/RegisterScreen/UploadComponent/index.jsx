@@ -150,6 +150,7 @@ export default function UploadComponent({
           handleFinish={handleFinish}
           multiple={fileList.length === 1 ? false : true}
           maxCount={limiteUpload}
+          accept=".jpg, .jpeg, .png"
         >
           {fileList.length >= limiteUpload ? null : uploadButton}
         </Upload>
