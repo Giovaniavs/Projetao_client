@@ -1,6 +1,6 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
 import { Link, Redirect } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import Button from '@mui/material/Button';
 import { FeedBacks } from "../../components/Feedbacks";
@@ -12,7 +12,7 @@ import { useAuth } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
-export default function Perfil() {
+function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,updateConnections, getConnections} = useAuth();
@@ -32,18 +32,17 @@ export default function Perfil() {
   let isFeedback = false
   let isPending = false
 
-  // let aux = 0
+  let aux = 0
   
   const getStatus = () => {
-    let aux = 0
     getConnections(currentUser.email, currentUserLogged.email).then(res => {
       res.get().then(doc => {
         if (doc.exists) {
           console.log("Document data:", doc.data(), 'documentooo AQUIII');
-          console.log(getStatus() === 1);
-
-          // console.log(parseInt(doc.data().status_connection));
+          
+          console.log(parseInt(doc.data().status_connection));
           aux = parseInt(doc.data().status_connection)
+          console.log(aux === 1);
           // return doc.data().status_connection
           // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
       } else {
@@ -55,9 +54,11 @@ export default function Perfil() {
       })
     })
 
-    return aux
   }
 
+
+
+    getStatus()
 
 
 
@@ -143,10 +144,10 @@ export default function Perfil() {
 
 
 
-  console.log('user atual')
-  console.log(currentUserLogged)
-  console.log('perfil clicado');
-  console.log(currentUser);
+  // console.log('user atual')
+  // console.log(currentUserLogged)
+  // console.log('perfil clicado');
+  // console.log(currentUser);
   // console.log('getStatus => ', getStatus())
 
 
@@ -155,7 +156,9 @@ export default function Perfil() {
   // console.log(getStatus() === 1);
   // console.log(getStatus());
 
-  const aux = getStatus()
+
+  
+
 
   return (
     <Wrapper>
@@ -183,8 +186,9 @@ export default function Perfil() {
           variant="contained" 
           onClick={() => {
             console.log('TO NO BTN CONNECTION')
+            console.log(aux)
             setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '1')
-            setStatusConnectionsState(1)
+            // setStatusConnectionsState(1)
             // console.log(currentUser)
           }}>conectar-se
         </Button>
@@ -255,3 +259,4 @@ export default function Perfil() {
 }
 
 
+export default memo(Perfil);
