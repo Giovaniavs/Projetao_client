@@ -20,12 +20,12 @@ export default function Perfil() {
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
+  const [hasNoLoggedUser, setHasNoLoggedUser] = useState(true);
   const [loadingActivation, setLoadingActivation] = useState(false);
-
 
   const linkStyle = {
     textDecoration: "underline",
-    color: 'blue'
+    color: "blue",
   };
   let history = useHistory();
 
@@ -41,13 +41,20 @@ export default function Perfil() {
         setLoading(true);
         setCurrentUser(user.data());
         setLoading(false);
+        const savedUserInfo = localStorage.getItem("userInfo");
+        const hasNoUserSession =
+          savedUserInfo === "undefined" || savedUserInfo === null;
+        if (hasNoUserSession) {
+          setHasNoLoggedUser(true);
+        } else {
+          setCurrentUserLogged(JSON.parse(savedUserInfo));
+          setHasNoLoggedUser(false);
+        }
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
         setLoading(false);
       });
-
-      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getDocs = () => {
@@ -59,7 +66,12 @@ export default function Perfil() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log(docs);
+        console.log({ docsimage: docs[0].images });
+        if (docs[0].images) {
+          setCurrentUser((prev) => ({ ...prev, docs: docs[0].images }));
+          return;
+        }
+
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
@@ -86,7 +98,7 @@ export default function Perfil() {
 
     await setVerification(currentUser.email, false);
 
-    window.location.replace("/home")
+    window.location.replace("/home");
   };
 
   const banCurrentAccount = async () => {
@@ -94,7 +106,7 @@ export default function Perfil() {
 
     await banAccount(currentUser.email);
 
-    window.location.replace("/home")
+    window.location.replace("/home");
   };
 
   if (shouldRedirect) {
@@ -123,10 +135,16 @@ export default function Perfil() {
       <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
-            currentUser.docs.map(({ url, name }, index) => {
+            currentUser.docs.map((image, index) => {
+              console.log(image);
               return (
-                <DocLink href={url} target="_blank" key={index} title={name}>
-                  <DocImg src={url} alt={name} />
+                <DocLink
+                  href={image.url}
+                  target="_blank"
+                  key={index}
+                  title={image.name}
+                >
+                  <DocImg src={image.url} alt={image.name} />
                 </DocLink>
               );
             })}
@@ -135,46 +153,61 @@ export default function Perfil() {
 
       <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
-          <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
+        <a
+          style={linkStyle}
+          href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}
+        >
+          {currentUser.contact}
+        </a>
       </Topic>
       <Topic name="Feedbacks">
-      <FeedBacks></FeedBacks>
-            </Topic>
-      
+        <FeedBacks></FeedBacks>
+      </Topic>
 
-      {currentUserLogged.type === 'guard' ? (
+      {currentUserLogged && currentUserLogged.type === "guard" ? (
         <div>
-        <PrimaryButton 
-             >Apenas lojistas podem dar feedback</PrimaryButton>
-      </div>
-      ) : (
-        <div onClick={() => setShouldRedirect(true)}>
-          <PrimaryButton onClick={()=>{
-                history.push("/avaliacao");
-                localStorage.setItem("emailAvaliado",email)
-          }}>ESCREVA UM FEEDBACK</PrimaryButton>
+          <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
         </div>
-      ) 
-      }
+      ) : (
+        !hasNoLoggedUser && (
+          <div onClick={() => setShouldRedirect(true)}>
+            <PrimaryButton
+              onClick={() => {
+                history.push("/avaliacao");
+                localStorage.setItem("emailAvaliado", email);
+              }}
+            >
+              ESCREVA UM FEEDBACK
+            </PrimaryButton>
+          </div>
+        )
+      )}
 
-      {currentUserLogged.type === 'admin' &&
+      {currentUserLogged.type === "admin" && (
         <>
           {loadingActivation ? (
             <ReactLoading
-            className="loading-login-screen-style"
-            type="bars"
-            color="#09629E"
-            height={"20%"}
-            width={"20%"}
-          />
+              className="loading-login-screen-style"
+              type="bars"
+              color="#09629E"
+              height={"20%"}
+              width={"20%"}
+            />
           ) : (
             <div>
-              <PrimaryButton onClick={desactivateAccount} style={{margin: '0 0 15px 0'}}>Remover verificação</PrimaryButton>
-              <PrimaryButton onClick={banCurrentAccount}>Banir conta</PrimaryButton>
+              <PrimaryButton
+                onClick={desactivateAccount}
+                style={{ margin: "0 0 15px 0" }}
+              >
+                Remover verificação
+              </PrimaryButton>
+              <PrimaryButton onClick={banCurrentAccount}>
+                Banir conta
+              </PrimaryButton>
             </div>
           )}
         </>
-      }
+      )}
     </Wrapper>
   );
 }

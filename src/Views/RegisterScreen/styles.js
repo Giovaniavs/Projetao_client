@@ -24,8 +24,8 @@ export const H1 = styled.h1`
 
   width: 100%;
 
-  background: white;
   z-index: 10000;
+  background: inherit;
 
   font-size: 2.5rem;
 `;
@@ -74,5 +74,23 @@ export const ButtonWrapper = styled.div`
   width: 100%;
   justify-content: flex-end;
   gap: 15px;
-  margin-top:60px;
+  margin-top: 60px;
+`;
+
+export const UploadWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-dontent: center;
+  align-items: center;
+  width: 100%;
+  .ant-upload.ant-upload-select-picture-card,
+  .ant-upload-list-picture-card-container {
+    margin: 8px 0;
+  }
+`;
+
+export const InvisbleInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  height: 0;
 `;
