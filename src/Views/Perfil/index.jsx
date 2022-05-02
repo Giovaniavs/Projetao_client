@@ -21,16 +21,14 @@ function Perfil() {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
   const [statusConnectionsState, setStatusConnectionsState] = useState(0);
-
+  const [isCurrent, setIsCurrent] = useState(-1)
   let listCurrentConections = currentUserLogged.currentConections
   let listPendingConections = currentUserLogged.pendingConections
   let listFinishedConections = currentUserLogged.finishedConections
   // tu pode criar um ' atual estado '(q pode ser uma string), se no get retornar um erro -> ele ainda n tem conexao 
   // se o get retornar 0 -> ele tem uma pendente, e assim sucessivamente
 
-  let isCurrent = false
-  let isFeedback = false
-  let isPending = false
+
 
   let aux = 0
   
@@ -42,10 +40,11 @@ function Perfil() {
           
           console.log(parseInt(doc.data().status_connection));
           aux = parseInt(doc.data().status_connection)
-          console.log(aux === 1);
+          setIsCurrent(aux)
           // return doc.data().status_connection
           // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
       } else {
+  
         // AQUI MOSTRARIA O BTN CONNECTAR
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -181,51 +180,45 @@ function Perfil() {
       </Topic>
 
       {
-        aux === 0 ? 
+        isCurrent === -1 ? 
         <Button 
           variant="contained" 
           onClick={() => {
             console.log('TO NO BTN CONNECTION')
-            console.log(aux)
-            setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '1')
+            console.log(isCurrent)
+            setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '0')
+           
+
             // setStatusConnectionsState(1)
             // console.log(currentUser)
           }}>conectar-se
         </Button>
-        :
-        <></>
-      
-      } 
-      {
-        aux === 1 ? 
-        // ver se já existe conneccao e qual o status dela 
+        : isCurrent === 0 ? <>
         <Button 
           variant="contained" 
           disabled 
           onClick={() => {
             // console.log(currentUserLogged)
           }}>solicitação enviada
-        </Button>
-        :
-        <></>
-      
-      } 
-      {
-        aux === 2 ? 
-        // já existe conneccao e qual o status dela 
-        <>
+        </Button></>: isCurrent ===1 & currentUserLogged.type != 'guard' ? <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
         </Topic>
-        <Topic name="Feedbacks">
-          <FeedBacks />
-        </Topic>
-        </>
-        :
-        <></>
+        
+        <div onClick={() => setShouldRedirect(true)}>
+              <PrimaryButton onClick={()=>{
+                    history.push("/avaliacao");
+                    localStorage.setItem("emailAvaliado",email)
+              }}>ESCREVA UM FEEDBACK</PrimaryButton>
+            </div>
+        
+
+
+        </> : <> <h1>essa connexao já foi finalizada</h1></>
       
       } 
+     
 
       <>
         <Topic name="Feedbacks">
@@ -233,27 +226,15 @@ function Perfil() {
         </Topic>
       </>
 
-      {currentUserLogged.type === 'guard' ? (
-      <div>
+      { currentUserLogged.type === 'guard' ?( <div>
         <PrimaryButton>
           Apenas lojistas podem dar feedback
         </PrimaryButton>
       </div>
-      ) : <></>
+        ):<></>
       }
 
-      {
-       aux === 3 ? 
-        (
-            <div onClick={() => setShouldRedirect(true)}>
-              <PrimaryButton onClick={()=>{
-                    history.push("/avaliacao");
-                    localStorage.setItem("emailAvaliado",email)
-              }}>ESCREVA UM FEEDBACK</PrimaryButton>
-            </div>
-          ) 
-        : <></>
-      }
+     
     </Wrapper>
   );
 }
