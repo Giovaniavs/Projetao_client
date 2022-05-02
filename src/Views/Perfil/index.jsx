@@ -20,17 +20,10 @@ function Perfil() {
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
-  const [statusConnectionsState, setStatusConnectionsState] = useState(0);
   const [isCurrent, setIsCurrent] = useState(-1)
-  let listCurrentConections = currentUserLogged.currentConections
-  let listPendingConections = currentUserLogged.pendingConections
-  let listFinishedConections = currentUserLogged.finishedConections
-  // tu pode criar um ' atual estado '(q pode ser uma string), se no get retornar um erro -> ele ainda n tem conexao 
-  // se o get retornar 0 -> ele tem uma pendente, e assim sucessivamente
 
-
-
-  let aux = 0
+  
+  let aux = -1
   
   const getStatus = () => {
     getConnections(currentUser.email, currentUserLogged.email).then(res => {
@@ -48,22 +41,11 @@ function Perfil() {
         // AQUI MOSTRARIA O BTN CONNECTAR
           // doc.data() will be undefined in this case
           console.log("No such document!");
-          // return 0
       }
       })
     })
 
   }
-
-
-
-    getStatus()
-
-
-
-
-  
-  // console.log('auxaux',aux);
 
   const linkStyle = {
     textDecoration: "underline",
@@ -72,6 +54,8 @@ function Perfil() {
   let history = useHistory();
 
   useEffect(() => {
+    getStatus();
+
     getUserInfo();
     getDocs();
     getEvaluations();
@@ -143,21 +127,6 @@ function Perfil() {
 
 
 
-  // console.log('user atual')
-  // console.log(currentUserLogged)
-  // console.log('perfil clicado');
-  // console.log(currentUser);
-  // console.log('getStatus => ', getStatus())
-
-
-
-  // console.log('getstatus');
-  // console.log(getStatus() === 1);
-  // console.log(getStatus());
-
-
-  
-
 
   return (
     <Wrapper>
@@ -180,20 +149,17 @@ function Perfil() {
       </Topic>
 
       {
-        isCurrent === -1 ? 
+        isCurrent === -1 & currentUserLogged.type != 'guard' ? 
         <Button 
           variant="contained" 
           onClick={() => {
             console.log('TO NO BTN CONNECTION')
             console.log(isCurrent)
             setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '0')
-           
-
-            // setStatusConnectionsState(1)
-            // console.log(currentUser)
+            setIsCurrent(0)
           }}>conectar-se
         </Button>
-        : isCurrent === 0 ? <>
+        : isCurrent === 0 & currentUserLogged.type != 'guard' ?  <>
         <Button 
           variant="contained" 
           disabled 
