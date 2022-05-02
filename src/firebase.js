@@ -214,7 +214,7 @@ export const useAuth = () => {
   }
 
   const setConnections = async ( email_guard, email_shopman, nome, status_connection =0  ) => {
-    console.log('to aqui em set')
+    // console.log('to aqui em set')
     await db.collection("user")
       .doc(email_guard)
       .collection("connections")
@@ -224,12 +224,12 @@ export const useAuth = () => {
         nome,
         status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
       })
-      .then((docRef) => {
-        console.log("Doc written with ID: ", docRef);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+      // .then((docRef) => {
+      //   console.log("Doc written with ID: ", docRef);
+      // })
+      // .catch((error) => {
+      //   console.error("Error adding document: ", error);
+      // });
 
       await db.collection("user")
       .doc(email_shopman)
@@ -240,13 +240,13 @@ export const useAuth = () => {
         nome,
         status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
       })
-      .then((docRef) => {
-        console.log('entrei no then')
-        console.log("Doc written with ID: ", docRef);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+      // .then((docRef) => {
+      //   console.log('entrei no then')
+      //   console.log("Doc written with ID: ", docRef);
+      // })
+      // .catch((error) => {
+      //   console.error("Error adding document: ", error);
+      // });
     }
 
   const getConnections = async (current_email_login,search_user ) => {
