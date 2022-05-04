@@ -53,7 +53,6 @@ const RegisterScreen = () => {
   });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [shouldRedirectToLogin, setShouldRedirectToLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
@@ -115,7 +114,7 @@ const RegisterScreen = () => {
             setIsLoading(false);
             break;
           default:
-            setShouldRedirectToLogin(true);
+            redirectToLogin();
             break;
         }
         setIsLoading(false);
@@ -123,8 +122,8 @@ const RegisterScreen = () => {
       .catch((error) => setIsLoading(false));
   };
 
-  if (shouldRedirectToLogin) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+  const redirectToLogin = () => {
     return navigate('/')
   }
 
@@ -137,7 +136,7 @@ const RegisterScreen = () => {
           <img
             src={backIcon}
             alt=""
-            onClick={() => setShouldRedirectToLogin(true)}
+            onClick={() => redirectToLogin()}
           />
         </div>
         <H1>Cadastrar perfil</H1>

@@ -7,58 +7,55 @@ import { useUser } from '../../contexts/userContext';
 
 import { useAuth } from '../../firebase'
 
-const LoginScreen = () => {
+export const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const { userInfo, setUserInfo } = useUser();
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [shouldRedirectToRegister, setShouldRedirectToRegister] = useState(false);
-  const [shouldRedirectToApp, setShouldRedirectToApp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { signIn, findUser } = useAuth()
 
+  const navigate = useNavigate()
   const clearErrors = () => {
     setEmailError('');
     setPasswordError('');
   }
 
-  const handleLogin = (e) => {
+  const redirectToRegister = () => {
+    navigate('/register')
+  }
+
+  const handleLogin = async (e) => {
     e.preventDefault()
     setIsLoading(true);
     clearErrors();
-    signIn(email, password).then((data) => {
-      console.log(data)
-      switch (data) {
-        case "auth/invalid-email":
-        case "auth/user-disabled":
-        case "auth/user-not-found":
-          setEmailError(data);
-          setIsLoading(false);
-          break;
-        case "auth/wrong-password":
-          setPasswordError(data);
-          setIsLoading(false);
-          break;
-        default:
-          setUserInfo(data)
-          setShouldRedirectToApp(true);
-          break;
-      }
-    })
+
+    const userSignIn = await signIn(email, password)
+    console.log(userSignIn)
+    switch (userSignIn) {
+      case "auth/invalid-email":
+      case "auth/user-disabled":
+      case "auth/user-not-found":
+        setEmailError(userSignIn);
+        setIsLoading(false);
+        break;
+      case "auth/wrong-password":
+        setPasswordError(userSignIn);
+        setIsLoading(false);
+        break;
+      default:
+        setUserInfo(userSignIn)
+        if (userSignIn.type === "admin") {
+          navigate('/admin')
+        } else {
+          navigate('/home')
+        }
+        break;
+    }
+
   };
-
-  useEffect(() => {
-    const user = findUser(email)
-    console.log(user)
-  }, [setUserInfo, shouldRedirectToApp]);
-
-
-  if (shouldRedirectToRegister) {
-    const navigate = useNavigate()
-    return navigate('/register')
-  }
 
   return (
     <div className='IsLogged'>
@@ -97,7 +94,7 @@ const LoginScreen = () => {
                   ) : (
                     <button type='submit' className="BotaoEntrar">Entrar</button>
                   )}
-                  <p> Não tem uma conta? <span onClick={() => setShouldRedirectToRegister(true)}>Cadastre-se</span></p>
+                  <p> Não tem uma conta? <span onClick={() => redirectToRegister()}>Cadastre-se</span></p>
                 </>
               </div>
             </form>
@@ -107,5 +104,3 @@ const LoginScreen = () => {
     </div >
   );
 };
-
-export default LoginScreen;

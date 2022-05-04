@@ -4,7 +4,6 @@ import "firebase/storage";
 
 import firebase from "firebase";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./contexts/userContext";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -22,7 +21,6 @@ export const db = fire.firestore();
 export const storage = firebase.storage();
 
 export const useAuth = () => {
-  const {userInfo, setUserInfo} = useUser()
   const createUser = async ({ user, images }, callback) => {
     const { name, email, contact, type, description } = user;
     await Promise.all([
@@ -115,29 +113,20 @@ export const useAuth = () => {
       });
   };
 
-  const findUser = async (email) => {
-    return await fire
-      .firestore()
-      .collection("user")
-      .onSnapshot((querySnapshot) => {
-        const users = [];
-        querySnapshot.forEach((doc) => {
-          users.push({ id: doc.id, ...doc.data() });
-        });
-        const userFetched = users.find((user) => {
-          if (user.email === email) {
-            return user;
-          }
-        });
-
-        if (userFetched.type === "admin") {
-          window.location.replace("/admin")
-        } else {
-          window.location.replace("/home")
-        };
-        localStorage.setItem("userInfo", JSON.stringify(userFetched));
-        localStorage.setItem("uid", email);
+  const findUser = (email) => {
+    return db.collection("user").onSnapshot((querySnapshot) => {
+      const users = [];
+      querySnapshot.forEach((doc) => {
+        users.push({ id: doc.id, ...doc.data() });
       });
+      console.log(users)
+      const userFetched = users.find((user) => {
+        if (user.email === email) {
+          return user;
+        }
+      });
+      return userFetched
+    });
   };
 
   const getUserProfile = async (email) => {

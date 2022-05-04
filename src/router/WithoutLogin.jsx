@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom"
-import LoginScreen from "../Views/LoginScreen/LoginScreen"
+import { LoginScreen } from "../Views/LoginScreen/LoginScreen"
 import RegisterScreen from "../Views/RegisterScreen/RegisterScreen"
 
 
