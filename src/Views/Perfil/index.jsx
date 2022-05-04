@@ -15,25 +15,24 @@ import userQueryParams from "./userQueryParams";
 function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,updateConnections, getConnections} = useAuth();
+  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,getAllConnections, getConnections} = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
-  const [isCurrent, setIsCurrent] = useState(-1)
+  const [isCurrentConnection, setIsCurrentConnection] = useState(-1)
 
   
-  let aux = -1
+
+  getStatus()
   
   const getStatus = () => {
-    getConnections(currentUser.email, currentUserLogged.email).then(res => {
-      res.get().then(doc => {
+    getConnections( currentUserLogged.email,currentUser.email,).then(res => {
+      res.get().then( doc => {
         if (doc.exists) {
           console.log("Document data:", doc.data(), 'documentooo AQUIII');
           
-          console.log(parseInt(doc.data().status_connection));
-          aux = parseInt(doc.data().status_connection)
-          setIsCurrent(aux)
+           setIsCurrentConnection(parseInt(doc.data().status_connection))
           // return doc.data().status_connection
           // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
       } else {
@@ -41,6 +40,7 @@ function Perfil() {
         // AQUI MOSTRARIA O BTN CONNECTAR
           // doc.data() will be undefined in this case
           console.log("No such document!");
+          setIsCurrentConnection(-1)
       }
       })
     })
@@ -53,14 +53,14 @@ function Perfil() {
   };
   let history = useHistory();
 
+  // getStatus();  
   useEffect(() => {
-    getStatus();
 
     getUserInfo();
     getDocs();
     getEvaluations();
   }, [query]);
-
+  console.log(isCurrentConnection)
   const getUserInfo = () => {
     getUserProfile(email)
       .then((user) => {
@@ -149,24 +149,24 @@ function Perfil() {
       </Topic>
 
       {
-        isCurrent === -1 & currentUserLogged.type != 'guard' ? 
+        isCurrentConnection === -1   & currentUserLogged.type != 'guard' ? 
         <Button 
           variant="contained" 
-          onClick={() => {
+          onClick={async () => {
             console.log('TO NO BTN CONNECTION')
-            console.log(isCurrent)
-            setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '0')
-            setIsCurrent(0)
+            console.log(isCurrentConnection)
+            await  setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '0')
+            setIsCurrentConnection(0)
           }}>conectar-se
         </Button>
-        : isCurrent === 0 & currentUserLogged.type != 'guard' ?  <>
+        : isCurrentConnection === 0 & currentUserLogged.type != 'guard' ?  <>
         <Button 
           variant="contained" 
           disabled 
           onClick={() => {
             // console.log(currentUserLogged)
           }}>solicitação enviada
-        </Button></>: isCurrent ===1 & currentUserLogged.type != 'guard' ? <>
+        </Button></>  : isCurrentConnection ===1 & currentUserLogged.type != 'guard' ? <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
@@ -181,7 +181,7 @@ function Perfil() {
         
 
 
-        </> : <> <h1>essa connexao já foi finalizada</h1></>
+        </> :  isCurrentConnection ===2 & currentUserLogged.type != 'guard'? <> <h1>essa connexao já foi finalizada</h1></>: <></>
       
       } 
      

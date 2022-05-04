@@ -178,14 +178,13 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("evaluations");
   };
 
-  const updateConnections = (email_guard, email_shopman,nome,status_connection) => {
+  const updateConnections = (email_guard, email_shopman,status_connection) => {
     db.collection("user")
       .doc(email_guard)
       .collection("connections")
       .doc(email_shopman)
       .update({
-        email:email_shopman,
-        nome,
+       
         status_connection , // 0 pendente - 1-> Ok 2-> terminado 
       })
       .then((docRef) => {
@@ -200,8 +199,7 @@ export const useAuth = () => {
       .collection("connections")
       .doc(email_guard)
       .update({
-        email: email_guard,
-        nome,
+        
         status_connection , // 0 pendente - 1-> Ok 2-> terminado 
       })
       .then((docRef) => {
@@ -254,10 +252,15 @@ export const useAuth = () => {
 
   }
 
+  const getAllConnections = async (current_email_login ) => {
+    return db.collection("user").doc(current_email_login).collection("connections");
+
+  }
   return {
     updateConnections,
     setConnections,
     getConnections,
+    getAllConnections,
     signIn,
     signUp,
     findUser,
