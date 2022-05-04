@@ -19,7 +19,21 @@ export const PaymentScreen = () => {
                 return 5
         }
     }
+
+    const planStr = () => {
+        switch (sltdplan) {
+            case 'goldPlan':
+                return 'gold'
+            case 'silverPlan':
+                return 'silver'
+            case 'bronzePlan':
+                return 'bronze'
+            default:
+                return 'bronze'
+        }
+    }
     const payload = {
+        "profile_boost_plan": sltdplan,
         "firebase_user_id": userData.email,
         "payment_method_id": "pix",
         "transaction_amount": plan(),
@@ -31,20 +45,19 @@ export const PaymentScreen = () => {
     }
     function createPayment() {
         axios.post('https://mesafe-payment-service.herokuapp.com/createpayment', payload).then((res) => {
-            console.log
             setPayment(res.data)
         })
     }
 
     useEffect(() => {
-        createPayment()
+        // createPayment()
     }, [])
 
 
     return (
         <>
-            <p>{JSON.stringify(userData)}</p>
-            <p>{JSON.stringify(payload)}</p>
+            {/* <p>{JSON.stringify(userData)}</p> */}
+            {/* <p>{JSON.stringify(payload)}</p> */}
             {/* <p>{JSON.stringify(payment)}</p> */}
             {/* <p>{JSON.stringify(payment.body.point_of_interaction.transaction_data.qr_code_base64)}</p> */}
 
