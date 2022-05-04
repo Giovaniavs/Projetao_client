@@ -47,44 +47,54 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function NavBar() {
   let loadPages = [];
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (userInfo != undefined) {
 
-  if (userInfo.type === 'admin') {
-    loadPages = [
-      {
-        url: "admin",
-        sideBarName: "Pedidos em aguardo",
-      },
-      {
-        url: "home",
-        sideBarName: "Usuários verificados",
-      },
-    ];
-  } else if (userInfo.type === 'guard') {
+    if (userInfo.type === 'admin') {
+      loadPages = [
+        {
+          url: "admin",
+          sideBarName: "Pedidos em aguardo",
+        },
+        {
+          url: "home",
+          sideBarName: "Usuários verificados",
+        },
+      ];
+    } else if (userInfo.type === 'guard') {
+      loadPages = [
+        {
+          url: "home",
+          sideBarName: "Pagina Inicial",
+        },
+        {
+          url: "conectionsPedings",
+          sideBarName: "Conexões pendentes",
+        },
+        {
+          url: "conections",
+          sideBarName: "Conexões atuais",
+        },
+        {
+          url: "planSelector",
+          sideBarName: "Upgrade de Perfil",
+        },
+      ];
+    } else if (userInfo.type === 'shopman') {
+      loadPages = [
+        {
+          url: "home",
+          sideBarName: "Pagina Inicial",
+        },
+      ];
+    }
+  } else {
     loadPages = [
       {
         url: "home",
         sideBarName: "Pagina Inicial",
       },
-      {
-        url: "conectionsPedings",
-        sideBarName: "Conexões pendentes",
-      },
-      {
-        url: "conections",
-        sideBarName: "Conexões atuais",
-      },
-      {
-        url: "planSelector",
-        sideBarName: "Upgrade de Perfil",
-      },
     ];
-  } else if (userInfo.type === 'shopman') {
-    loadPages = [
-      {
-        url: "home",
-        sideBarName: "Pagina Inicial",
-      },
-    ];
+
   }
 
   const theme = useTheme();

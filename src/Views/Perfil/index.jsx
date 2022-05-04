@@ -1,5 +1,5 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 import { FeedBacks } from "../../components/Feedbacks";

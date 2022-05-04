@@ -11,10 +11,11 @@ export const ListSecurity = () => {
   useEffect(() => {
     Promise.resolve(listSec).then(guardsList => setListSec(guardsList));
   }, [listSec]);
-
+  
+  const navigate = useNavigate()
   function navigateSecurity(email) {
     console.log(email)
-    const navigate = useNavigate()
+    console.log(`/perfil?email=${email}`)
     navigate(`/perfil?email=${email}`)
   };
 

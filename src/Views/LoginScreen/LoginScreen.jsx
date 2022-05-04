@@ -50,7 +50,8 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    findUser(email)
+    const user = findUser(email)
+    console.log(user)
   }, [setUserInfo, shouldRedirectToApp]);
 
 
