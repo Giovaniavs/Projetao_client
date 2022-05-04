@@ -4,7 +4,7 @@ import userQueryParams from "./userQueryParams";
 export const PaymentScreen = () => {
     let query = userQueryParams();
     const sltdplan = query.get("selectedPlan") || 'bronzePlan';
-    const [payment, setPayment] = useState({})
+    const [payment, setPayment] = useState(undefined)
 
     const userData = JSON.parse(localStorage.getItem('userInfo'))
     const plan = () => {
@@ -31,8 +31,8 @@ export const PaymentScreen = () => {
     }
     function createPayment() {
         axios.post('https://mesafe-payment-service.herokuapp.com/createpayment', payload).then((res) => {
-        console.log    
-        setPayment(res.data)
+            console.log
+            setPayment(res.data)
         })
     }
 
@@ -45,9 +45,18 @@ export const PaymentScreen = () => {
         <>
             <p>{JSON.stringify(userData)}</p>
             <p>{JSON.stringify(payload)}</p>
-            <p>{JSON.stringify(payment.body.point_of_interaction.transaction_data.qr_code_base64)}</p>
-            <img style={{maxWidth:200, maxHeight:200}} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`}/>
-            <button>Copiar Código</button>
+            {/* <p>{JSON.stringify(payment)}</p> */}
+            {/* <p>{JSON.stringify(payment.body.point_of_interaction.transaction_data.qr_code_base64)}</p> */}
+
+            {
+                payment ? <div>
+
+                    <img style={{ maxWidth: 200, maxHeight: 200 }} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`} />
+                    <button>Copiar Código</button>
+                </div> : <div>
+                    Loading...
+                </div>
+            }
         </>
     )
 }
