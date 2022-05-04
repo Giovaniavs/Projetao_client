@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./RegisterScreen.css";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import ReactLoading from "react-loading";
 import InputLabel from "@mui/material/InputLabel";
@@ -38,6 +38,9 @@ import UploadComponent from "./UploadComponent";
 import TermsModal from "./TermsModal";
 
 const RegisterScreen = () => {
+  useEffect(() => {
+    console.log("Run something")
+}, [])
   const { uploadFile } = useStorage();
   const [user, setUser] = useState({
     email: "",
@@ -121,7 +124,8 @@ const RegisterScreen = () => {
   };
 
   if (shouldRedirectToLogin) {
-    return <Redirect push to="/" />;
+    const navigate = useNavigate()
+    return navigate('/')
   }
 
   const isGuard = user.type == "guard";

@@ -7,7 +7,7 @@ import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
 import { useAuth, useQuery } from "../../firebase";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
 export default function PerfilRequestRegister() {
@@ -23,7 +23,7 @@ export default function PerfilRequestRegister() {
     textDecoration: "underline",
     color: 'blue'
   };
-  let history = useHistory();
+  let navigate = useNavigate();
 
   useEffect(() => {
     getUserInfo();
@@ -141,7 +141,7 @@ export default function PerfilRequestRegister() {
       ) : (
         <div style={{ margin: '50px 0 0 0' }}>
         <Button variant="contained" style={{ margin: '0 20px 0 0' }} onClick={activateAccount}>Aprovar</Button>
-        <Button variant="outlined" onClick={() => history.push(`/recusar?email=${currentUser.email}`)}>Não aprovar</Button>
+        <Button variant="outlined" onClick={() => navigate(`/recusar?email=${currentUser.email}`)}>Não aprovar</Button>
       </div>
       )}
       

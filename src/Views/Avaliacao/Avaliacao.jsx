@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import seguranca from "./img/seguranca.png"
 import { useAuth } from '../../firebase';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Avaliacao=()=>{
   const {setFeedbacks} = useAuth();
@@ -20,7 +20,7 @@ const Avaliacao=()=>{
    const [feedback,setFeedback] = useState('');
    const [points,setPoints] = useState('')
    const author = strObj.name   
-   let history = useHistory();
+   let navigate = useNavigate();
 
 
     return(
@@ -49,7 +49,7 @@ const Avaliacao=()=>{
             <BtnAvaliation type='submit' onClick={()=>{
               if(email != ''){
                 setFeedbacks(author,feedback,points, email)
-                history.push(`/perfil?email=${email}`)
+                navigate(`/perfil?email=${email}`)
 
               }
             }}   >Avaliar</BtnAvaliation>

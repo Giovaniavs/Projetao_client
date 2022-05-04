@@ -3,8 +3,7 @@ import "firebase/storage";
 
 
 import firebase from "firebase";
-
-
+import { useNavigate } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -74,6 +73,7 @@ export const useAuth = () => {
       .then((response) => {
         const { email } = response.user;
         localStorage.setItem("uid", email);
+        return response.user
       })
       .catch((err) => {
         return err.code;
@@ -127,9 +127,8 @@ export const useAuth = () => {
             return user;
           }
         });
-        console.log(userFetched.type)
-        const userType = userFetched.type;
-        if (userType === "admin") {
+
+        if (userFetched.type === "admin") {
           window.location.replace("/admin")
         } else {
           window.location.replace("/home")

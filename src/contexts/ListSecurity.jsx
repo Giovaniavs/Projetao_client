@@ -1,21 +1,23 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 import { useQuery } from "../firebase";
 
+const ListSecurityContext = createContext()
 
-export const ListSecurtyContext = createContext()
-
-export const ListSecurtyContextProvider = ({children}) => {
+export const ListSecurityContextProvider = ({ children }) => {
   const { getGuards } = useQuery();
-  const [listSec, setListSec] = useState([]);
-  
+  const [listSec, setListSec] = useState(undefined);
+
   useEffect(() => {
-    setListSec(getGuards);
+    const newGuards = getGuards()
+    setListSec(newGuards);
   }, []);
 
   return (
-    <ListSecurtyContext.Provider value={{listSec, setListSec}}>
+    <ListSecurityContext.Provider value={{ listSec, setListSec }}>
       {children}
-    </ListSecurtyContext.Provider>
+    </ListSecurityContext.Provider>
   )
 }
+
+export const useListSecurity = () => useContext(ListSecurityContext)

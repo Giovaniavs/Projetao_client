@@ -1,7 +1,8 @@
-import styled from "styled-components";
+// import styled from "styled-components";
 
-export const WrapperText = styled.div`
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-`
+// export const WrapperText = ''
+// export const WrapperText = styled.div`
+// display:flex;
+// justify-content:space-between;
+// margin-top:10px;
+// `

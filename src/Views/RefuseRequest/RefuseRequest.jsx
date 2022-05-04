@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../../firebase';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
 const RefuseRequest=()=>{
@@ -23,7 +23,7 @@ const RefuseRequest=()=>{
   const [currentUser, setCurrentUser] = useState({});
   const [loadingEmailSending, setLoadingEmailSending] = useState(false);
   const author = strObj.name   
-  let history = useHistory();
+  let navigate = useNavigate();
 
    useEffect(() => {
     getUserInfo();
@@ -53,7 +53,7 @@ const RefuseRequest=()=>{
 
     await emailjs.send('service_z54odph', 'template_ns4stuj', templateParams, '4CqV65zx_cKzGrtHB')
     .then(() => {
-      history.push('/admin')
+      navigate('/admin')
     }, (error) => {
         console.log(error.text);
     });

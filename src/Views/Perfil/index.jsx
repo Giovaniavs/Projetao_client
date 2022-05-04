@@ -1,5 +1,5 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 import { FeedBacks } from "../../components/Feedbacks";
@@ -8,7 +8,6 @@ import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import Topic from "../../components/Topic";
 import { useAuth, useQuery } from "../../firebase";
-import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
 export default function Perfil() {
@@ -27,7 +26,7 @@ export default function Perfil() {
     textDecoration: "underline",
     color: "blue",
   };
-  let history = useHistory();
+  let navigate = useNavigate();
 
   useEffect(() => {
     getUserInfo();
@@ -110,7 +109,8 @@ export default function Perfil() {
   };
 
   if (shouldRedirect) {
-    return <Redirect push to="/avaliacao" />;
+    const navigate = useNavigate()
+    return navigate('/avaliacao')
   }
 
   if (loading)
@@ -173,7 +173,7 @@ export default function Perfil() {
           <div onClick={() => setShouldRedirect(true)}>
             <PrimaryButton
               onClick={() => {
-                history.push("/avaliacao");
+                navigate("/avaliacao");
                 localStorage.setItem("emailAvaliado", email);
               }}
             >

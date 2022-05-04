@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 import goldPlanImage from './gold-plan.jpg'
@@ -14,7 +14,7 @@ import silverPlanImage from './silver-plan.jpg'
 import bronzePlanImage from './bronze-plan.jpg'
 
 export const PlanSelector = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
 
     return (
       <div className="plan-selector-main-div">
@@ -38,7 +38,7 @@ export const PlanSelector = () => {
           </CardActionArea>
           <CardActions>
             <Button size="small" color="primary" onClick={() => {
-                history.push("/paymentScreen?selectedPlan=goldPlan");
+                navigate("/paymentScreen?selectedPlan=goldPlan");
               }}>
               Adquirir
             </Button>
@@ -65,7 +65,7 @@ export const PlanSelector = () => {
           </CardActionArea>
           <CardActions>
             <Button size="small" color="primary" onClick={() => {
-                history.push("/paymentScreen?selectedPlan=silverPlan");
+                navigate("/paymentScreen?selectedPlan=silverPlan");
               }}>
               Adquirir
             </Button>
@@ -92,7 +92,7 @@ export const PlanSelector = () => {
           </CardActionArea>
           <CardActions>
             <Button size="small" color="primary" onClick={() => {
-                history.push("/paymentScreen?selectedPlan=bronzePlan");
+                navigate("/paymentScreen?selectedPlan=bronzePlan");
               }}>
               Adquirir
             </Button>
