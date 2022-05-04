@@ -6,12 +6,16 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { useHistory } from "react-router-dom";
+
 
 import goldPlanImage from './gold-plan.jpg'
 import silverPlanImage from './silver-plan.jpg'
 import bronzePlanImage from './bronze-plan.jpg'
 
 export const PlanSelector = () => {
+  let history = useHistory();
+
     return (
       <div className="plan-selector-main-div">
         <Card sx={{ maxWidth: 345, margin: '35px 0 35px 0' }}>
@@ -33,7 +37,9 @@ export const PlanSelector = () => {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={() => {
+                history.push("/paymentScreen?selectedPlan=goldPlan");
+              }}>
               Adquirir
             </Button>
           </CardActions>
@@ -58,7 +64,9 @@ export const PlanSelector = () => {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={() => {
+                history.push("/paymentScreen?selectedPlan=silverPlan");
+              }}>
               Adquirir
             </Button>
           </CardActions>
@@ -83,7 +91,9 @@ export const PlanSelector = () => {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={() => {
+                history.push("/paymentScreen?selectedPlan=bronzePlan");
+              }}>
               Adquirir
             </Button>
           </CardActions>
