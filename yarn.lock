@@ -1137,6 +1137,11 @@
     tslib "^2.1.0"
     xml2js "^0.4.23"
 
+"@capacitor/clipboard@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@capacitor/clipboard/-/clipboard-1.0.8.tgz#5799cad4518618d45501509348a5c20d3ed32647"
+  integrity sha512-q8Fb5imJHQtYA+1sGqqigCrXmf0R1ZGXf/XMRtTznQqm0jhiayUusQN63Rv1YtKIPTJeeVJqy/i6rv72d4GH0Q==
+
 "@capacitor/core@^3.4.3":
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.4.3.tgz#3cf343b7035f1f6f9b73854dfb828600cd8a5e07"
@@ -1158,6 +1163,11 @@
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-1.0.8.tgz#a783561fb5815b30f3e75dd95c87e00aaff5450b"
   integrity sha512-lhxa70K6vg0QjdddbT9RqFLfQ9a0Fk1OVE54MhUH30DWymv4h2LrC+mJgH6JS46WQbR2UCHRymfmVCq1PS2Qiw==
+
+"@capacitor/toast@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@capacitor/toast/-/toast-1.0.8.tgz#290459f931d14888a7de72ec8a01cf99f5c65929"
+  integrity sha512-wLSxvf+GVt5VvLUBeaI2FwW846pAF9qVPq2z97Z+xSJ/7PkebTAHR2eixJ3jJXRCpm9J1gWkRvljSvQup3/xaw==
 
 "@csstools/normalize.css@*":
   version "12.0.0"

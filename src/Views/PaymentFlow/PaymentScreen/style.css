@@ -1,0 +1,30 @@
+.paymentScreen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.paymentBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    color: white;
+    font-size: 20px;
+    background-color: #1976d2;
+    padding: 5px;
+    margin: 15px;
+    border-radius: 15px;
+    border: none;
+}
+
+.button:hover {
+    background-color: blue;
+
+}

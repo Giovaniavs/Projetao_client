@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import userQueryParams from "./userQueryParams";
+import { Clipboard } from '@capacitor/clipboard';
+import { Toast } from '@capacitor/toast';
+import './style.css'
+
 export const PaymentScreen = () => {
     let query = userQueryParams();
     const sltdplan = query.get("selectedPlan") || 'bronzePlan';
@@ -49,27 +53,39 @@ export const PaymentScreen = () => {
         })
     }
 
+    async function copiarQR() {
+        const qrdata = payment.body.point_of_interaction.transaction_data.qr_code
+        await Clipboard.write({
+            string: qrdata
+        });
+        await Toast.show({
+            text: 'Copiado para a área de transferência...',
+          });
+    }
+
     useEffect(() => {
-        // createPayment()
+        createPayment()
     }, [])
 
 
     return (
-        <>
+        <div className="paymentScreen">
             {/* <p>{JSON.stringify(userData)}</p> */}
             {/* <p>{JSON.stringify(payload)}</p> */}
             {/* <p>{JSON.stringify(payment)}</p> */}
             {/* <p>{JSON.stringify(payment.body.point_of_interaction.transaction_data.qr_code_base64)}</p> */}
 
             {
-                payment ? <div>
-
-                    <img style={{ maxWidth: 200, maxHeight: 200 }} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`} />
-                    <button>Copiar Código</button>
-                </div> : <div>
-                    Loading...
-                </div>
+                payment ?
+                    <div className="paymentBody">
+                        <h2>R${plan()},00</h2>
+                        <h3>Esceneie o QR code abaixo, ou copie o código para efetuar o pagamento.</h3>
+                        <img style={{ maxWidth: 200, maxHeight: 200 }} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`} />
+                        <button className="button" onClick={copiarQR}>Copiar Código</button>
+                    </div> : <div>
+                        Loading...
+                    </div>
             }
-        </>
+        </div>
     )
 }
