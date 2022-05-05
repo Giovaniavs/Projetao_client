@@ -73,6 +73,10 @@ export default function NavBar() {
         url: "conections",
         sideBarName: "Conexões atuais",
       },
+      {
+        url: "planSelector",
+        sideBarName: "Upgrade de Perfil",
+      },
     ];
   } else if (userInfo.type === 'shopman') {
     loadPages = [

@@ -21,10 +21,12 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
+import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
+import { PaymentScreen } from "./Views/PaymentFlow/PaymentScreen";
 
-StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
-StatusBar.setStyle({ style: Style.Dark }).catch(() => {});
-StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => {});
+StatusBar.setOverlaysWebView({ overlay: false }).catch(() => { });
+StatusBar.setStyle({ style: Style.Dark }).catch(() => { });
+StatusBar.setBackgroundColor({ color: "#1976d2" }).catch(() => { });
 
 // Aqui você define todas as rotas que serão utilizadas dentro da plataforma quando o usuário estiver logado
 // Depois que você criar uma rota aqui, você obrigatoriamente precisa adicionar ela dentro do parentesis da terceira Route da função App() deste mesmo arquivo.
@@ -32,20 +34,21 @@ function PlataformRoutes() {
   return (
     <Router>
       <ListRequestRegisterSecurtyContextProvider>
-      <ListSecurtyContextProvider>
-      <UserContextProvider>
-        <NavBar />
-        <Switch>
-          <Route component={ListSecurity} exact path="/home" />
-          <Route component={ListRequestRegisterSecurity} exact path="/admin" />
-          <Route component={Perfil} exact path="/perfil" />
-          <Route component={Avaliacao} exact path="/avaliacao" />
-          <Route component={PerfilRequestRegister} exact path="/perfilVerificacao" />
-          <Route component={RefuseRequest} exact path="/recusar" />
-
-        </Switch>
-      </UserContextProvider>
-      </ListSecurtyContextProvider>
+        <ListSecurtyContextProvider>
+          <UserContextProvider>
+            <NavBar />
+            <Switch>
+              <Route component={ListSecurity} exact path="/home" />
+              <Route component={ListRequestRegisterSecurity} exact path="/admin" />
+              <Route component={Perfil} exact path="/perfil" />
+              <Route component={Avaliacao} exact path="/avaliacao" />
+              <Route component={PerfilRequestRegister} exact path="/perfilVerificacao" />
+              <Route component={RefuseRequest} exact path="/recusar" />
+              <Route component={PlanSelector} exact path="/planSelector" />
+              <Route component={PaymentScreen} exact path="/paymentScreen" />
+            </Switch>
+          </UserContextProvider>
+        </ListSecurtyContextProvider>
       </ListRequestRegisterSecurtyContextProvider>
     </Router>
   );
@@ -62,7 +65,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar|planSelector|paymentScreen)" />
           </UserContextProvider>
         </Switch>
       </Router>
