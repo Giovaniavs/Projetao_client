@@ -32,8 +32,8 @@ export const ProfileName = styled.p`
   color: #000000;
 
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: clip;
+  white-space: pre-wrap;
 `;
 export const ProfilelStars = styled.p`
   width: 100%;
