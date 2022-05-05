@@ -52,6 +52,9 @@ export const LoginScreen = () => {
         } else {
           navigate('/home')
         }
+
+        localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
         break;
     }
 
