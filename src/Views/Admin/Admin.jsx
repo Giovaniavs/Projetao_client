@@ -1,37 +1,36 @@
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from 'react-router-dom';
-import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./ListSecurity.style";
+import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./Admin.style";
 
 import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 
-import { ListSecurtyContext } from "../../contexts/ListSecurity";
+import { ListRequestRegisterSecurtyContext } from "../../contexts/ListRequestRegisterGuards";
 
-const ListSecurity = () => {
+const ListRequestRegisterSecurity = () => {
   const [email, setEmail] = useState('');
-  const {listSec, setListSec} = useContext(ListSecurtyContext);
+  const {listSecRequestRegister, setListSecRequestRegister} = useContext(ListRequestRegisterSecurtyContext);
 
   useEffect(() => {
-    Promise.resolve(listSec).then(guardsList => setListSec(guardsList));
-  }, [listSec]);
+    Promise.resolve(listSecRequestRegister).then(guardsList => setListSecRequestRegister(guardsList));
+  }, [listSecRequestRegister]);
 
   if (email != '') {
     return (
-      <Redirect push to={`/perfil?email=${email}`} />
+      <Redirect push to={`/perfilVerificacao?email=${email}`} />
     );
   };
 
-
-
+  
 
   return (
     <ListSecurityContainer>
       <br></br>
       <br></br>
       <br></br>
-      {listSec.length > 0 ? 
+      {listSecRequestRegister.length > 0 ? 
       <>
         <ListNotEmpty>
-          {listSec.map((element) => {
+          {listSecRequestRegister.map((element) => {
             return (
               <ItemList onClick={() => setEmail(element.email)}>
               <img src={element.imgSrc} alt="" />
@@ -67,4 +66,4 @@ const ListSecurity = () => {
   )
 }
 
-export default ListSecurity;
+export default ListRequestRegisterSecurity;
