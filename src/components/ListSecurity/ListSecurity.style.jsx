@@ -101,6 +101,7 @@ export const ItemList = styled.div`
   }
   
   div.begin {
+    color: #09629E;
     padding: 3%;
     background-color: #FFF;
     width: 50%;
@@ -111,8 +112,12 @@ export const ItemList = styled.div`
     flex-direction: column;
     /* border-radius: 10px; */
     h6 {
+
       font-size: 1.2rem;
       margin: 2%;
+      text-overflow: clip;
+      white-space: pre-wrap;
+
     }
     div.score {
       display: flex;

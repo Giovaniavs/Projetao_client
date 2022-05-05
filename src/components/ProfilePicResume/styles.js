@@ -41,7 +41,7 @@ export const ProfilelStars = styled.p`
   font-weight: 400;
   font-size: 18px;
 
-  color: #000000;
+  color: #09629E;
 
   text-align: center;
 `;

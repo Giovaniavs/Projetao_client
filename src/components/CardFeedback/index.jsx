@@ -16,13 +16,13 @@ export default function FeedbackCard(props) {
         <CardContent> 
             <div>
 
-        <Typography sx={{ fontSize: 15 }}  >
+        <Typography sx={{ fontSize: 15 , textAlign: 'justify'}}  >
           {feedback}
         </Typography>
             </div>
             <WrapperText>
 
-        <Typography sx={{fontWeight: 'bold', fontSize: 13 }}  >
+        <Typography sx={{fontWeight: 'bold', fontSize: 13, marginTop: 1 }}  >
         {author}
       </Typography>
       <Rate disabled defaultValue={points}></Rate>
