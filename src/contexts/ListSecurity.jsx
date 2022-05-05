@@ -1,7 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 
-import perfil from '../assets/images/SecPerfil.png'
-
 import { useQuery } from "../firebase";
 
 

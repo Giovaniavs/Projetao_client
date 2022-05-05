@@ -75,7 +75,6 @@ export const ListNotEmpty = styled.div`
   /* background-color: #DDDDDD; */
   /* padding: 5%; */
   border-radius: 10px;
-  overflow: auto;
   
   `;
 
@@ -101,7 +100,6 @@ export const ItemList = styled.div`
   }
   
   div.begin {
-    color: #09629E;
     padding: 3%;
     background-color: #FFF;
     width: 50%;
@@ -112,12 +110,8 @@ export const ItemList = styled.div`
     flex-direction: column;
     /* border-radius: 10px; */
     h6 {
-
       font-size: 1.2rem;
       margin: 2%;
-      text-overflow: clip;
-      white-space: pre-wrap;
-
     }
     div.score {
       display: flex;
@@ -131,7 +125,7 @@ export const ItemList = styled.div`
     }
   }
   
-  div.end-none {
+  div.end {
     background-color: #FFF;
     display: flex;
     justify-content: flex-end;
@@ -139,5 +133,6 @@ export const ItemList = styled.div`
     padding-right: 15px;
     height: 100px;
     width: 20%;
+    border-radius: 0px 10px 10px 0px;
   }
 `;

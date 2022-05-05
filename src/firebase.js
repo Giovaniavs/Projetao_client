@@ -1,7 +1,10 @@
 import "firebase/firestore";
 import "firebase/storage";
 
+
 import firebase from "firebase";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -19,23 +22,49 @@ export const db = fire.firestore();
 export const storage = firebase.storage();
 
 export const useAuth = () => {
-  const createUser = async ({ user, images }) => {
+  const createUser = async ({ user, images }, callback) => {
     const { name, email, contact, type, description } = user;
-    return await fire
-      .firestore()
-      .collection("user")
-      .doc(email)
-      .set({
-        name,
-        email,
-        contact,
-        type,
-        starsCount: 0,
-        imgSrc: images.imgSrc,
-        description,
-        verified: false,
-      })
-      .then((response) => true);
+    await Promise.all([
+      // create user collection
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .set({
+          name,
+          email,
+          contact,
+          type,
+          starsCount: 0,
+          imgSrc: (images.perfilPic[0] && images.perfilPic[0].url) || "",
+          description,
+          verified: false,
+        }),
+
+      // set user certifications
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .collection("certifications")
+        .doc()
+        .set({ images: images.certifications }),
+
+      // set user documents
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .collection("docs")
+        .doc()
+        .set({
+          images: [
+            ...images.carteiradeIdentidade,
+            ...images.comprovanteResidencia,
+          ],
+        }),
+      fire.firestore().collection("user").doc(email).collection("feedbacks"),
+    ]).then((response) => callback(response));
   };
 
   const signIn = (email, password) => {
@@ -51,46 +80,30 @@ export const useAuth = () => {
       });
   };
 
-  const signUp = ({ user, images, setIsLoading, setShouldRedirectToLogin }) => {
+  const signUp = (
+    { user, images, setIsLoading, setShouldRedirectToLogin },
+    callback
+  ) => {
     const { email, password } = user;
     setIsLoading(true);
     return fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(async () => {
-        const userCreated = await createUser({ user, images });
-        if (userCreated) {
-          setIsLoading(true);
-          await setDocuments({
-            user,
-            imageUrl: images.idCard,
-            docName: "identidade/registro geral/rg",
-          });
+      .then(async (response) => {
+        callback(user);
 
-          await setDocuments({
-            user,
-            imageUrl: images.residenceDoc,
-            docName: "comprovante residencia",
-          });
-
-          await setDocuments({
-            user,
-            certifications: images.certifications,
-          });
-
-          setIsLoading(false);
-        }
+        setIsLoading(false);
+        // }
       });
   };
-  const setFeedbacks = (author,feedback,points,email) =>{
-
+  const setFeedbacks = (author, feedback, points, email) => {
     db.collection("user")
       .doc(email)
       .collection("feedbacks")
       .add({
         author,
         feedback,
-        points
+        points,
       })
       .then((docRef) => {
         console.log("Doc written with ID: ", docRef);
@@ -99,49 +112,9 @@ export const useAuth = () => {
         console.error("Error adding document: ", error);
       });
   };
-  const setDocuments = ({ user, imageUrl, docName, certifications }) => {
-    if (certifications) {
-      var batch = db.batch();
-      certifications.forEach((cert, index) => {
-        const certRef = db
-          .collection("user")
-          .doc(user.email)
-          .collection("certifications")
-          .doc();
-        batch.set(certRef, {
-          url: cert,
-          name: `Certification ${index}`,
-        });
-      });
 
-      batch
-        .commit()
-        .then((docRef) => {
-          console.log("Certification written with ID: ", docRef);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
-
-      return;
-    }
-    db.collection("user")
-      .doc(user.email)
-      .collection("docs")
-      .add({
-        url: imageUrl,
-        name: docName,
-      })
-      .then((docRef) => {
-        console.log("Doc written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-  };
-
-  const findUser = (email) => {
-    return fire
+  const findUser = async (email) => {
+    return await fire
       .firestore()
       .collection("user")
       .onSnapshot((querySnapshot) => {
@@ -154,6 +127,14 @@ export const useAuth = () => {
             return user;
           }
         });
+        console.log(userFetched.type)
+        const userType = userFetched.type;
+        if (userType === "admin") {
+          window.location.replace("/admin")
+        } else {
+          window.location.replace("/home")
+
+        };
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -175,6 +156,7 @@ export const useAuth = () => {
   };
 
   return {
+    createUser,
     signIn,
     signUp,
     findUser,
@@ -252,7 +234,43 @@ export const useQuery = () => {
     return guardList;
   };
 
-  return { getGroups, getGuards, getOccurrences };
+  const getRequestRegisterGuards = async () => {
+    let getRequestRegisterGuards = [];
+    await fire
+      .firestore()
+      .collection("user")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (!doc.data().verified && doc.data().type === "guard") {
+            getRequestRegisterGuards = [...getRequestRegisterGuards, doc.data()];
+          }
+        });
+      });
+    return getRequestRegisterGuards;
+  };
+
+  const setVerification = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .update({
+        verified: isVerified,
+      })
+      .then((response) => true);
+  };
+
+  const banAccount = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .delete()
+      .then((response) => true);
+  };
+
+  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards, setVerification, banAccount };
 };
 
 export const useStorage = () => {
