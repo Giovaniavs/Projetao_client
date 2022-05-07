@@ -97,35 +97,43 @@ export const useAuth = () => {
         // }
       });
   };
-  const setFeedbacks = (author, feedback, points, email) => {
-    // db.collection("user")
-    //   .doc(email)
-    //   .collection("feedbacks")
-    //   .add({
-    //     author,
-    //     feedback,
-    //     points,
-    //   })
-    //   .then((docRef) => {
-    //     console.log("Doc written with ID: ", docRef);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error adding document: ", error);
-    //   });
+  const setFeedbacks = async (author, feedback, points, email) => {
+    let starsList = [];
+    let sumStars = 0;
 
-      db.collection("user")
+    await db.collection("user")
+      .doc(email)
+      .collection("feedbacks")
+      .add({
+        author,
+        feedback,
+        points,
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+
+      await db.collection("user")
       .doc(email)
       .collection("feedbacks")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log("aaaaaaaaaaaaaaaa");
-          console.log(doc.data());
+          sumStars = sumStars + doc.data().points;
+          starsList.push(doc.data().points);
         });
       })
 
-     
-      
+
+
+      await db.collection("user")
+      .doc(email)
+      .update({
+        starsCount: Math.floor(sumStars / starsList.length),
+      })
   };
 
   const findUser = async (email) => {
