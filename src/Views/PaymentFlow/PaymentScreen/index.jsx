@@ -19,6 +19,8 @@ export const PaymentScreen = () => {
                 return 15
             case 'bronzePlan':
                 return 5
+            case 'shopkeeper':
+                return 15
             default:
                 return 5
         }
@@ -32,6 +34,8 @@ export const PaymentScreen = () => {
                 return 'silver'
             case 'bronzePlan':
                 return 'bronze'
+            case 'shopkeeper':
+                return 'shopkeeper'
             default:
                 return 'bronze'
         }
