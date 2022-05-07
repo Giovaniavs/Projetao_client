@@ -35,22 +35,7 @@ const ListSecurity = () => {
             return (
               <ItemList onClick={() => setEmail(element.email)}>
               <img src={element.imgSrc} alt="" />
-              {element.profileBoostPlan === 'diamond' &&
-              <>
-                <div className="begin-diamond">
-                  <h6>{element.name}</h6>
-                  <div className="score">
-                    <p>{element.starsCount}</p>
-                    <AiOutlineStar size={18}/>
-                  </div>
-                </div>
-                <div className="end-diamond">
-                  <AiOutlineRight />
-                </div>
-              </>
-              }
-
-              {element.profileBoostPlan === 'gold' &&
+              {element.profileBoostPlan === 'goldPlan' &&
               <>
                 <div className="begin-gold">
                   <h6>{element.name}</h6>
@@ -65,7 +50,22 @@ const ListSecurity = () => {
               </>
               }
 
-              {element.profileBoostPlan === 'bronze' &&
+              {element.profileBoostPlan === 'silverPlan' &&
+              <>
+                <div className="begin-silver">
+                  <h6>{element.name}</h6>
+                  <div className="score">
+                    <p>{element.starsCount}</p>
+                    <AiOutlineStar size={18}/>
+                  </div>
+                </div>
+                <div className="end-silver">
+                  <AiOutlineRight />
+                </div>
+              </>
+              }
+
+              {element.profileBoostPlan === 'bronzePlan' &&
               <>
                 <div className="begin-bronze">
                   <h6>{element.name}</h6>

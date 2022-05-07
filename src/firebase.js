@@ -200,8 +200,8 @@ export const useQuery = () => {
   };
 
   const getGuards = async () => {
-    let listDiamond = [];
     let listGold = [];
+    let listSilver = [];
     let listBronze = [];
     let listNone = [];
     let guardList = [];
@@ -213,12 +213,12 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().verified && doc.data().type === "guard") {
-            if (doc.data().profileBoostPlan === 'diamond') {
-              listDiamond = [...listDiamond, doc.data()];
-            } else if (doc.data().profileBoostPlan === 'gold') {
+            if (doc.data().profileBoostPlan === 'silverPlan') {
+              listSilver = [...listSilver, doc.data()];
+            } else if (doc.data().profileBoostPlan === 'goldPlan') {
               listGold = [...listGold, doc.data()];
 
-            } else if (doc.data().profileBoostPlan === 'bronze') {
+            } else if (doc.data().profileBoostPlan === 'bronzePlan') {
               listBronze = [...listBronze, doc.data()];
 
             } else if (doc.data().profileBoostPlan === 'none') {
@@ -228,7 +228,7 @@ export const useQuery = () => {
           }
         });
 
-      guardList = [...listDiamond, ...listGold, ...listBronze, ...listNone];
+      guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
 
       });
     return guardList;
