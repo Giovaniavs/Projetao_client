@@ -98,20 +98,34 @@ export const useAuth = () => {
       });
   };
   const setFeedbacks = (author, feedback, points, email) => {
-    db.collection("user")
+    // db.collection("user")
+    //   .doc(email)
+    //   .collection("feedbacks")
+    //   .add({
+    //     author,
+    //     feedback,
+    //     points,
+    //   })
+    //   .then((docRef) => {
+    //     console.log("Doc written with ID: ", docRef);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error adding document: ", error);
+    //   });
+
+      db.collection("user")
       .doc(email)
       .collection("feedbacks")
-      .add({
-        author,
-        feedback,
-        points,
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log("aaaaaaaaaaaaaaaa");
+          console.log(doc.data());
+        });
       })
-      .then((docRef) => {
-        console.log("Doc written with ID: ", docRef);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+
+     
+      
   };
 
   const findUser = async (email) => {
