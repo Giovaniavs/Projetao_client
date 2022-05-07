@@ -26,7 +26,7 @@ function Perfil() {
 
   
   const getStatus = () => {
-    getConnections( currentUserLogged.email,currentUser.email,).then(res => {
+    getConnections( currentUserLogged.email, currentUser.email,).then(res => {
       res.get().then( doc => {
         if (doc.exists) {
           console.log("Document data:", doc.data(), 'documentooo AQUIII');
@@ -36,7 +36,7 @@ function Perfil() {
       } else {
   
  
-          console.log("No such document!");
+          console.log("test 123");
           setIsCurrentConnection(-1)
       }
       })
@@ -51,7 +51,7 @@ function Perfil() {
   let history = useHistory();
 
   useEffect(() => {
-    getStatus()
+    getStatus();
     getUserInfo();
     getDocs();
     getEvaluations();
@@ -144,7 +144,7 @@ function Perfil() {
       </Topic>
 
       {
-        isCurrentConnection === -1   & currentUserLogged.type != 'guard' ? 
+        isCurrentConnection === -1  && currentUserLogged.type != 'guard' ? 
         <Button 
           variant="contained" 
           onClick={async () => {
@@ -153,14 +153,14 @@ function Perfil() {
            await setIsCurrentConnection(0)
           }}>conectar-se
         </Button>
-        : isCurrentConnection === 0 & currentUserLogged.type != 'guard' ?  <>
+        : isCurrentConnection === 0 && currentUserLogged.type != 'guard' ?  <>
         <Button 
           variant="contained" 
           disabled 
           onClick={() => {
             // console.log(currentUserLogged)
           }}>solicitação enviada
-        </Button></>  : isCurrentConnection ===1 & currentUserLogged.type != 'guard' ? <>
+        </Button></>  : isCurrentConnection ===1 && currentUserLogged.type != 'guard' ? <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
@@ -175,7 +175,7 @@ function Perfil() {
         
 
 
-        </> :  isCurrentConnection ===2 & currentUserLogged.type != 'guard'? <> <h1>essa connexao já foi finalizada</h1></>: <></>
+        </> :  isCurrentConnection ===2 && currentUserLogged.type != 'guard'? <> <h1>essa connexao já foi finalizada</h1></>: <></>
       
       } 
      
