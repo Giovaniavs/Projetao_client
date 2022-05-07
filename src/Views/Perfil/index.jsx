@@ -24,7 +24,6 @@ function Perfil() {
 
   
 
-  getStatus()
   
   const getStatus = () => {
     getConnections( currentUserLogged.email,currentUser.email,).then(res => {
@@ -55,7 +54,7 @@ function Perfil() {
 
   // getStatus();  
   useEffect(() => {
-
+    getStatus()
     getUserInfo();
     getDocs();
     getEvaluations();
