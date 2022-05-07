@@ -52,8 +52,8 @@ export default function NavBar() {
       sideBarName: "Pagina Inicial",
     },
     {
-      url: "connections",
-      sideBarName: "Conexões ",
+      url: "conectionsPending",
+      sideBarName: "Conexões",
     },
   ];
   const theme = useTheme();
