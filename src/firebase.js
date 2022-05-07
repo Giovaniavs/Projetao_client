@@ -178,8 +178,8 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("evaluations");
   };
 
-  const updateConnections = (email_guard, email_shopman,status_connection) => {
-    db.collection("user")
+  const updateConnections = async (email_guard, email_shopman,status_connection) => {
+    await db.collection("user")
       .doc(email_guard)
       .collection("connections")
       .doc(email_shopman)
@@ -194,7 +194,7 @@ export const useAuth = () => {
         console.error("Error adding document: ", error);
       });
 
-      db.collection("user")
+    await  db.collection("user")
       .doc(email_shopman)
       .collection("connections")
       .doc(email_guard)
@@ -211,7 +211,7 @@ export const useAuth = () => {
       
   }
 
-  const setConnections = async ( email_guard, email_shopman, nome, status_connection =0  ) => {
+  const setConnections = async ( email_guard, email_shopman, nome_guard,nome_shopman, status_connection =0  ) => {
     // console.log('to aqui em set')
     await db.collection("user")
       .doc(email_guard)
@@ -219,7 +219,9 @@ export const useAuth = () => {
       .doc(email_shopman)
       .set({
         email_shopman,
-        nome,
+        nome_shopman,
+        email_guard,
+        nome_guard,
         status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
       })
       // .then((docRef) => {
@@ -234,8 +236,10 @@ export const useAuth = () => {
       .collection("connections")
       .doc(email_guard)
       .set({
+        email_shopman,
+        nome_shopman,
         email_guard,
-        nome,
+        nome_guard,
         status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
       })
       // .then((docRef) => {

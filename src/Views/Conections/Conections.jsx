@@ -6,6 +6,7 @@ import { CardContent } from "@mui/material";
 import { ConectionsContainer } from "./Conections.style";
 import Typography from '@mui/material/Typography';
 import { useAuth } from "../../firebase";
+import { useHistory } from "react-router-dom";
 
 function ConectionsPending() {
   const email = localStorage.getItem("uid");
@@ -13,6 +14,8 @@ function ConectionsPending() {
   const [connection, setConnection] = useState([])
   const strObj = JSON.parse(localStorage.getItem("userInfo"))
   const isGuard = strObj.type 
+  let history = useHistory();
+
   console.log('toa qui')
   
   const getAllConnectionsStatus = () => {
@@ -39,22 +42,33 @@ function ConectionsPending() {
         connection.map(dado => (
           <Card sx={{ maxWidth: 300, minWidth: 300, maxHeight: 100 , minHeight: 100  }}>
           <CardContent>
-        
-
-          <Typography variant="h5" component="div">
-{dado.nome}</Typography>
-  <Typography variant="body2">{dado.email_guard || dado.email_shopman}</Typography>
           { dado.status_connection == '0' && isGuard== 'guard' ?
+<>
+<Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
+<Typography variant="body2">{ dado.email_shopman}</Typography>
            <Button size="small" onClick={()=> {
-            console.log("logica do update aqui ")
-            updateConnections(email,dado.email_guard,'1')
-          }}>Conectar</Button> :
+            console.log(dado.email_shopman,dado.email_guard,'1')
+
+            updateConnections(dado.email_shopman,dado.email_guard,'1')
+            history.push('/conectionsPending')
+          }}>Conectar</Button> </> :
            dado.status_connection == '0' && isGuard != 'guard' ?
            <>
+           <Typography variant="h5" component="div">{dado.nome_guard}</Typography>
+<Typography variant="body2">{ dado.email_guard}</Typography>
           <Button disabled size="small"> Aguardando aprovação </Button> </>
           
-          : <Button disabled size="small"> Conexão estabelecida </Button>}
-        
+          :  dado.status_connection != '0' && isGuard != 'guard' ?
+          <>
+          <Typography variant="h5" component="div">{dado.nome_guard}</Typography>
+          <Typography variant="body2">{ dado.email_guard}</Typography>
+          <Button disabled size="small"> Conexão estabelecida </Button> </>:<>
+          <Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
+          <Typography variant="body2">{ dado.email_shopman}</Typography>
+          <Button disabled size="small"> Conexão estabelecida </Button>
+          </>
+          }
+          
         
           </CardContent>
           </Card>

@@ -20,7 +20,7 @@ function Perfil() {
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
-  const [isCurrentConnection, setIsCurrentConnection] = useState(-1)
+  const [isCurrentConnection, setIsCurrentConnection] = useState()
 
   
 
@@ -32,12 +32,10 @@ function Perfil() {
           console.log("Document data:", doc.data(), 'documentooo AQUIII');
           
            setIsCurrentConnection(parseInt(doc.data().status_connection))
-          // return doc.data().status_connection
-          // AQUI SETARIA O NOVO VALOR PARA O TIPO DE STATUS
+    
       } else {
   
-        // AQUI MOSTRARIA O BTN CONNECTAR
-          // doc.data() will be undefined in this case
+ 
           console.log("No such document!");
           setIsCurrentConnection(-1)
       }
@@ -52,14 +50,12 @@ function Perfil() {
   };
   let history = useHistory();
 
-  // getStatus();  
   useEffect(() => {
     getStatus()
     getUserInfo();
     getDocs();
     getEvaluations();
   }, [query]);
-  console.log(isCurrentConnection)
   const getUserInfo = () => {
     getUserProfile(email)
       .then((user) => {
@@ -152,10 +148,9 @@ function Perfil() {
         <Button 
           variant="contained" 
           onClick={async () => {
-            console.log('TO NO BTN CONNECTION')
-            console.log(isCurrentConnection)
-            await  setConnections( currentUser.email, currentUserLogged.email, currentUserLogged.name , '0')
-            setIsCurrentConnection(0)
+          console.log(currentUser.name, currentUserLogged.name)
+          await  setConnections( currentUser.email, currentUserLogged.email,currentUser.name, currentUserLogged.name , '0')
+           await setIsCurrentConnection(0)
           }}>conectar-se
         </Button>
         : isCurrentConnection === 0 & currentUserLogged.type != 'guard' ?  <>
