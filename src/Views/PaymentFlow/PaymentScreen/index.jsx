@@ -79,7 +79,7 @@ export const PaymentScreen = () => {
                 payment ?
                     <div className="paymentBody">
                         <h2>R${plan()},00</h2>
-                        <h3>Esceneie o QR code abaixo, ou copie o código para efetuar o pagamento.</h3>
+                        <h3 style={{textAlign: 'center'}}>Escaneie o QR code abaixo, ou copie o código para efetuar o pagamento.</h3>
                         <img style={{ maxWidth: 200, maxHeight: 200 }} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`} />
                         <button className="button" onClick={copiarQR}>Copiar Código</button>
                     </div> : <div>
