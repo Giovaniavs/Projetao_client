@@ -38,6 +38,7 @@ export const useAuth = () => {
           starsCount: 0,
           imgSrc: (images.perfilPic[0] && images.perfilPic[0].url) || "",
           description,
+          profileBoostPlan: 'none',
           verified: false,
         }),
 
