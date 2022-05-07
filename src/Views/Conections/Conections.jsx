@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 
 import { ConectionsContainer } from "./Conections.style";
 import { useAuth } from "../../firebase";
-import { useHistory } from "react-router-dom";
 
-function ConectionsPending () {
+function ConectionsPending() {
   const email = localStorage.getItem("uid");
   const {  getAllConnections, updateConnections } = useAuth();
   const [connection, setConnection] = useState([])
@@ -24,12 +23,6 @@ function ConectionsPending () {
     })
   }
 
-
-  const linkStyle = {
-    textDecoration: "underline",
-    color: 'blue'
-  };
-  let history = useHistory();
   useEffect( () => {
     getAllConnectionsStatus()
   }, []);
