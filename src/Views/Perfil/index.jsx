@@ -169,7 +169,7 @@ export default function Perfil() {
           <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
         </div>
       ) : (
-        !hasNoLoggedUser && (
+        !hasNoLoggedUser && currentUserLogged.type !== "admin" && (
           <div onClick={() => setShouldRedirect(true)}>
             <PrimaryButton
               onClick={() => {
