@@ -5,6 +5,7 @@ import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./List
 import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 
 import { ListSecurtyContext } from "../../contexts/ListSecurity";
+import { Button } from "@mui/material";
 
 const ListSecurity = () => {
   const [email, setEmail] = useState('');
@@ -48,7 +49,7 @@ const ListSecurity = () => {
           })}
         </ListNotEmpty> 
         
-        <button className="btn-plus">CONTRATAR MAIS</button>
+        <Button variant="contained" className="btn-plus">CONTRATAR MAIS</Button>
       </>
       : 
       
@@ -57,7 +58,7 @@ const ListSecurity = () => {
           <h1>Não há seguranças</h1>
           <p>Ainda não há seguranças responsáveis para esse grupo!</p>
         </div>
-        <button>CONTRATAR AGORA</button>
+        <Button variant="contained">CONTRATAR AGORA</Button>
       </ListEmpty>
         
       }

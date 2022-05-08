@@ -194,7 +194,7 @@ export const useAuth = () => {
         console.error("Error adding document: ", error);
       });
 
-    await  db.collection("user")
+    await db.collection("user")
       .doc(email_shopman)
       .collection("connections")
       .doc(email_guard)

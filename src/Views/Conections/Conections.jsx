@@ -43,19 +43,34 @@ function ConectionsPending() {
           <Card sx={{ maxWidth: 300, minWidth: 300, maxHeight: 100 , minHeight: 100  }}>
           <CardContent>
           { dado.status_connection == '0' && isGuard== 'guard' ?
-<>
-<Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
-<Typography variant="body2">{ dado.email_shopman}</Typography>
-           <Button size="small" onClick={()=> {
+        <>
+        <Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
+        <Typography variant="body2">{ dado.email_shopman}</Typography>
+           <Button 
+           variant="contained" 
+           color="success" 
+           size="small" 
+           onClick={()=> {
             console.log(dado.email_shopman,dado.email_guard,'1')
 
             updateConnections(dado.email_shopman,dado.email_guard,'1')
             history.push('/conectionsPending')
-          }}>Conectar</Button> </> :
+          }}>aceitar</Button>
+          <Button 
+          variant="contained" 
+          color="error" 
+          size="small" 
+          onClick={()=> {
+            console.log(dado.email_shopman,dado.email_guard,'-1')
+
+            updateConnections(dado.email_shopman,dado.email_guard,'-1')
+            history.push('/conectionsPending')
+          }}>cancelar</Button>
+           </> :
            dado.status_connection == '0' && isGuard != 'guard' ?
            <>
            <Typography variant="h5" component="div">{dado.nome_guard}</Typography>
-<Typography variant="body2">{ dado.email_guard}</Typography>
+          <Typography variant="body2">{ dado.email_guard}</Typography>
           <Button disabled size="small"> Aguardando aprovação </Button> </>
           
           :  dado.status_connection != '0' && isGuard != 'guard' ?

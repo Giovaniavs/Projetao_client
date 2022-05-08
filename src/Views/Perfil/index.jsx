@@ -50,12 +50,14 @@ function Perfil() {
   };
   let history = useHistory();
 
+  getStatus();
+  console.log('renderizou')
   useEffect(() => {
-    getStatus();
     getUserInfo();
     getDocs();
     getEvaluations();
   }, [query]);
+
   const getUserInfo = () => {
     getUserProfile(email)
       .then((user) => {
