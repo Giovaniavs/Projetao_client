@@ -58,13 +58,6 @@ const LoginScreen = () => {
     );
   }
 
-  if (shouldRedirectToApp) {
-    return (
-      <Redirect push to="/home" />
-    );
-  }
-
-
   return (
     <div className='IsLogged'>
       <section className='login'>

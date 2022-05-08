@@ -12,6 +12,8 @@ import seguranca from "./img/seguranca.png"
 import { useAuth } from '../../firebase';
 import { useHistory } from "react-router-dom";
 import userQueryParams from '../Perfil/userQueryParams';
+import ReactLoading from "react-loading";
+
 
 const Avaliacao=()=>{
   let query = userQueryParams();
@@ -22,6 +24,7 @@ const Avaliacao=()=>{
     const imgAvalido = localStorage.getItem("urlAvaliado")
    const [feedback,setFeedback] = useState('');
    const [points,setPoints] = useState('')
+   const [isLoading,setIsLoading] = useState(false)
    const author = strObj.name   
    let history = useHistory();
    const [currentUser, setCurrentUser] = useState({});
@@ -54,19 +57,14 @@ const Avaliacao=()=>{
     return(
         
         <Wrapper>
-          
-            {
-                imgAvalido?(<>
-
-                        
-                            <ProfilePic src={imgAvalido}/> 
-
-                </>):(<>
-                <ProfilePic src={seguranca}/>
+            {imgAvalido?(<>
+                <ProfilePic src={imgAvalido}/> 
+                </>):(
+                <>
+                  <ProfilePic src={seguranca}/>
                 </>)
             }
             <Typography sx={{fontWeight: 'bold', fontSize: 25 }} >Feedback</Typography>
-
             <Box
       sx={{
         width: 500,
@@ -79,16 +77,30 @@ const Avaliacao=()=>{
     </Box>
             <Rate className='starRating' onChange={(numero)=> setPoints(numero)}/>
             <Typography sx={{fontWeight: 'bold', fontSize: 25 }} >Nota Final</Typography>
-            <BtnAvaliation type='submit' onClick={()=>{
-              console.log('logado', currentUserLogged)
-              console.log('perfil', emailPerfil)
+            
+            {isLoading ? (
+              <ReactLoading
+              className="loading-login-screen-style"
+              type="bars"
+              color="#09629E"
+              height={"20%"}
+              width={"20%"}
+            />
+            ) : (
+            <BtnAvaliation type='submit' onClick={async ()=>{
               if(email != ''){
-                setFeedbacks(author,feedback,points, email)
-                updateConnections(currentUserLogged.email,emailPerfil,'-1')
-                history.push(`/perfil?email=${email}`)
+                setIsLoading(true);
+                await setFeedbacks(author,feedback,points, email)
+                await updateConnections(currentUserLogged.email,emailPerfil,'-1')
+                window.location.replace("/home")
 
               }
             }}   >Avaliar</BtnAvaliation>
+            )
+
+            }
+            
+            
         </Wrapper>
         
     )

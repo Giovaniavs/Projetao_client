@@ -1,7 +1,10 @@
 import "firebase/firestore";
 import "firebase/storage";
 
+
 import firebase from "firebase";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -19,24 +22,50 @@ export const db = fire.firestore();
 export const storage = firebase.storage();
 
 export const useAuth = () => {
-  const createUser = async ({ user, images }) => {
+  const createUser = async ({ user, images }, callback) => {
     const { name, email, contact, type, description } = user;
-    return await fire
-      .firestore()
-      .collection("user")
-      .doc(email)
-      .set({
-        name,
-        email,
-        contact,
-        type,
-        starsCount: 0,
-        imgSrc: images.imgSrc,
-        description,
-        verified: false
-      
-      })
-      .then((response) => true);
+    await Promise.all([
+      // create user collection
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .set({
+          name,
+          email,
+          contact,
+          type,
+          starsCount: 0,
+          imgSrc: (images.perfilPic[0] && images.perfilPic[0].url) || "",
+          description,
+          profileBoostPlan: 'none',
+          verified: false,
+        }),
+
+      // set user certifications
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .collection("certifications")
+        .doc()
+        .set({ images: images.certifications }),
+
+      // set user documents
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .collection("docs")
+        .doc()
+        .set({
+          images: [
+            ...images.carteiradeIdentidade,
+            ...images.comprovanteResidencia,
+          ],
+        }),
+      fire.firestore().collection("user").doc(email).collection("feedbacks"),
+    ]).then((response) => callback(response));
   };
 
   const signIn = (email, password) => {
@@ -53,46 +82,33 @@ export const useAuth = () => {
       });
   };
 
-  const signUp = ({ user, images, setIsLoading, setShouldRedirectToLogin }) => {
+  const signUp = (
+    { user, images, setIsLoading, setShouldRedirectToLogin },
+    callback
+  ) => {
     const { email, password } = user;
     setIsLoading(true);
     return fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(async () => {
-        const userCreated = await createUser({ user, images });
-        if (userCreated) {
-          setIsLoading(true);
-          await setDocuments({
-            user,
-            imageUrl: images.idCard,
-            docName: "identidade/registro geral/rg",
-          });
+      .then(async (response) => {
+        callback(user);
 
-          await setDocuments({
-            user,
-            imageUrl: images.residenceDoc,
-            docName: "comprovante residencia",
-          });
-
-          await setDocuments({
-            user,
-            certifications: images.certifications,
-          });
-
-          setIsLoading(false);
-        }
+        setIsLoading(false);
+        // }
       });
   };
-  const setFeedbacks = (author,feedback,points,email) =>{
-    
-    db.collection("user")
+  const setFeedbacks = async (author, feedback, points, email) => {
+    let starsList = [];
+    let sumStars = 0;
+
+    await db.collection("user")
       .doc(email)
       .collection("feedbacks")
       .add({
         author,
         feedback,
-        points
+        points,
       })
       .then((docRef) => {
         console.log("Doc written with ID: ", docRef);
@@ -100,52 +116,29 @@ export const useAuth = () => {
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
-  };
-  const setDocuments = ({ user, imageUrl, docName, certifications }) => {
-    if (certifications) {
-      var batch = db.batch();
-      certifications.forEach((cert, index) => {
-        const certRef = db
-          .collection("user")
-          .doc(user.email)
-          .collection("certifications")
-          .doc();
-        batch.set(certRef, {
-          url: cert,
-          name: `Certification ${index}`,
-        });
-      });
 
-      batch
-        .commit()
-        .then((docRef) => {
-          console.log("Certification written with ID: ", docRef);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
+      await db.collection("user")
+      .doc(email)
+      .collection("feedbacks")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          sumStars = sumStars + doc.data().points;
+          starsList.push(doc.data().points);
         });
+      })
 
-      return;
-    }
- 
-    db.collection("user")
-      .doc(user.email)
-      .collection("docs")
-      .add({
-        url: imageUrl,
-        name: docName,
+
+
+      await db.collection("user")
+      .doc(email)
+      .update({
+        starsCount: Math.floor(sumStars / starsList.length),
       })
-      .then((docRef) => {
-        console.log("Doc written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-      
   };
 
-  const findUser = (email) => {
-    return fire
+  const findUser = async (email) => {
+    return await fire
       .firestore()
       .collection("user")
       .onSnapshot((querySnapshot) => {
@@ -158,6 +151,33 @@ export const useAuth = () => {
             return user;
           }
         });
+        const userType = userFetched.type;
+        if (userType === "admin") {
+          window.location.replace("/admin")
+        } else {
+          window.location.replace("/home")
+
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
+      });
+  };
+
+  const setUser = async (email) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        const userFetched = users.find((user) => {
+          if (user.email === email) {
+            return user;
+          }
+        });
+        
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -265,6 +285,7 @@ export const useAuth = () => {
     setConnections,
     getConnections,
     getAllConnections,
+    createUser,
     signIn,
     signUp,
     findUser,
@@ -273,6 +294,7 @@ export const useAuth = () => {
     getUserFeedback,
     getUserDocs,
     getUserEvaluations,
+    setUser,
   };
 };
 
@@ -308,7 +330,12 @@ export const useQuery = () => {
   };
 
   const getGuards = async () => {
+    let listGold = [];
+    let listSilver = [];
+    let listBronze = [];
+    let listNone = [];
     let guardList = [];
+
     await fire
       .firestore()
       .collection("user")
@@ -316,14 +343,112 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().verified && doc.data().type === "guard") {
-            guardList = [...guardList, doc.data()];
+            if (doc.data().profileBoostPlan === 'silverPlan') {
+              listSilver = [...listSilver, doc.data()];
+            } else if (doc.data().profileBoostPlan === 'goldPlan') {
+              listGold = [...listGold, doc.data()];
+
+            } else if (doc.data().profileBoostPlan === 'bronzePlan') {
+              listBronze = [...listBronze, doc.data()];
+
+            } else if (doc.data().profileBoostPlan === 'none') {
+              listNone = [...listNone, doc.data()];
+            }
           }
         });
+
+      
+        listGold.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+        
+        listSilver.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listBronze.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listNone.sort((a, b) => {
+        if (a.starsCount < b.starsCount) {
+          return 1;
+        } 
+        if (a.starsCount > b.starsCount) {
+          return -1;
+        } 
+        else {
+          return 0;
+        }
+      });
+
+      guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
+
       });
     return guardList;
   };
 
-  return { getGroups, getGuards, getOccurrences };
+  const getRequestRegisterGuards = async () => {
+    let getRequestRegisterGuards = [];
+    await fire
+      .firestore()
+      .collection("user")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (!doc.data().verified && doc.data().type === "guard") {
+            getRequestRegisterGuards = [...getRequestRegisterGuards, doc.data()];
+          }
+        });
+      });
+    return getRequestRegisterGuards;
+  };
+
+  const setVerification = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .update({
+        verified: isVerified,
+      })
+      .then((response) => true);
+  };
+
+  const banAccount = async (email, isVerified) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .doc(email)
+      .delete()
+      .then((response) => true);
+  };
+
+  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards, setVerification, banAccount };
 };
 
 export const useStorage = () => {

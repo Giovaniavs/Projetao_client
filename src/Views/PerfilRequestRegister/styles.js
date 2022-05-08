@@ -11,8 +11,8 @@ export const Wrapper = styled.div`
 
 export const Description = styled.p`
   font-size: 18px;
-  text-align: justify;
-  color: #00000;
+
+  color: #000000;
 `;
 
 export const Doc = styled.p`
