@@ -4,6 +4,7 @@ import { ItemList, ListEmpty, ListNotEmpty, ListSecurityContainer } from "./List
 
 import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 
+import Button from '@mui/material/Button';
 import { ListSecurtyContext } from "../../contexts/ListSecurity";
 import { flexbox } from "@mui/system";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -131,10 +132,12 @@ const ListSecurity = () => {
     <ListSecurityContainer>
       {(user.type === "shopman" && (user.payment_ok == undefined || user.payment_ok == false)) ?
 
-        <div style={{ padding: 20, display: flexbox, flexDirection: 'column' }}>
-          <p>Não encontramos o pagamento de mensalidade na sua conta, para ver a lista de seguranças clique no botão abaixo e assine o nosso plano mensal.</p>
-          <button onClick={() => history.push('/shopkeeperPayment')}> Ir para pagamento </button>
-        </div> : <SupportComponent />
+        <>
+          <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
+            <p>A visualização da listagem de seguranças só ficará disponível após o pagamento da Taxa de Acesso</p>
+            <Button variant="contained" onClick={() => history.push('/shopkeeperPayment')}>Ir para pagamento</Button>
+        </div>
+        </> : <SupportComponent />
       }
 
     </ListSecurityContainer>
