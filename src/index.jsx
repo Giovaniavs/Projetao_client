@@ -23,7 +23,7 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
 import { PaymentScreen } from "./Views/PaymentFlow/PaymentScreen";
-import {ShopkeeperPayment} from './Views/PaymentFlow/ShopkeeperPayment'
+import { ShopkeeperPayment } from './Views/PaymentFlow/ShopkeeperPayment'
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => { });
 StatusBar.setStyle({ style: Style.Dark }).catch(() => { });
