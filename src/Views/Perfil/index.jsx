@@ -17,9 +17,9 @@ function Perfil() {
   const email = query.get("email");
   const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,getAllConnections, getConnections} = useAuth();
   const [currentUser, setCurrentUser] = useState({});
+  const [currentUserLogged, setCurrentUserLogged] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [currentUserLogged, setCurrentUserLogged] = useState({});
   const [isCurrentConnection, setIsCurrentConnection] = useState()
 
   
@@ -170,7 +170,7 @@ function Perfil() {
         
         <div onClick={() => setShouldRedirect(true)}>
               <PrimaryButton onClick={()=>{
-                    history.push("/avaliacao");
+                    history.push(`/avaliacao?email=${currentUser.email}`);
                     localStorage.setItem("emailAvaliado",email)
               }}>ESCREVA UM FEEDBACK</PrimaryButton>
             </div>
