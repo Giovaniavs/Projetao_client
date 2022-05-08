@@ -49,16 +49,16 @@ const ListRequestRegisterSecurity = () => {
           })}
         </ListNotEmpty> 
         
-        <button className="btn-plus">CONTRATAR MAIS</button>
+        <button className="btn-plus">BUSCAR MAIS</button>
       </>
       : 
       
       <ListEmpty>
         <div>
           <h1>Não há seguranças</h1>
-          <p>Ainda não há seguranças responsáveis para esse grupo!</p>
+          <p>Ainda não há seguranças cadastrados na plataforma!</p>
         </div>
-        <button>CONTRATAR AGORA</button>
+        <button>BUSCAR NOVAMENTE</button>
       </ListEmpty>
         
       }

@@ -38,6 +38,7 @@ export const useAuth = () => {
           starsCount: 0,
           imgSrc: (images.perfilPic[0] && images.perfilPic[0].url) || "",
           description,
+          profileBoostPlan: 'none',
           verified: false,
         }),
 
@@ -96,8 +97,11 @@ export const useAuth = () => {
         // }
       });
   };
-  const setFeedbacks = (author, feedback, points, email) => {
-    db.collection("user")
+  const setFeedbacks = async (author, feedback, points, email) => {
+    let starsList = [];
+    let sumStars = 0;
+
+    await db.collection("user")
       .doc(email)
       .collection("feedbacks")
       .add({
@@ -111,6 +115,25 @@ export const useAuth = () => {
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
+
+      await db.collection("user")
+      .doc(email)
+      .collection("feedbacks")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          sumStars = sumStars + doc.data().points;
+          starsList.push(doc.data().points);
+        });
+      })
+
+
+
+      await db.collection("user")
+      .doc(email)
+      .update({
+        starsCount: Math.floor(sumStars / starsList.length),
+      })
   };
 
   const findUser = async (email) => {
@@ -243,10 +266,58 @@ export const useQuery = () => {
 
             } else if (doc.data().profileBoostPlan === 'none') {
               listNone = [...listNone, doc.data()];
-
             }
           }
         });
+
+      
+        listGold.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+        
+        listSilver.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listBronze.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listNone.sort((a, b) => {
+        if (a.starsCount < b.starsCount) {
+          return 1;
+        } 
+        if (a.starsCount > b.starsCount) {
+          return -1;
+        } 
+        else {
+          return 0;
+        }
+      });
 
       guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
 
