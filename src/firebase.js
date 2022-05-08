@@ -246,10 +246,58 @@ export const useQuery = () => {
 
             } else if (doc.data().profileBoostPlan === 'none') {
               listNone = [...listNone, doc.data()];
-
             }
           }
         });
+
+      
+        listGold.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+        
+        listSilver.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listBronze.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          } 
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } 
+          else {
+            return 0;
+          }
+        });
+
+        listNone.sort((a, b) => {
+        if (a.starsCount < b.starsCount) {
+          return 1;
+        } 
+        if (a.starsCount > b.starsCount) {
+          return -1;
+        } 
+        else {
+          return 0;
+        }
+      });
 
       guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
 
