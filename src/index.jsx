@@ -23,6 +23,7 @@ import ListSecurity from "./components/ListSecurity/ListSecurity";
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
 import { PaymentScreen } from "./Views/PaymentFlow/PaymentScreen";
+import { ShopkeeperPayment } from './Views/PaymentFlow/ShopkeeperPayment'
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => { });
 StatusBar.setStyle({ style: Style.Dark }).catch(() => { });
@@ -46,6 +47,7 @@ function PlataformRoutes() {
               <Route component={RefuseRequest} exact path="/recusar" />
               <Route component={PlanSelector} exact path="/planSelector" />
               <Route component={PaymentScreen} exact path="/paymentScreen" />
+              <Route component={ShopkeeperPayment} exact path="/shopkeeperPayment" />
             </Switch>
           </UserContextProvider>
         </ListSecurtyContextProvider>
@@ -65,7 +67,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar|planSelector|paymentScreen)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar|planSelector|paymentScreen|shopkeeperPayment)" />
           </UserContextProvider>
         </Switch>
       </Router>

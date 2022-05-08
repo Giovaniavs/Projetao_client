@@ -6,9 +6,10 @@ export const ListSecurityContainer = styled.div`
   height: 100%;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+  justify-content: center;
+  
   h1 {
     margin: 15px 5px;
     font-size: 1.5rem;
