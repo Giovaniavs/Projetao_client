@@ -1,7 +1,7 @@
 import { Form, Button, Upload, Modal } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { storage } from "../../../firebase";
 import { InvisbleInput, UploadWrapper } from "../styles";
 
@@ -20,6 +20,12 @@ export default function UploadComponent({
     previewImage: "",
     previewTitle: "",
   });
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    ref.current.click();
+  }, [fileList.length]);
 
   const [message, setMessage] = useState({});
   const storageRef = storage.ref();
@@ -176,11 +182,14 @@ export default function UploadComponent({
             value={canSubmit || ""}
             onChange={() => {}}
           />
+
           <Button
             shape="round"
             htmlType="button"
             type="button"
             onClick={handleFinish}
+            ref={ref}
+            style={{ opacity: 0 }}
           >
             {submitting ? "Enviando" : buttonTitle}
           </Button>
