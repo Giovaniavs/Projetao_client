@@ -58,6 +58,7 @@ const RegisterScreen = () => {
   const [carteiradeIdentidade, setCarteiradeIdentidade] = useState([]);
   const [comprovanteResidencia, setComprovanteResidencia] = useState([]);
   const [certifications, setCertifications] = useState([]);
+  const [cnv, setCnv] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -89,6 +90,7 @@ const RegisterScreen = () => {
       perfilPic,
       carteiradeIdentidade,
       comprovanteResidencia,
+      cnv,
     };
     event.preventDefault();
     setIsLoading(true);
@@ -263,6 +265,21 @@ const RegisterScreen = () => {
 
         {isGuard && (
           <>
+            <Topic name="Carteira Nacional do Segurança">
+              <WrapperFields>
+                <Label id="imgSrc">
+                  Selecionar carteira do Vigilante(png/jpge)
+                </Label>
+
+                <UploadComponent
+                  setImagesList={setCnv}
+                  imageList={cnv}
+                  imageName="cnv"
+                  limiteUpload={1}
+                  buttonTitle="Selecionar carteira do Vigilante"
+                />
+              </WrapperFields>
+            </Topic>
             <Topic name="Perfil">
               <WrapperFields>
                 <Label id="imgSrc">Selecionar Foto de Perfil (png/jpge)</Label>

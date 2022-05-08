@@ -1,10 +1,7 @@
 import "firebase/firestore";
 import "firebase/storage";
 
-
 import firebase from "firebase";
-
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyB93zECVF4aVS79iPHcHtFtPYh4VNUCLVM",
@@ -38,7 +35,7 @@ export const useAuth = () => {
           starsCount: 0,
           imgSrc: (images.perfilPic[0] && images.perfilPic[0].url) || "",
           description,
-          profileBoostPlan: 'none',
+          profileBoostPlan: "none",
           verified: false,
         }),
 
@@ -50,6 +47,15 @@ export const useAuth = () => {
         .collection("certifications")
         .doc()
         .set({ images: images.certifications }),
+
+      // set user CNV
+      fire
+        .firestore()
+        .collection("user")
+        .doc(email)
+        .collection("cnv")
+        .doc()
+        .set({ images: images.cnv }),
 
       // set user documents
       fire
@@ -128,14 +134,13 @@ export const useAuth = () => {
             return user;
           }
         });
-        console.log(userFetched.type)
+        console.log(userFetched.type);
         const userType = userFetched.type;
         if (userType === "admin") {
-          window.location.replace("/admin")
+          window.location.replace("/admin");
         } else {
-          window.location.replace("/home")
-
-        };
+          window.location.replace("/home");
+        }
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -214,23 +219,19 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().verified && doc.data().type === "guard") {
-            if (doc.data().profileBoostPlan === 'silverPlan') {
+            if (doc.data().profileBoostPlan === "silverPlan") {
               listSilver = [...listSilver, doc.data()];
-            } else if (doc.data().profileBoostPlan === 'goldPlan') {
+            } else if (doc.data().profileBoostPlan === "goldPlan") {
               listGold = [...listGold, doc.data()];
-
-            } else if (doc.data().profileBoostPlan === 'bronzePlan') {
+            } else if (doc.data().profileBoostPlan === "bronzePlan") {
               listBronze = [...listBronze, doc.data()];
-
-            } else if (doc.data().profileBoostPlan === 'none') {
+            } else if (doc.data().profileBoostPlan === "none") {
               listNone = [...listNone, doc.data()];
-
             }
           }
         });
 
-      guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
-
+        guardList = [...listGold, ...listSilver, ...listBronze, ...listNone];
       });
     return guardList;
   };
@@ -244,7 +245,10 @@ export const useQuery = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (!doc.data().verified && doc.data().type === "guard") {
-            getRequestRegisterGuards = [...getRequestRegisterGuards, doc.data()];
+            getRequestRegisterGuards = [
+              ...getRequestRegisterGuards,
+              doc.data(),
+            ];
           }
         });
       });
@@ -271,7 +275,14 @@ export const useQuery = () => {
       .then((response) => true);
   };
 
-  return { getGroups, getGuards, getOccurrences, getRequestRegisterGuards, setVerification, banAccount };
+  return {
+    getGroups,
+    getGuards,
+    getOccurrences,
+    getRequestRegisterGuards,
+    setVerification,
+    banAccount,
+  };
 };
 
 export const useStorage = () => {
