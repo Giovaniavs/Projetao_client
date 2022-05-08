@@ -103,8 +103,12 @@ export const useAuth = () => {
         // }
       });
   };
-  const setFeedbacks = (author, feedback, points, email) => {
-    db.collection("user")
+  const setFeedbacks = async (author, feedback, points, email) => {
+    let starsList = [];
+    let sumStars = 0;
+
+    await db
+      .collection("user")
       .doc(email)
       .collection("feedbacks")
       .add({
@@ -117,6 +121,25 @@ export const useAuth = () => {
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
+      });
+
+    await db
+      .collection("user")
+      .doc(email)
+      .collection("feedbacks")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          sumStars = sumStars + doc.data().points;
+          starsList.push(doc.data().points);
+        });
+      });
+
+    await db
+      .collection("user")
+      .doc(email)
+      .update({
+        starsCount: Math.floor(sumStars / starsList.length),
       });
   };
 
@@ -134,13 +157,32 @@ export const useAuth = () => {
             return user;
           }
         });
-        console.log(userFetched.type);
         const userType = userFetched.type;
         if (userType === "admin") {
           window.location.replace("/admin");
         } else {
           window.location.replace("/home");
         }
+        localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
+      });
+  };
+
+  const setUser = async (email) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        const userFetched = users.find((user) => {
+          if (user.email === email) {
+            return user;
+          }
+        });
+
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -171,6 +213,7 @@ export const useAuth = () => {
     getUserFeedback,
     getUserDocs,
     getUserEvaluations,
+    setUser,
   };
 };
 
@@ -228,6 +271,50 @@ export const useQuery = () => {
             } else if (doc.data().profileBoostPlan === "none") {
               listNone = [...listNone, doc.data()];
             }
+          }
+        });
+
+        listGold.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          }
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+        listSilver.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          }
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+        listBronze.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          }
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+        listNone.sort((a, b) => {
+          if (a.starsCount < b.starsCount) {
+            return 1;
+          }
+          if (a.starsCount > b.starsCount) {
+            return -1;
+          } else {
+            return 0;
           }
         });
 

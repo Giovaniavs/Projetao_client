@@ -27,6 +27,9 @@ export default function Perfil() {
     textDecoration: "underline",
     color: "blue",
   };
+  const hidebutton = {
+    display: "none"
+  };
   let history = useHistory();
 
   useEffect(() => {
@@ -165,7 +168,7 @@ export default function Perfil() {
       </Topic>
 
       {currentUserLogged && currentUserLogged.type === "guard" ? (
-        <div>
+        <div style={hidebutton}>
           <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
         </div>
       ) : (
