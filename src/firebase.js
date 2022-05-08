@@ -127,7 +127,6 @@ export const useAuth = () => {
             return user;
           }
         });
-        console.log(userFetched.type)
         const userType = userFetched.type;
         if (userType === "admin") {
           window.location.replace("/admin")
@@ -135,6 +134,26 @@ export const useAuth = () => {
           window.location.replace("/home")
 
         };
+        localStorage.setItem("userInfo", JSON.stringify(userFetched));
+        localStorage.setItem("uid", email);
+      });
+  };
+
+  const setUser = async (email) => {
+    return await fire
+      .firestore()
+      .collection("user")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        const userFetched = users.find((user) => {
+          if (user.email === email) {
+            return user;
+          }
+        });
+        
         localStorage.setItem("userInfo", JSON.stringify(userFetched));
         localStorage.setItem("uid", email);
       });
@@ -165,6 +184,7 @@ export const useAuth = () => {
     getUserFeedback,
     getUserDocs,
     getUserEvaluations,
+    setUser,
   };
 };
 

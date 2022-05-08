@@ -3,6 +3,8 @@ import axios from 'axios'
 import userQueryParams from "./userQueryParams";
 import { Clipboard } from '@capacitor/clipboard';
 import { Toast } from '@capacitor/toast';
+import ReactLoading from "react-loading";
+
 import './style.css'
 
 export const PaymentScreen = () => {
@@ -86,9 +88,13 @@ export const PaymentScreen = () => {
                         <h3 style={{textAlign: 'center'}}>Escaneie o QR code abaixo, ou copie o código para efetuar o pagamento.</h3>
                         <img style={{ maxWidth: 200, maxHeight: 200 }} src={`data:image/jpeg;base64,${payment.body.point_of_interaction.transaction_data.qr_code_base64}`} />
                         <button className="button" onClick={copiarQR}>Copiar Código</button>
-                    </div> : <div>
-                        Loading...
-                    </div>
+                    </div> : <ReactLoading
+                        className="loading-login-screen-style"
+                        type="bars"
+                        color="#09629E"
+                        height={"20%"}
+                        width={"20%"}
+                    />
             }
         </div>
     )

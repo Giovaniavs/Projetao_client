@@ -21,10 +21,10 @@ export const ShopkeeperPayment = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Plano Lojista - R$15,00
+                Taxa de Acesso - R$15,00
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Com a <b>assinatura de 30 dias</b> do Plano Lojista você conseguirá pesquisar seguranças na sua região.
+                Pagando a <b>Taxa de Acesso</b> você poderá acessar a listagem de guardas da plataforma. Após o pagamento, aguarde um tempo útil entre 1 a 30 minutos para ter acesso completo á plataforma.
               </Typography>
             </CardContent>
           </CardActionArea>

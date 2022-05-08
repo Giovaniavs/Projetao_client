@@ -7,6 +7,7 @@ import { AiOutlineStar, AiOutlineRight } from "react-icons/ai";
 import { ListSecurtyContext } from "../../contexts/ListSecurity";
 import { flexbox } from "@mui/system";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useAuth } from "../../firebase";
 
 const SupportComponent = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +24,6 @@ const SupportComponent = () => {
   };
   return (
     <>
-      {/* {JSON.stringify(user)} */}
       <br></br>
       <br></br>
       <br></br>
@@ -118,13 +118,18 @@ const SupportComponent = () => {
 
 
 const ListSecurity = () => {
+  const {setUser} = useAuth();
   const user = JSON.parse(localStorage.getItem("userInfo"))
+
+  useEffect(() => {
+    setUser(user.email);
+  }, []);
 
   const history = useHistory()
 
   return (
     <ListSecurityContainer>
-      {(user.type === "shopman" && user.payment_ok == undefined) ?
+      {(user.type === "shopman" && (user.payment_ok == undefined || user.payment_ok == false)) ?
 
         <div style={{ padding: 20, display: flexbox, flexDirection: 'column' }}>
           <p>Não encontramos o pagamento de mensalidade na sua conta, para ver a lista de seguranças clique no botão abaixo e assine o nosso plano mensal.</p>
