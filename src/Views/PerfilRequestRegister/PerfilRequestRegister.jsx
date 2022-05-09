@@ -54,7 +54,7 @@ export default function PerfilRequestRegister() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log(docs);
+        console.log({docs});
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
@@ -115,7 +115,7 @@ export default function PerfilRequestRegister() {
       <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
-            currentUser.docs.map(({ url, name }, index) => {
+            currentUser.docs[0].images.map(({ url, name }, index) => {
               return (
                 <DocLink href={url} target="_blank" key={index} title={name}>
                   <DocImg src={url} alt={name} />

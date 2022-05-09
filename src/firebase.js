@@ -68,6 +68,7 @@ export const useAuth = () => {
           images: [
             ...images.carteiradeIdentidade,
             ...images.comprovanteResidencia,
+            ...images.cnv,
           ],
         }),
       fire.firestore().collection("user").doc(email).collection("feedbacks"),
@@ -192,8 +193,12 @@ export const useAuth = () => {
     return db.collection("user").doc(email).get();
   };
 
-  const getUserDocs = async (email) => {
+  const getUserCertifications = async (email) => {
     return db.collection("user").doc(email).collection("certifications");
+  };
+
+  const getUserDocs = async (email) => {
+    return db.collection("user").doc(email).collection("docs");
   };
 
   const getUserFeedback = async (email) => {
@@ -212,6 +217,7 @@ export const useAuth = () => {
     getUserProfile,
     getUserFeedback,
     getUserDocs,
+    getUserCertifications,
     getUserEvaluations,
     setUser,
   };
