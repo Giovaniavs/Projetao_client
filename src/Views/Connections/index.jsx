@@ -47,10 +47,10 @@ export default function  Connections() {
               variant="contained" 
               color="success" 
               size="small" 
-              onClick={()=> {
+              onClick={async ()=> {
                 console.log(dado.email_shopman,dado.email_guard,'1')
 
-                updateConnections(dado.email_shopman,dado.email_guard,'1')
+                await updateConnections(dado.email_shopman,dado.email_guard,'1')
                 window.location.replace('/home')
               }}>aceitar</Button>
               <Button 
