@@ -196,6 +196,10 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("certifications");
   };
 
+  const getUserCredentials = async (email) => {
+    return db.collection("user").doc(email).collection("docs");
+  };
+
   const getUserFeedback = async (email) => {
     return db.collection("user").doc(email).collection("feedbacks");
   };
@@ -214,6 +218,7 @@ export const useAuth = () => {
     getUserDocs,
     getUserEvaluations,
     setUser,
+    getUserCredentials,
   };
 };
 

@@ -69,7 +69,6 @@ export default function Perfil() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log({ docsimage: docs[0].images });
         if (docs[0].images) {
           setCurrentUser((prev) => ({ ...prev, docs: docs[0].images }));
           return;
@@ -139,7 +138,6 @@ export default function Perfil() {
         <Docs>
           {currentUser.docs &&
             currentUser.docs.map((image, index) => {
-              console.log(image);
               return (
                 <DocLink
                   href={image.url}
