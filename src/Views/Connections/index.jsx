@@ -73,15 +73,18 @@ export default function  Connections() {
               <Typography variant="body2">{ dado.email_guard}</Typography>
               <Button disabled size="small"> Aguardando aprovação </Button> </>
               
-              :  dado.status_connection != '0' && isGuard != 'guard' ?
+              :  dado.status_connection != '0' &&  dado.status_connection != '-1' && isGuard != 'guard' ?
               <>
               <Typography variant="h5" component="div">{dado.nome_guard}</Typography>
               <Typography variant="body2">{ dado.email_guard}</Typography>
-              <Button disabled size="small"> Conexão estabelecida </Button> </>:<>
+              <Button disabled size="small"> Conexão estabelecida </Button> </>:
+               dado.status_connection != '0' &&  dado.status_connection != '-1' && isGuard == 'guard' ?
+              
+              <>
               <Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
               <Typography variant="body2">{ dado.email_shopman}</Typography>
               <Button disabled size="small"> Conexão estabelecida </Button>
-              </>
+              </>: <>Não existem conexões</>
           }
           
         
