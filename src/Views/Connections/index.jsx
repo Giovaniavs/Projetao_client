@@ -17,7 +17,6 @@ export default function  Connections() {
   const isGuard = strObj.type 
   let history = useHistory();
 
-  console.log('toa qui')
   
   const getAllConnectionsStatus = () => {
     getAllConnections(email).then(res =>{
