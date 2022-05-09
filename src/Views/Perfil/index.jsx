@@ -8,21 +8,21 @@ import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
 import { Redirect } from "react-router-dom";
 import Topic from "../../components/Topic";
-import { useAuth } from "../../firebase";
+import { useAuth, useQuery } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
 function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations, setConnections,getAllConnections, getConnections} = useAuth();
+  const { setVerification, banAccount } = useQuery();
+  const { getUserProfile, getUserCertifications, getUserEvaluations, setConnections, getConnections} = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
-  const [isCurrentConnection, setIsCurrentConnection] = useState()
-
-  
+  const [isCurrentConnection, setIsCurrentConnection] = useState();
+  const [loadingActivation, setLoadingActivation] = useState(false);
 
   
   const getStatus = () => {
@@ -46,15 +46,16 @@ function Perfil() {
 
   const linkStyle = {
     textDecoration: "underline",
-    color: 'blue'
+    color: "blue",
   };
+  
   let history = useHistory();
 
   getStatus();
   console.log('renderizou')
   useEffect(() => {
     getUserInfo();
-    getDocs();
+    getCertifications();
     getEvaluations();
   }, [query]);
 
@@ -73,8 +74,8 @@ function Perfil() {
       setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
-  const getDocs = () => {
-    getUserDocs(email).then((response) => {
+  const getCertifications = () => {
+    getUserCertifications(email).then((response) => {
       setLoading(true);
       response.get().then((querySnapshot) => {
         let docs = [];
@@ -82,7 +83,11 @@ function Perfil() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log(docs);
+        if (docs[0].images) {
+          setCurrentUser((prev) => ({ ...prev, docs: docs[0].images }));
+          return;
+        }
+
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
@@ -102,6 +107,22 @@ function Perfil() {
         setLoading(false);
       });
     });
+  };
+
+  const desactivateAccount = async () => {
+    setLoadingActivation(true);
+
+    await setVerification(currentUser.email, false);
+
+    window.location.replace("/home");
+  };
+
+  const banCurrentAccount = async () => {
+    setLoadingActivation(true);
+
+    await banAccount(currentUser.email);
+
+    window.location.replace("/home");
   };
 
   if (shouldRedirect) {
@@ -146,7 +167,7 @@ function Perfil() {
       </Topic>
 
       {
-        isCurrentConnection === -1  && currentUserLogged.type != 'guard' ? 
+        isCurrentConnection === -1  && currentUserLogged.type === "shopman" ? 
         <Button 
           variant="contained" 
           onClick={async () => {
@@ -156,14 +177,14 @@ function Perfil() {
            history.push("/home")
           }}>conectar-se
         </Button>
-        : isCurrentConnection === 0 && currentUserLogged.type != 'guard' ?  <>
+        : isCurrentConnection === 0 && currentUserLogged.type === "shopman" ?  <>
         <Button 
           variant="contained" 
           disabled 
           onClick={() => {
             // console.log(currentUserLogged)
           }}>solicitação enviada
-        </Button></>  : isCurrentConnection ===1 && currentUserLogged.type != 'guard' ? <>
+        </Button></>  : isCurrentConnection ===1 && currentUserLogged.type === "shopman" ? <>
         <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
           <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
@@ -177,12 +198,18 @@ function Perfil() {
             </div>
         
 
-
-        </> :  isCurrentConnection ===2 && currentUserLogged.type != 'guard'? <> <h1>essa connexao já foi finalizada</h1></>: <></>
+        </> :  isCurrentConnection ===2 && currentUserLogged.type === "shopman"? <> <h1>essa connexao já foi finalizada</h1></>: <></>
       
       } 
      
-     {currentUserLogged.type === "admin" && (
+     
+      <>
+        <Topic name="Feedbacks">
+          <FeedBacks />
+        </Topic>
+      </>
+
+      {currentUserLogged.type === "admin" && (
         <>
           {loadingActivation ? (
             <ReactLoading
@@ -193,7 +220,7 @@ function Perfil() {
               width={"20%"}
             />
           ) : (
-            <div>
+            <div style={{ margin: '30px 0' }}>
               <PrimaryButton
                 onClick={desactivateAccount}
                 style={{ margin: "0 0 15px 0" }}
@@ -207,13 +234,6 @@ function Perfil() {
           )}
         </>
       )}
-      <>
-        <Topic name="Feedbacks">
-          <FeedBacks />
-        </Topic>
-      </>
-
-  
      
     </Wrapper>
   );

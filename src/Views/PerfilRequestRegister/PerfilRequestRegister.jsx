@@ -13,7 +13,7 @@ import userQueryParams from "./userQueryParams";
 export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { getUserProfile, getUserEvaluations, getUserDocs } = useAuth();
   const { setVerification } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function PerfilRequestRegister() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log(docs);
+
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
@@ -115,7 +115,7 @@ export default function PerfilRequestRegister() {
       <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
-            currentUser.docs.map(({ url, name }, index) => {
+            currentUser.docs[0].images.map(({ url, name }, index) => {
               return (
                 <DocLink href={url} target="_blank" key={index} title={name}>
                   <DocImg src={url} alt={name} />

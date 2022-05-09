@@ -265,10 +265,10 @@ const RegisterScreen = () => {
 
         {isGuard && (
           <>
-            <Topic name="Carteira Nacional do Segurança">
+            <Topic name="Carteira Nacional do Vigilante">
               <WrapperFields>
                 <Label id="imgSrc">
-                  Selecionar carteira do Vigilante(png/jpge)
+                  Selecionar Carteira Nacional do Vigilante(png/jpge)
                 </Label>
 
                 <UploadComponent
