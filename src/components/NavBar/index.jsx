@@ -16,6 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -66,12 +67,8 @@ export default function NavBar() {
         sideBarName: "Pagina Inicial",
       },
       {
-        url: "conectionsPedings",
-        sideBarName: "Conexões pendentes",
-      },
-      {
         url: "conections",
-        sideBarName: "Conexões atuais",
+        sideBarName: "Conexões ",
       },
       {
         url: "planSelector",
@@ -83,6 +80,10 @@ export default function NavBar() {
       {
         url: "home",
         sideBarName: "Pagina Inicial",
+      },
+      {
+        url: "conections",
+        sideBarName: "Conexões ",
       },
     ];
   }

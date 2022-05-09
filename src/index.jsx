@@ -1,29 +1,24 @@
-import ReactDOM from "react-dom";
-import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
-
-import { UserContextProvider } from "./contexts/userContext";
-import { ListSecurtyContextProvider } from "./contexts/ListSecurity";
-import { ListRequestRegisterSecurtyContextProvider } from "./contexts/ListRequestRegisterGuards";
-
-import GlobalStyle from "./global/globalStyle";
-
-import LoginScreen from "./Views/LoginScreen/LoginScreen";
-import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
-import Avaliacao from "./Views/Avaliacao/Avaliacao";
-import ListRequestRegisterSecurity from "./Views/Admin/Admin";
-import Perfil from "./Views/Perfil";
-import PerfilRequestRegister from "./Views/PerfilRequestRegister/PerfilRequestRegister";
-import RefuseRequest from "./Views/RefuseRequest/RefuseRequest";
-
-import NavBar from "./components/NavBar/index";
-
-import ListSecurity from "./components/ListSecurity/ListSecurity";
-
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 // Capacitor
 import { StatusBar, Style } from "@capacitor/status-bar";
-import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
+
+import Avaliacao from "./Views/Avaliacao/Avaliacao";
+import GlobalStyle from "./global/globalStyle";
+import ListRequestRegisterSecurity from "./Views/Admin/Admin";
+import { ListRequestRegisterSecurtyContextProvider } from "./contexts/ListRequestRegisterGuards";
+import ListSecurity from "./components/ListSecurity/ListSecurity";
+import { ListSecurtyContextProvider } from "./contexts/ListSecurity";
+import LoginScreen from "./Views/LoginScreen/LoginScreen";
+import NavBar from "./components/NavBar/index";
 import { PaymentScreen } from "./Views/PaymentFlow/PaymentScreen";
+import Perfil from "./Views/Perfil";
+import PerfilRequestRegister from "./Views/PerfilRequestRegister/PerfilRequestRegister";
+import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
+import ReactDOM from "react-dom";
+import RefuseRequest from "./Views/RefuseRequest/RefuseRequest";
+import RegisterScreen from "./Views/RegisterScreen/RegisterScreen";
 import { ShopkeeperPayment } from './Views/PaymentFlow/ShopkeeperPayment'
+import { UserContextProvider } from "./contexts/userContext";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => { });
 StatusBar.setStyle({ style: Style.Dark }).catch(() => { });
@@ -48,6 +43,9 @@ function PlataformRoutes() {
               <Route component={PlanSelector} exact path="/planSelector" />
               <Route component={PaymentScreen} exact path="/paymentScreen" />
               <Route component={ShopkeeperPayment} exact path="/shopkeeperPayment" />
+              <Route   path="/conections" >
+                <>ola </>
+              </Route>
             </Switch>
           </UserContextProvider>
         </ListSecurtyContextProvider>
@@ -67,7 +65,7 @@ function App() {
           <UserContextProvider>
             <Route component={LoginScreen} exact path="/" />
             <Route component={RegisterScreen} exact path="/register" />
-            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar|planSelector|paymentScreen|shopkeeperPayment)" />
+            <Route component={PlataformRoutes} exact path="/(home|avaliacao|perfil|admin|perfilVerificacao|recusar|planSelector|paymentScreen|shopkeeperPayment|conections)" />
           </UserContextProvider>
         </Switch>
       </Router>
