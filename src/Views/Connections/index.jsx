@@ -51,16 +51,13 @@ export default function  Connections() {
                 console.log(dado.email_shopman,dado.email_guard,'1')
 
                 updateConnections(dado.email_shopman,dado.email_guard,'1')
+                window.location.replace('/home')
               }}>aceitar</Button>
               <Button 
               variant="contained" 
               color="error" 
               size="small" 
-              onClick={()=> {
-                console.log(dado.email_shopman,dado.email_guard,'-1')
-
-                updateConnections(dado.email_shopman,dado.email_guard,'-1')
-              }}>cancelar</Button>
+              >cancelar</Button>
               </> :
               dado.status_connection == '0' && isGuard != 'guard' ?
               <>
