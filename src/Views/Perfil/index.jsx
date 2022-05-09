@@ -14,7 +14,8 @@ import userQueryParams from "./userQueryParams";
 export default function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { getUserProfile, getUserCertifications, getUserEvaluations } =
+    useAuth();
   const { setVerification, banAccount } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -28,13 +29,13 @@ export default function Perfil() {
     color: "blue",
   };
   const hidebutton = {
-    display: "none"
+    display: "none",
   };
   let history = useHistory();
 
   useEffect(() => {
     getUserInfo();
-    getDocs();
+    getCertifications();
     getEvaluations();
   }, [query]);
 
@@ -60,8 +61,8 @@ export default function Perfil() {
       });
   };
 
-  const getDocs = () => {
-    getUserDocs(email).then((response) => {
+  const getCertifications = () => {
+    getUserCertifications(email).then((response) => {
       setLoading(true);
       response.get().then((querySnapshot) => {
         let docs = [];
@@ -170,7 +171,8 @@ export default function Perfil() {
           <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
         </div>
       ) : (
-        !hasNoLoggedUser && currentUserLogged.type !== "admin" && (
+        !hasNoLoggedUser &&
+        currentUserLogged.type !== "admin" && (
           <div onClick={() => setShouldRedirect(true)}>
             <PrimaryButton
               onClick={() => {

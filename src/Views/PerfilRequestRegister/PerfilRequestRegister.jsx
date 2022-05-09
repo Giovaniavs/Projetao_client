@@ -13,7 +13,7 @@ import userQueryParams from "./userQueryParams";
 export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserEvaluations, getUserCredentials } = useAuth();
+  const { getUserProfile, getUserEvaluations, getUserDocs } = useAuth();
   const { setVerification } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ export default function PerfilRequestRegister() {
   };
 
   const getDocs = () => {
-    getUserCredentials(email).then((response) => {
+    getUserDocs(email).then((response) => {
       setLoading(true);
       response.get().then((querySnapshot) => {
         let docs = [];
@@ -54,11 +54,6 @@ export default function PerfilRequestRegister() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log({ docsimage: docs[0].images });
-        if (docs[0].images) {
-          setCurrentUser((prev) => ({ ...prev, docs: docs[0].images }));
-          return;
-        }
 
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
@@ -120,7 +115,7 @@ export default function PerfilRequestRegister() {
       <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
-            currentUser.docs.map(({ url, name }, index) => {
+            currentUser.docs[0].images.map(({ url, name }, index) => {
               return (
                 <DocLink href={url} target="_blank" key={index} title={name}>
                   <DocImg src={url} alt={name} />
