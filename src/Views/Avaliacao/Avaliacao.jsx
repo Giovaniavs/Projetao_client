@@ -2,7 +2,7 @@ import 'antd/dist/antd.css';
 import "./starRating.css"
 
 import { BtnAvaliation, ProfilePic, Wrapper } from './styles';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import { Rate } from 'antd';
@@ -12,12 +12,9 @@ import Typography from '@mui/material/Typography';
 import seguranca from "./img/seguranca.png"
 import { useAuth } from '../../firebase';
 import { useHistory } from "react-router-dom";
-import userQueryParams from '../Perfil/userQueryParams';
 
 const Avaliacao=()=>{
-  let query = userQueryParams();
-  const emailPerfil = query.get("email");
-  const {setFeedbacks, updateConnections, getUserProfile} = useAuth();
+  const {setFeedbacks} = useAuth();
     const email = localStorage.getItem("emailAvaliado")
     const strObj = JSON.parse(localStorage.getItem("userInfo"))
     const imgAvalido = localStorage.getItem("urlAvaliado")
@@ -26,28 +23,6 @@ const Avaliacao=()=>{
    const [isLoading,setIsLoading] = useState(false)
    const author = strObj.name   
    let history = useHistory();
-   const [currentUser, setCurrentUser] = useState({});
-   const [currentUserLogged, setCurrentUserLogged] = useState({});
-
-   useEffect(() => {
-      getUserInfo();
-      
-    }, []);
-
-    const getUserInfo = () => {
-      getUserProfile(email)
-        .then((user) => {
-          setCurrentUser(user.data());
-        })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
-
-        setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
-    };
-
-
-
 
 
     return(
@@ -87,8 +62,7 @@ const Avaliacao=()=>{
               if(email != ''){
                 setIsLoading(true);
                 await setFeedbacks(author,feedback,points, email)
-                await updateConnections(currentUserLogged.email,email,'-1')
-                history.push("/home")
+                window.location.replace("/home")
 
               }
             }}   >Avaliar</BtnAvaliation>
