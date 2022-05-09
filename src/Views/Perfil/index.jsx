@@ -153,6 +153,7 @@ function Perfil() {
           console.log(currentUser.name, currentUserLogged.name)
           await  setConnections( currentUser.email, currentUserLogged.email,currentUser.name, currentUserLogged.name , '0')
            await setIsCurrentConnection(0)
+           history.push("/home")
           }}>conectar-se
         </Button>
         : isCurrentConnection === 0 && currentUserLogged.type != 'guard' ?  <>
