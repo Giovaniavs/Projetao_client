@@ -24,6 +24,7 @@ import { StatusBar, Style } from "@capacitor/status-bar";
 import { PlanSelector } from "./Views/PaymentFlow/PlanSelector";
 import { PaymentScreen } from "./Views/PaymentFlow/PaymentScreen";
 import { ShopkeeperPayment } from './Views/PaymentFlow/ShopkeeperPayment'
+import Connections from "./Views/Connections";
 
 StatusBar.setOverlaysWebView({ overlay: false }).catch(() => { });
 StatusBar.setStyle({ style: Style.Dark }).catch(() => { });
@@ -48,6 +49,7 @@ function PlataformRoutes() {
               <Route component={PlanSelector} exact path="/planSelector" />
               <Route component={PaymentScreen} exact path="/paymentScreen" />
               <Route component={ShopkeeperPayment} exact path="/shopkeeperPayment" />
+              <Route component={Connections} exact path="/conections" />
             </Switch>
           </UserContextProvider>
         </ListSecurtyContextProvider>

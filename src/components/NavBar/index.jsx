@@ -46,9 +46,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function NavBar() {
   let loadPages = [];
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-  if (userInfo.type === 'admin') {
+  if (userInfo.type === "admin") {
     loadPages = [
       {
         url: "admin",
@@ -59,30 +59,30 @@ export default function NavBar() {
         sideBarName: "Usuários verificados",
       },
     ];
-  } else if (userInfo.type === 'guard') {
+  } else if (userInfo.type === "guard") {
     loadPages = [
       {
         url: "home",
         sideBarName: "Pagina Inicial",
       },
       {
-        url: "conectionsPedings",
-        sideBarName: "Conexões pendentes",
-      },
-      {
         url: "conections",
-        sideBarName: "Conexões atuais",
+        sideBarName: "Conexões",
       },
       {
         url: "planSelector",
         sideBarName: "Upgrade de Perfil",
       },
     ];
-  } else if (userInfo.type === 'shopman') {
+  } else if (userInfo.type === "shopman") {
     loadPages = [
       {
         url: "home",
         sideBarName: "Pagina Inicial",
+      },
+      {
+        url: "conections",
+        sideBarName: "Conexões",
       },
     ];
   }
@@ -148,9 +148,9 @@ export default function NavBar() {
         <ul>
           {loadPages.map((data) => (
             <Link to={data.url}>
-                <ListItem button key={data.sideBarName}>
-                    {data.sideBarName}
-                </ListItem>
+              <ListItem button key={data.sideBarName}>
+                {data.sideBarName}
+              </ListItem>
             </Link>
           ))}
         </ul>
