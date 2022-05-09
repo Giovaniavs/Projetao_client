@@ -4,10 +4,8 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { CardContent } from "@mui/material";
 import { ConectionsContainer } from './style.js'
-// import { ConectionsContainer } from "./style";
 import Typography from '@mui/material/Typography';
 import { useAuth } from "../../firebase";
-import { useHistory } from "react-router-dom";
 
 export default function  Connections() {
   const email = localStorage.getItem("uid");
@@ -15,7 +13,6 @@ export default function  Connections() {
   const [connection, setConnection] = useState([])
   const strObj = JSON.parse(localStorage.getItem("userInfo"))
   const isGuard = strObj.type 
-  let history = useHistory();
 
   
   const getAllConnectionsStatus = () => {
@@ -54,7 +51,6 @@ export default function  Connections() {
                 console.log(dado.email_shopman,dado.email_guard,'1')
 
                 updateConnections(dado.email_shopman,dado.email_guard,'1')
-                history.push('/conections')
               }}>aceitar</Button>
               <Button 
               variant="contained" 
@@ -64,7 +60,6 @@ export default function  Connections() {
                 console.log(dado.email_shopman,dado.email_guard,'-1')
 
                 updateConnections(dado.email_shopman,dado.email_guard,'-1')
-                history.push('/conections')
               }}>cancelar</Button>
               </> :
               dado.status_connection == '0' && isGuard != 'guard' ?
@@ -73,12 +68,12 @@ export default function  Connections() {
               <Typography variant="body2">{ dado.email_guard}</Typography>
               <Button disabled size="small"> Aguardando aprovação </Button> </>
               
-              :  dado.status_connection != '0' &&  dado.status_connection != '-1' && isGuard != 'guard' ?
+              :  dado.status_connection != '0' && isGuard != 'guard' ?
               <>
               <Typography variant="h5" component="div">{dado.nome_guard}</Typography>
               <Typography variant="body2">{ dado.email_guard}</Typography>
               <Button disabled size="small"> Conexão estabelecida </Button> </>:
-               dado.status_connection != '0' &&  dado.status_connection != '-1' && isGuard == 'guard' ?
+               dado.status_connection != '0' && isGuard == 'guard' ?
               
               <>
               <Typography variant="h5" component="div">{dado.nome_shopman}</Typography>
