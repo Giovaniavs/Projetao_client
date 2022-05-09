@@ -3,7 +3,7 @@ import { React, useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { CardContent } from "@mui/material";
-import { ConectionsContainer } from "./Conections.style";
+import { ConectionsContainer } from "./style";
 import Typography from '@mui/material/Typography';
 import { useAuth } from "../../firebase";
 import { useHistory } from "react-router-dom";
