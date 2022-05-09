@@ -220,7 +220,6 @@ export const useAuth = () => {
     getUserCertifications,
     getUserEvaluations,
     setUser,
-    getUserCredentials,
   };
 };
 
