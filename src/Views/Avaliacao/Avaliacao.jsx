@@ -37,13 +37,10 @@ const Avaliacao=()=>{
     const getUserInfo = () => {
       getUserProfile(email)
         .then((user) => {
-          setLoading(true);
           setCurrentUser(user.data());
-          setLoading(false);
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
-          setLoading(false);
         });
 
         setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
@@ -90,8 +87,8 @@ const Avaliacao=()=>{
               if(email != ''){
                 setIsLoading(true);
                 await setFeedbacks(author,feedback,points, email)
-                await updateConnections(currentUserLogged.email,emailPerfil,'-1')
-                window.location.replace("/home")
+                await updateConnections(currentUserLogged.email,email,'-1')
+                history.push("/home")
 
               }
             }}   >Avaliar</BtnAvaliation>
