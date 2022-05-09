@@ -6,13 +6,12 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import { Rate } from 'antd';
+import ReactLoading from "react-loading";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import seguranca from "./img/seguranca.png"
 import { useAuth } from '../../firebase';
 import { useHistory } from "react-router-dom";
-import ReactLoading from "react-loading";
-
 
 const Avaliacao=()=>{
   const {setFeedbacks} = useAuth();

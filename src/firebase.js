@@ -76,6 +76,7 @@ export const useAuth = () => {
   };
 
   const signIn = (email, password) => {
+    // validar se é um usuario da base (do cloud storage)
     return fire
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -208,7 +209,94 @@ export const useAuth = () => {
     return db.collection("user").doc(email).collection("evaluations");
   };
 
+  const updateConnections = async (email_guard, email_shopman,status_connection) => {
+    await db.collection("user")
+      .doc(email_guard)
+      .collection("connections")
+      .doc(email_shopman)
+      .update({
+       
+        status_connection , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+
+    await db.collection("user")
+      .doc(email_shopman)
+      .collection("connections")
+      .doc(email_guard)
+      .update({
+        
+        status_connection , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      .then((docRef) => {
+        console.log("Doc written with ID: ", docRef);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+      
+  }
+
+  const setConnections = async ( email_guard, email_shopman, nome_guard,nome_shopman, status_connection =0  ) => {
+    // console.log('to aqui em set')
+    await db.collection("user")
+      .doc(email_guard)
+      .collection("connections")
+      .doc(email_shopman)
+      .set({
+        email_shopman,
+        nome_shopman,
+        email_guard,
+        nome_guard,
+        status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      // .then((docRef) => {
+      //   console.log("Doc written with ID: ", docRef);
+      // })
+      // .catch((error) => {
+      //   console.error("Error adding document: ", error);
+      // });
+
+      await db.collection("user")
+      .doc(email_shopman)
+      .collection("connections")
+      .doc(email_guard)
+      .set({
+        email_shopman,
+        nome_shopman,
+        email_guard,
+        nome_guard,
+        status_connection  , // 0 pendente - 1-> Ok 2-> terminado 
+      })
+      // .then((docRef) => {
+      //   console.log('entrei no then')
+      //   console.log("Doc written with ID: ", docRef);
+      // })
+      // .catch((error) => {
+      //   console.error("Error adding document: ", error);
+      // });
+    }
+
+  const getConnections = async (current_email_login,search_user ) => {
+    return db.collection("user").doc(current_email_login).collection("connections").doc(search_user);
+
+  }
+
+  const getAllConnections = async (current_email_login ) => {
+    return db.collection("user").doc(current_email_login).collection("connections");
+
+  }
+  
   return {
+    updateConnections,
+    setConnections,
+    getConnections,
+    getAllConnections,
     createUser,
     signIn,
     signUp,

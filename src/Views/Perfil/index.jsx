@@ -1,38 +1,58 @@
 import { Description, DocImg, DocLink, Docs, Wrapper } from "./styles";
-import { Link, Redirect } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
+import Button from '@mui/material/Button';
 import { FeedBacks } from "../../components/Feedbacks";
 import PrimaryButton from "../../components/PrimaryButton";
 import ProfilePicResume from "../../components/ProfilePicResume";
 import ReactLoading from "react-loading";
+import { Redirect } from "react-router-dom";
 import Topic from "../../components/Topic";
 import { useAuth, useQuery } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import userQueryParams from "./userQueryParams";
 
-export default function Perfil() {
+function Perfil() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserCertifications, getUserEvaluations } =
-    useAuth();
   const { setVerification, banAccount } = useQuery();
+  const { getUserProfile, getUserCertifications, getUserEvaluations, setConnections, getConnections} = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentUserLogged, setCurrentUserLogged] = useState({});
-  const [hasNoLoggedUser, setHasNoLoggedUser] = useState(true);
+  const [isCurrentConnection, setIsCurrentConnection] = useState();
   const [loadingActivation, setLoadingActivation] = useState(false);
+
+  
+  const getStatus = () => {
+    getConnections( currentUserLogged.email, currentUser.email,).then(res => {
+      res.get().then( doc => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data(), 'documentooo AQUIII');
+          
+           setIsCurrentConnection(parseInt(doc.data().status_connection))
+    
+      } else {
+  
+ 
+          console.log("test 123");
+          setIsCurrentConnection(-1)
+      }
+      })
+    })
+
+  }
 
   const linkStyle = {
     textDecoration: "underline",
     color: "blue",
   };
-  const hidebutton = {
-    display: "none",
-  };
+  
   let history = useHistory();
 
+  getStatus();
+  console.log('renderizou')
   useEffect(() => {
     getUserInfo();
     getCertifications();
@@ -45,20 +65,13 @@ export default function Perfil() {
         setLoading(true);
         setCurrentUser(user.data());
         setLoading(false);
-        const savedUserInfo = localStorage.getItem("userInfo");
-        const hasNoUserSession =
-          savedUserInfo === "undefined" || savedUserInfo === null;
-        if (hasNoUserSession) {
-          setHasNoLoggedUser(true);
-        } else {
-          setCurrentUserLogged(JSON.parse(savedUserInfo));
-          setHasNoLoggedUser(false);
-        }
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
         setLoading(false);
       });
+
+      setCurrentUserLogged(JSON.parse(localStorage.getItem("userInfo")));
   };
 
   const getCertifications = () => {
@@ -128,6 +141,11 @@ export default function Perfil() {
         />
       </Wrapper>
     );
+
+
+
+
+
   return (
     <Wrapper>
       <ProfilePicResume user={currentUser} />
@@ -138,53 +156,58 @@ export default function Perfil() {
       <Topic name="Certificações">
         <Docs>
           {currentUser.docs &&
-            currentUser.docs.map((image, index) => {
+            currentUser.docs.map(({ url, name }, index) => {
               return (
-                <DocLink
-                  href={image.url}
-                  target="_blank"
-                  key={index}
-                  title={image.name}
-                >
-                  <DocImg src={image.url} alt={image.name} />
+                <DocLink href={url} target="_blank" key={index} title={name}>
+                  <DocImg src={url} alt={name} />
                 </DocLink>
               );
             })}
         </Docs>
       </Topic>
 
-      <Topic name="Contato">
+      {
+        isCurrentConnection === -1  && currentUserLogged.type === "shopman" ? 
+        <Button 
+          variant="contained" 
+          onClick={async () => {
+          console.log(currentUser.name, currentUserLogged.name)
+          await  setConnections( currentUser.email, currentUserLogged.email,currentUser.name, currentUserLogged.name , '0')
+           await setIsCurrentConnection(0)
+           history.push("/home")
+          }}>conectar-se
+        </Button>
+        : isCurrentConnection === 0 && currentUserLogged.type === "shopman" ?  <>
+        <Button 
+          variant="contained" 
+          disabled 
+          onClick={() => {
+            // console.log(currentUserLogged)
+          }}>solicitação enviada
+        </Button></>  : isCurrentConnection ===1 && currentUserLogged.type === "shopman" ? <>
+        <Topic name="Contato">
         <Description>Entre em contato via whatsapp:</Description>
-        <a
-          style={linkStyle}
-          href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}
-        >
-          {currentUser.contact}
-        </a>
-      </Topic>
-      <Topic name="Feedbacks">
-        <FeedBacks></FeedBacks>
-      </Topic>
+          <a style={linkStyle} href={`https://wa.me/+55${currentUser.contact}?text=Olá ${currentUser.name}, gostaria de entrar em contato para contratação de seu serviço como segurança! Ví o seu perfil através do App MeSafe e tenho interesse em seu perfil!`}>{currentUser.contact}</a>
+        </Topic>
+        
+        <div onClick={() => setShouldRedirect(true)}>
+              <PrimaryButton onClick={()=>{
+                    history.push("/avaliacao");
+                    localStorage.setItem("emailAvaliado",email)
+              }}>ESCREVA UM FEEDBACK</PrimaryButton>
+            </div>
+        
 
-      {currentUserLogged && currentUserLogged.type === "guard" ? (
-        <div style={hidebutton}>
-          <PrimaryButton>Apenas lojistas podem dar feedback</PrimaryButton>
-        </div>
-      ) : (
-        !hasNoLoggedUser &&
-        currentUserLogged.type !== "admin" && (
-          <div onClick={() => setShouldRedirect(true)}>
-            <PrimaryButton
-              onClick={() => {
-                history.push("/avaliacao");
-                localStorage.setItem("emailAvaliado", email);
-              }}
-            >
-              ESCREVA UM FEEDBACK
-            </PrimaryButton>
-          </div>
-        )
-      )}
+        </> :  isCurrentConnection ===2 && currentUserLogged.type === "shopman"? <> <h1>essa connexao já foi finalizada</h1></>: <></>
+      
+      } 
+     
+     
+      <>
+        <Topic name="Feedbacks">
+          <FeedBacks />
+        </Topic>
+      </>
 
       {currentUserLogged.type === "admin" && (
         <>
@@ -197,7 +220,7 @@ export default function Perfil() {
               width={"20%"}
             />
           ) : (
-            <div>
+            <div style={{ margin: '30px 0' }}>
               <PrimaryButton
                 onClick={desactivateAccount}
                 style={{ margin: "0 0 15px 0" }}
@@ -211,6 +234,10 @@ export default function Perfil() {
           )}
         </>
       )}
+     
     </Wrapper>
   );
 }
+
+
+export default memo(Perfil);
