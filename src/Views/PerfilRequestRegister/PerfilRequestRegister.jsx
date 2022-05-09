@@ -13,7 +13,7 @@ import userQueryParams from "./userQueryParams";
 export default function PerfilRequestRegister() {
   let query = userQueryParams();
   const email = query.get("email");
-  const { getUserProfile, getUserDocs, getUserEvaluations } = useAuth();
+  const { getUserProfile, getUserEvaluations, getUserDocs } = useAuth();
   const { setVerification } = useQuery();
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function PerfilRequestRegister() {
           docs = [...docs, { id: doc.id, ...doc.data() }];
         });
 
-        console.log({docs});
+
         setCurrentUser((prev) => ({ ...prev, docs }));
         setLoading(false);
       });
