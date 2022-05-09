@@ -54,7 +54,7 @@ export default function  Connections() {
                 console.log(dado.email_shopman,dado.email_guard,'1')
 
                 updateConnections(dado.email_shopman,dado.email_guard,'1')
-                history.push('/conectionsPending')
+                history.push('/conections')
               }}>aceitar</Button>
               <Button 
               variant="contained" 
@@ -64,7 +64,7 @@ export default function  Connections() {
                 console.log(dado.email_shopman,dado.email_guard,'-1')
 
                 updateConnections(dado.email_shopman,dado.email_guard,'-1')
-                history.push('/conectionsPending')
+                history.push('/conections')
               }}>cancelar</Button>
               </> :
               dado.status_connection == '0' && isGuard != 'guard' ?
