@@ -3,7 +3,7 @@ import { React, useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { CardContent } from "@mui/material";
-import { ConectionsContainer } from "./style";
+// import { ConectionsContainer } from "./style";
 import Typography from '@mui/material/Typography';
 import { useAuth } from "../../firebase";
 import { useHistory } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function  Connections() {
 
 
   return (
-    <ConectionsContainer>
+    <div>
       {
         connection.map(dado => (
           <Card sx={{ maxWidth: 300, minWidth: 300, maxHeight: 100 , minHeight: 100, margin: '5px 0'  }}>
@@ -90,7 +90,7 @@ export default function  Connections() {
         ))} 
       
 
-    </ConectionsContainer>
+    </div>
 
     
   ) 
